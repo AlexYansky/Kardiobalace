@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="description" content="КардиоБаланс — ориентировочная оценка адаптационного потенциала системы кровообращения по формуле Баевского.">
+  <style>
+:root{--bg:#f2f7f6;--card:#fff;--ink:#17302e;--muted:#617573;--primary:#0f766e;--primary2:#115e59;--line:#d9e7e5;--green:#16815f;--yellow:#d89916;--orange:#d66525;--red:#c63d45;--shadow:0 18px 50px rgba(15,71,67,.10)}*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:radial-gradient(circle at top right,#d9f0eb 0,transparent 35%),var(--bg);color:var(--ink);min-height:100vh}.topbar{height:76px;display:flex;align-items:center;justify-content:space-between;padding:12px max(18px,calc((100vw - 780px)/2));position:sticky;top:0;background:rgba(242,247,246,.9);backdrop-filter:blur(14px);z-index:10;border-bottom:1px solid rgba(217,231,229,.75)}.brand{display:flex;gap:10px;align-items:center}.brand-mark{width:42px;height:42px;border-radius:13px;background:var(--primary);display:grid;place-items:center;color:white;font-size:21px;box-shadow:0 8px 22px rgba(15,118,110,.22)}.brand b,.brand span{display:block}.brand span{font-size:12px;color:var(--muted);margin-top:2px}.shell{width:min(760px,calc(100% - 28px));margin:24px auto 50px}.screen{display:none}.screen.active{display:block;animation:fade .25s ease}@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}.card{background:var(--card);border:1px solid rgba(217,231,229,.9);border-radius:24px;padding:28px;box-shadow:var(--shadow)}.hero{padding:38px}.eyebrow{display:inline-block;text-transform:uppercase;letter-spacing:.09em;font-weight:800;font-size:11px;color:var(--primary);margin-bottom:9px}h1{font-size:clamp(31px,6vw,48px);line-height:1.04;margin:6px 0 18px;letter-spacing:-.04em}h2{font-size:29px;letter-spacing:-.025em;margin:4px 0 16px}h3{margin-top:25px}p{line-height:1.55}.muted{color:var(--muted)}.notice{background:#edf7f5;border:1px solid #cce7e2;border-radius:16px;padding:15px;line-height:1.45;margin:20px 0}.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}.mini-card{border:1px solid var(--line);background:white;border-radius:18px;padding:18px;text-align:left;color:var(--ink);box-shadow:0 8px 24px rgba(15,71,67,.05)}.mini-card span,.mini-card b,.mini-card small{display:block}.mini-card span{font-size:23px;color:var(--primary);margin-bottom:14px}.mini-card small{color:var(--muted);margin-top:4px}.primary,.secondary,.ghost,.danger{appearance:none;border:0;border-radius:13px;padding:13px 18px;font-weight:750;font-size:15px;cursor:pointer}.primary{background:var(--primary);color:#fff}.primary:hover{background:var(--primary2)}.secondary{background:#eaf3f1;color:var(--ink)}.ghost{background:transparent;color:var(--primary);border:1px solid var(--line)}.danger{background:#fff0f0;color:#a52a34;border:1px solid #f0cbce}.wide{width:100%;margin-top:18px}.hidden{display:none!important}.progress{height:6px;background:#dceae8;border-radius:999px;margin:0 14px 14px;overflow:hidden}.progress span{display:block;height:100%;background:var(--primary);border-radius:inherit}.checklist{list-style:none;padding:0;margin:20px 0}.checklist li{position:relative;padding:11px 0 11px 32px;border-bottom:1px solid #eef3f2;line-height:1.4}.checklist li:before{content:"✓";position:absolute;left:2px;top:10px;width:21px;height:21px;border-radius:50%;background:#dff2ee;color:var(--primary);display:grid;place-items:center;font-weight:900;font-size:12px}.consent,.switch{display:flex;align-items:flex-start;gap:11px;padding:14px;border:1px solid var(--line);border-radius:14px;margin-top:12px}.consent input,.switch input,.symptoms input{width:20px;height:20px;accent-color:var(--primary);flex:none}.actions{display:flex;justify-content:space-between;gap:12px;margin-top:24px}.actions>*{min-width:120px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.form-grid label{font-weight:700;font-size:14px}.form-grid input{width:100%;border:1px solid #cfdedc;border-radius:13px;padding:14px;font-size:17px;margin:7px 0 4px;color:var(--ink);outline:none}.form-grid input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(15,118,110,.1)}.form-grid small{font-weight:400;color:var(--muted)}details{margin-top:18px;border-top:1px solid var(--line);padding-top:16px}summary{cursor:pointer;font-weight:750}.error{color:var(--red);font-weight:700;min-height:20px}.symptoms{display:grid;gap:10px}.symptoms label{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);padding:15px;border-radius:14px;line-height:1.35}.section-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.result-header{border-radius:24px;padding:28px;color:#fff;box-shadow:var(--shadow)}.zone-green{background:linear-gradient(145deg,#0f7b5d,#176a5c)}.zone-yellow{background:linear-gradient(145deg,#b97b08,#d39a25)}.zone-orange{background:linear-gradient(145deg,#c3541d,#d77335)}.zone-red{background:linear-gradient(145deg,#a82f38,#cf4a51)}.result-score{font-size:62px;font-weight:850;letter-spacing:-.06em}.result-title{font-size:25px;font-weight:800;margin:5px 0}.result-body{margin-top:14px}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}.metric{padding:15px;background:#f5f9f8;border-radius:15px}.metric b,.metric span{display:block}.metric b{font-size:20px}.metric span{font-size:12px;color:var(--muted);margin-top:4px}.recommendations{padding-left:20px}.recommendations li{margin:10px 0;line-height:1.45}.urgent{border:2px solid #efb8bc;background:#fff4f4}.formula{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#f4f8f7;border:1px solid var(--line);border-radius:14px;padding:18px;line-height:1.7;overflow:auto}.legend{list-style:none;padding:0}.legend li{margin:12px 0;display:flex;gap:10px;align-items:center}.legend i{width:13px;height:13px;border-radius:50%}.green{background:var(--green)}.yellow{background:var(--yellow)}.orange{background:var(--orange)}.red{background:var(--red)}.history-list{display:grid;gap:10px;margin-top:16px}.history-item{display:flex;justify-content:space-between;align-items:center;padding:14px;border:1px solid var(--line);border-radius:14px}.history-item b,.history-item span{display:block}.history-item small{color:var(--muted)}.pill{padding:6px 10px;border-radius:999px;color:white;font-weight:800;font-size:13px}.chart-wrap{min-height:170px;margin-top:10px}.chart-wrap svg{width:100%;height:auto}.empty{text-align:center;padding:35px 10px;color:var(--muted)}footer{text-align:center;color:var(--muted);font-size:12px;padding:0 20px 28px}@media(max-width:600px){.shell{margin-top:14px}.card,.hero{padding:21px;border-radius:20px}.form-grid{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}.actions>*{min-width:0;flex:1}.topbar{height:68px}.brand span{display:none}.result-score{font-size:53px}}@media print{.topbar,footer,.actions,.result-controls{display:none!important}.shell{width:100%;margin:0}.screen{display:none!important}#result{display:block!important}.card,.result-header{box-shadow:none}}
+
+  
+
+/* Apple-inspired refinement */
+:root{--bg:#f5f5f7;--card:rgba(255,255,255,.94);--ink:#1d1d1f;--muted:#6e6e73;--primary:#007aff;--primary2:#0066d6;--line:#e5e5ea;--shadow:0 14px 40px rgba(0,0,0,.07)}
+body{background:linear-gradient(180deg,#f7fbff 0,#f5f5f7 32%,#f5f5f7 100%);letter-spacing:-.01em}
+.topbar{height:72px;background:rgba(247,247,249,.84);border-bottom:1px solid rgba(60,60,67,.12);backdrop-filter:saturate(180%) blur(22px);-webkit-backdrop-filter:saturate(180%) blur(22px)}
+.brand-mark{background:linear-gradient(145deg,#0a84ff,#007aff);border-radius:14px;box-shadow:0 8px 22px rgba(0,122,255,.25)}
+.brand b{font-size:18px;letter-spacing:-.025em}.brand span{font-size:11px}
+.shell{width:min(720px,calc(100% - 24px));margin:20px auto 52px}.card{border:1px solid rgba(60,60,67,.1);border-radius:28px;box-shadow:var(--shadow);background:var(--card)}
+.hero{padding:42px 34px}.eyebrow{color:var(--primary);font-size:12px;letter-spacing:.08em}h1{font-size:clamp(38px,7vw,58px);line-height:1.02;letter-spacing:-.055em;max-width:650px}h2{font-size:32px;letter-spacing:-.04em}p{font-size:17px;line-height:1.5}.notice{background:#f2f8ff;border:1px solid #d6eaff;border-radius:18px;padding:17px 18px}.primary,.secondary,.ghost,.danger{min-height:52px;border-radius:16px;font-size:17px;transition:transform .12s ease,opacity .12s ease,background .12s ease}.primary{background:#007aff}.primary:hover{background:#0071e3}.primary:active,.secondary:active,.ghost:active,.mini-card:active{transform:scale(.985)}.secondary{background:#f2f2f7}.ghost{color:#007aff;border-color:#d7d7dc}.mini-grid{gap:12px}.mini-card{border-radius:22px;padding:20px;border:1px solid rgba(60,60,67,.1);box-shadow:0 8px 28px rgba(0,0,0,.05)}.mini-card span{color:#007aff}.progress{height:5px;background:#e5e5ea}.progress span{background:#007aff}.form-grid{gap:14px}.form-grid label{font-size:15px;letter-spacing:-.01em}.form-grid input{background:#f9f9fb;border:1px solid #dedee3;border-radius:16px;padding:16px 15px;font-size:20px;font-weight:600}.form-grid input:focus{border-color:#007aff;box-shadow:0 0 0 4px rgba(0,122,255,.12);background:#fff}.form-grid small{font-size:12px;display:block;margin-left:2px}.consent,.switch,.symptoms label{border-radius:18px;background:#fbfbfd;border-color:#e4e4e9}.checklist li{padding-top:13px;padding-bottom:13px}.checklist li:before{background:#e8f3ff;color:#007aff}.result-header{border-radius:28px;padding:32px}.zone-green{background:linear-gradient(145deg,#30a46c,#218f5c)}.zone-yellow{background:linear-gradient(145deg,#d39b19,#bd7f00)}.zone-orange{background:linear-gradient(145deg,#e36b2c,#c34e18)}.zone-red{background:linear-gradient(145deg,#d64b54,#b92f3a)}.metric{background:#f5f5f7;border-radius:18px;padding:17px}.metric b{font-size:22px}.history-item{border-radius:18px;background:#fbfbfd}.formula{border-radius:18px;background:#f5f5f7;border-color:#e5e5ea}.urgent{border-color:#ffb3b8;background:#fff7f7}@media(max-width:600px){.hero{padding:30px 22px}.card{padding:22px;border-radius:24px}h1{font-size:42px}.mini-card{padding:18px}.topbar{height:64px}.brand b{font-size:17px}.form-grid input{font-size:22px}.actions{position:sticky;bottom:max(10px,env(safe-area-inset-bottom));background:rgba(255,255,255,.86);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);padding:10px;border-radius:20px;margin-left:-8px;margin-right:-8px;z-index:3}}
+
+</style>
+  <title>КардиоБаланс — оценить состояние</title>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><div class="brand-mark" aria-hidden="true">♥</div><div><b>КардиоБаланс</b><span>Индекс адаптации по Баевскому</span></div></div>
+    <button id="installBtn" class="ghost hidden" type="button">Установить</button>
+  </header>
+
+  <main class="shell">
+    <section id="home" class="screen active">
+      <div class="hero card">
+        <span class="eyebrow">Индекс Баевского · 2–3 минуты</span>
+        <h1>Оцените адаптационные возможности организма</h1>
+        <p>Введите основные показатели. Приложение рассчитает адаптационный потенциал системы кровообращения и покажет понятную расшифровку.</p>
+        <div class="notice"><b>Важно:</b> результат носит ориентировочный характер, не является диагнозом и не заменяет врача.</div>
+        <button class="primary wide" data-go="prepare" type="button">Оценить состояние</button>
+      </div>
+      <div class="mini-grid">
+        <button class="mini-card" data-go="history" type="button"><span>▥</span><b>История</b><small>Динамика измерений</small></button>
+        <button class="mini-card" data-go="about" type="button"><span>ⓘ</span><b>О методе</b><small>Что означает индекс</small></button>
+      </div>
+    </section>
+
+    <section id="prepare" class="screen">
+      <div class="progress"><span style="width:25%"></span></div>
+      <div class="card">
+        <span class="eyebrow">Шаг 1 из 4</span><h2>Подготовьтесь к измерению</h2>
+        <ul class="checklist">
+          <li>Посидите спокойно не менее 5 минут.</li><li>Спина должна иметь опору, стопы — стоять на полу.</li><li>Манжета располагается на обнажённой руке на уровне сердца.</li><li>Не разговаривайте и не пользуйтесь телефоном.</li><li>Не курите, не пейте кофе и не выполняйте нагрузку за 30 минут до измерения.</li><li>Сделайте два измерения с интервалом не менее 1 минуты и используйте среднее значение.</li>
+        </ul>
+        <label class="consent"><input id="prepared" type="checkbox"><span>Я измерил(а) давление и пульс в состоянии покоя</span></label>
+        <div class="actions"><button class="secondary" data-go="home" type="button">Назад</button><button id="toForm" class="primary" type="button" disabled>Продолжить</button></div>
+      </div>
+    </section>
+
+    <section id="form" class="screen">
+      <div class="progress"><span style="width:50%"></span></div>
+      <form id="healthForm" class="card" novalidate>
+        <span class="eyebrow">Шаг 2 из 4</span><h2>Введите показатели</h2>
+        <div class="form-grid">
+          <label>Возраст, лет<input name="age" type="number" inputmode="numeric" min="18" max="100" required placeholder="Например, 43"><small>18–100</small></label>
+          <label>Рост, см<input name="height" type="number" inputmode="decimal" min="130" max="220" step="0.1" required placeholder="Например, 176"><small>130–220</small></label>
+          <label>Вес, кг<input name="weight" type="number" inputmode="decimal" min="35" max="250" step="0.1" required placeholder="Например, 82"><small>35–250</small></label>
+          <label>Пульс в покое<input name="pulse" type="number" inputmode="numeric" min="35" max="180" required placeholder="Например, 74"><small>ударов в минуту</small></label>
+          <label>Верхнее давление<input name="sbp" type="number" inputmode="numeric" min="70" max="260" required placeholder="Например, 128"><small>систолическое, мм рт. ст.</small></label>
+          <label>Нижнее давление<input name="dbp" type="number" inputmode="numeric" min="40" max="160" required placeholder="Например, 82"><small>диастолическое, мм рт. ст.</small></label>
+        </div>
+        <p id="formError" class="error" role="alert"></p>
+        <details><summary>Дополнительные обстоятельства</summary>
+          <label class="switch"><input name="meds" type="checkbox"><span>Принимаю препараты, влияющие на давление или пульс</span></label>
+          <label class="switch"><input name="acute" type="checkbox"><span>Сегодня есть температура, острая болезнь или выраженное недомогание</span></label>
+          <label class="switch"><input name="load" type="checkbox"><span>Измерение выполнено после физической или эмоциональной нагрузки</span></label>
+        </details>
+        <div class="actions"><button class="secondary" data-go="prepare" type="button">Назад</button><button class="primary" type="submit">Продолжить</button></div>
+      </form>
+    </section>
+
+    <section id="symptoms" class="screen">
+      <div class="progress"><span style="width:75%"></span></div>
+      <div class="card">
+        <span class="eyebrow">Шаг 3 из 4</span><h2>Есть ли сейчас тревожные симптомы?</h2>
+        <p class="muted">Отметьте всё, что присутствует в данный момент.</p>
+        <div id="symptomList" class="symptoms">
+          <label><input type="checkbox" value="Боль, сдавление или жжение в груди"><span>Боль, сдавление или жжение в груди</span></label>
+          <label><input type="checkbox" value="Выраженная одышка"><span>Выраженная одышка</span></label>
+          <label><input type="checkbox" value="Обморок или предобморочное состояние"><span>Обморок или предобморочное состояние</span></label>
+          <label><input type="checkbox" value="Внезапная слабость или онемение с одной стороны"><span>Внезапная слабость или онемение лица, руки или ноги с одной стороны</span></label>
+          <label><input type="checkbox" value="Нарушение речи или асимметрия лица"><span>Нарушение речи или асимметрия лица</span></label>
+          <label><input type="checkbox" value="Внезапное резкое ухудшение состояния"><span>Внезапное резкое ухудшение состояния</span></label>
+        </div>
+        <div class="actions"><button class="secondary" data-go="form" type="button">Назад</button><button id="calculateBtn" class="primary" type="button">Оценить состояние</button></div>
+      </div>
+    </section>
+
+    <section id="result" class="screen"><div id="resultCard"></div></section>
+
+    <section id="history" class="screen">
+      <div class="card"><div class="section-head"><div><span class="eyebrow">Локально на устройстве</span><h2>История измерений</h2></div><button class="ghost" data-go="home" type="button">Закрыть</button></div>
+        <div id="chartWrap" class="chart-wrap"></div><div id="historyList" class="history-list"></div><button id="clearHistory" class="danger wide" type="button">Удалить всю историю</button>
+      </div>
+    </section>
+
+    <section id="about" class="screen">
+      <div class="card"><div class="section-head"><div><span class="eyebrow">Справочная информация</span><h2>Что рассчитывает приложение</h2></div><button class="ghost" data-go="home" type="button">Закрыть</button></div>
+        <p>Адаптационный потенциал — интегральный расчётный показатель функционального напряжения системы кровообращения. В формуле учитываются возраст, рост, масса тела, пульс и артериальное давление.</p>
+        <div class="formula">АП = 0,011 × пульс + 0,014 × верхнее давление + 0,008 × нижнее давление + 0,014 × возраст + 0,009 × вес − 0,009 × рост − 0,27</div>
+        <h3>Границы интерпретации</h3><ul class="legend"><li><i class="green"></i>до 2,59 — удовлетворительная адаптация</li><li><i class="yellow"></i>2,60–3,09 — напряжение механизмов адаптации</li><li><i class="orange"></i>3,10–3,49 — неудовлетворительная адаптация</li><li><i class="red"></i>3,50 и выше — срыв адаптации</li></ul>
+        <p class="notice">Показатель не предназначен для постановки диагноза, оценки проходимости сосудов или самостоятельного изменения лечения. На результат влияют условия измерения, острое заболевание, нагрузка, стресс и препараты.</p>
+      </div>
+    </section>
+  </main>
+  <footer>Данные не отправляются на сервер и сохраняются только в браузере устройства.</footer>
+  <script>
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+let formData = null;
+let deferredPrompt = null;
+const HISTORY_KEY = 'kardiobalans_history_v1';
+
+function go(id){ $$('.screen').forEach(x=>x.classList.toggle('active',x.id===id)); window.scrollTo({top:0,behavior:'smooth'}); if(id==='history') renderHistory(); }
+$$('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+$('#prepared').addEventListener('change',e=>$('#toForm').disabled=!e.target.checked);
+$('#toForm').addEventListener('click',()=>go('form'));
+
+$('#healthForm').addEventListener('submit',e=>{
+  e.preventDefault(); const fd=new FormData(e.currentTarget); const values=Object.fromEntries(fd.entries());
+  const n=k=>Number(values[k]);
+  if(!e.currentTarget.checkValidity()){ $('#formError').textContent='Проверьте заполнение всех полей и допустимые значения.'; e.currentTarget.reportValidity(); return; }
+  if(n('sbp')<=n('dbp')){ $('#formError').textContent='Верхнее давление должно быть выше нижнего.'; return; }
+  if(n('sbp')-n('dbp')<10){ $('#formError').textContent='Разница между верхним и нижним давлением выглядит необычно. Повторите измерение.'; return; }
+  $('#formError').textContent='';
+  formData={age:n('age'),height:n('height'),weight:n('weight'),pulse:n('pulse'),sbp:n('sbp'),dbp:n('dbp'),meds:!!values.meds,acute:!!values.acute,load:!!values.load}; go('symptoms');
+});
+
+$('#calculateBtn').addEventListener('click',()=>{
+  if(!formData){go('form');return}
+  const symptoms=$$('#symptomList input:checked').map(x=>x.value); renderResult(formData,symptoms); go('result');
+});
+
+function calc(d){
+  const ap=.011*d.pulse+.014*d.sbp+.008*d.dbp+.014*d.age+.009*d.weight-.009*d.height-.27;
+  const bmi=d.weight/((d.height/100)**2); const pp=d.sbp-d.dbp; const map=d.dbp+pp/3;
+  return {ap,bmi,pp,map};
+}
+function zone(ap){
+  if(ap<=2.59)return {key:'green',title:'Удовлетворительная адаптация',short:'Адаптационные механизмы работают без выраженного напряжения.'};
+  if(ap<=3.09)return {key:'yellow',title:'Напряжение механизмов адаптации',short:'Организму может требоваться повышенное напряжение регулирующих механизмов.'};
+  if(ap<=3.49)return {key:'orange',title:'Неудовлетворительная адаптация',short:'Адаптационные возможности могут быть снижены; результат требует контроля в динамике.'};
+  return {key:'red',title:'Срыв адаптации',short:'Расчёт показывает выраженное напряжение адаптационных механизмов и требует медицинской оценки.'};
+}
+function recommendations(z,d,urgent){
+  if(urgent) return ['Не продолжайте самостоятельную оценку состояния по приложению.','Немедленно обратитесь за экстренной медицинской помощью по местному номеру экстренных служб.','Не садитесь за руль самостоятельно и не изменяйте дозы лекарств без указания медицинского специалиста.'];
+  const common=['Повторяйте измерения в одинаковых условиях и оценивайте динамику, а не одно значение.','Не изменяйте самостоятельно назначенные препараты.'];
+  if(z.key==='green') return ['Поддерживайте регулярную посильную физическую активность, полноценный сон и контроль давления.',...common];
+  if(z.key==='yellow') return ['Повторите измерение утром после нормального сна в течение ближайших 2–3 дней.','Обратите внимание на недосыпание, стресс, недавнюю нагрузку, кофеин и острое заболевание.',...common,'Если результат сохраняется или самочувствие ухудшается, обсудите его с врачом.'];
+  if(z.key==='orange') return ['Повторите давление и пульс после 5–10 минут покоя.','Запишите показатели утром и вечером несколько дней.','Запланируйте консультацию терапевта или кардиолога для оценки причин.',...common];
+  return ['Повторите измерение после 5–10 минут покоя, если нет тревожных симптомов.','Организуйте медицинскую консультацию в ближайшее время для очной оценки.','При ухудшении самочувствия или появлении боли в груди, одышки, обморока либо неврологических симптомов обращайтесь за экстренной помощью.',...common];
+}
+function contextNotes(d){const a=[];if(d.meds)a.push('На пульс или давление могут влиять принимаемые препараты.');if(d.acute)a.push('Острое заболевание или температура могут временно изменить результат.');if(d.load)a.push('Нагрузка или сильные эмоции перед измерением снижают сопоставимость результата.');return a}
+function fmt(n,d=1){return n.toLocaleString('ru-RU',{minimumFractionDigits:d,maximumFractionDigits:d})}
+function renderResult(d,symptoms){
+  const r=calc(d), z=zone(r.ap); const extreme=d.sbp>=180||d.dbp>=120||d.pulse<40||d.pulse>140; const urgent=symptoms.length>0||extreme;
+  const displayZone=urgent?{key:'red',title:'Требуется срочная оценка состояния'}:z;
+  const notes=contextNotes(d);
+  $('#resultCard').innerHTML=`
+    <div class="result-header zone-${displayZone.key}"><span class="eyebrow" style="color:rgba(255,255,255,.8)">Шаг 4 из 4 · результат</span><div class="result-score">${fmt(r.ap,2)}</div><div class="result-title">${displayZone.title}</div><p>${urgent?'Указанные симптомы или показатели нельзя безопасно оценивать только с помощью калькулятора.':z.short}</p></div>
+    <div class="card result-body ${urgent?'urgent':''}">
+      ${urgent?`<div class="notice"><b>Неотложное предупреждение.</b> ${symptoms.length?'Отмечены: '+symptoms.join('; ')+'.':''} ${extreme?'Зафиксировано крайне высокое давление или выраженное отклонение пульса.':''}</div>`:''}
+      <div class="metrics"><div class="metric"><b>${d.sbp}/${d.dbp}</b><span>давление, мм рт. ст.</span></div><div class="metric"><b>${d.pulse}</b><span>пульс, уд/мин</span></div><div class="metric"><b>${fmt(r.bmi)}</b><span>индекс массы тела</span></div><div class="metric"><b>${r.pp}</b><span>пульсовое давление</span></div><div class="metric"><b>${fmt(r.map)}</b><span>среднее расчётное АД</span></div><div class="metric"><b>${new Date().toLocaleDateString('ru-RU')}</b><span>дата измерения</span></div></div>
+      ${notes.length?`<div class="notice"><b>На точность могут влиять:</b><ul>${notes.map(x=>`<li>${x}</li>`).join('')}</ul></div>`:''}
+      <h3>Что делать дальше</h3><ul class="recommendations">${recommendations(z,d,urgent).map(x=>`<li>${x}</li>`).join('')}</ul>
+      <p class="muted"><b>Ограничение:</b> расчёт не устанавливает диагноз и не оценивает состояние сосудов напрямую. Интерпретируйте его вместе с самочувствием, повторными измерениями и рекомендациями врача.</p>
+      <div class="actions result-controls"><button class="secondary" onclick="window.print()" type="button">Сохранить / печать</button><button class="primary" id="saveResult" type="button">Сохранить в историю</button></div>
+      <button class="ghost wide result-controls" data-home type="button">Новое измерение</button>
+    </div>`;
+  $('[data-home]').addEventListener('click',()=>{ $('#healthForm').reset(); $('#prepared').checked=false; $('#toForm').disabled=true; $$('#symptomList input').forEach(x=>x.checked=false); formData=null; go('home'); });
+  $('#saveResult').addEventListener('click',e=>{saveHistory({...d,...r,zone:z.key,title:z.title,urgent,date:new Date().toISOString()});e.target.textContent='Сохранено';e.target.disabled=true});
+}
+function getHistory(){try{return JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]')}catch{return[]}}
+function saveHistory(item){const h=getHistory();h.unshift(item);localStorage.setItem(HISTORY_KEY,JSON.stringify(h.slice(0,100)))}
+function renderHistory(){const h=getHistory();const list=$('#historyList'),chart=$('#chartWrap');if(!h.length){chart.innerHTML='';list.innerHTML='<div class="empty">Пока нет сохранённых измерений.</div>';$('#clearHistory').classList.add('hidden');return}$('#clearHistory').classList.remove('hidden');list.innerHTML=h.map(x=>`<div class="history-item"><div><b>${new Date(x.date).toLocaleDateString('ru-RU')} · ${x.sbp}/${x.dbp}, пульс ${x.pulse}</b><small>${x.title}</small></div><span class="pill zone-${x.zone}">${fmt(x.ap,2)}</span></div>`).join('');chart.innerHTML=makeChart([...h].reverse().slice(-12))}
+function makeChart(h){const w=640,H=190,p=36;const vals=h.map(x=>x.ap);const min=Math.min(2.2,...vals)-.1,max=Math.max(3.7,...vals)+.1;const x=i=>p+i*(w-2*p)/Math.max(1,h.length-1);const y=v=>H-p-(v-min)*(H-2*p)/(max-min);const pts=vals.map((v,i)=>`${x(i)},${y(v)}`).join(' ');return `<svg viewBox="0 0 ${w} ${H}" role="img" aria-label="График динамики индекса"><line x1="${p}" y1="${y(2.59)}" x2="${w-p}" y2="${y(2.59)}" stroke="#b7c8c5" stroke-dasharray="5 5"/><line x1="${p}" y1="${y(3.09)}" x2="${w-p}" y2="${y(3.09)}" stroke="#b7c8c5" stroke-dasharray="5 5"/><line x1="${p}" y1="${y(3.49)}" x2="${w-p}" y2="${y(3.49)}" stroke="#b7c8c5" stroke-dasharray="5 5"/><polyline fill="none" stroke="#0f766e" stroke-width="4" points="${pts}"/>${vals.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="5" fill="#fff" stroke="#0f766e" stroke-width="3"/><text x="${x(i)}" y="${y(v)-11}" font-size="11" text-anchor="middle" fill="#17302e">${fmt(v,2)}</text>`).join('')}</svg>`}
+$('#clearHistory').addEventListener('click',()=>{if(confirm('Удалить все сохранённые измерения?')){localStorage.removeItem(HISTORY_KEY);renderHistory()}});
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;$('#installBtn').classList.remove('hidden')});
+$('#installBtn').addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;$('#installBtn').classList.add('hidden')});
+
+
+  </script>
+</body>
+</html>
