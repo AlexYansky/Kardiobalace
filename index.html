@@ -107,6 +107,33 @@ button,input,textarea{font:inherit}.topbar{position:sticky;top:0;z-index:40;heig
 .ap-range-row{display:grid;grid-template-columns:92px 1fr;gap:12px;align-items:start;padding:11px 13px;border-radius:15px;background:#f6f8f7}
 .ap-range-row b{font-size:14px;color:#137d6c}.ap-range-row span{font-size:13px;line-height:1.4;color:#56605c}
 
+/* ===== Home dashboard 2.0 ===== */
+.home-dashboard{display:grid;gap:14px}.home-welcome{display:grid;grid-template-columns:1fr 112px;gap:18px;align-items:center;padding:30px;overflow:hidden;position:relative;background:linear-gradient(145deg,#ffffff,#f5faf8)}
+.home-welcome:after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;right:-95px;top:-110px;background:radial-gradient(circle,rgba(37,171,142,.16),transparent 70%)}
+.home-welcome h1{font-size:clamp(34px,6vw,52px);margin-bottom:14px}.home-orb{width:108px;height:108px;border-radius:34px;display:grid;place-items:center;background:linear-gradient(145deg,#32b89e,#117663);box-shadow:0 22px 44px rgba(22,138,117,.24);position:relative;z-index:2}.home-orb span{font-size:51px;color:#fff;filter:drop-shadow(0 6px 10px rgba(0,0,0,.12))}
+.home-latest{border-radius:30px;padding:24px;background:linear-gradient(145deg,#132c29,#1c6155);color:#fff;box-shadow:0 20px 48px rgba(18,62,54,.2);overflow:hidden;position:relative}.home-latest:after{content:"";position:absolute;right:-55px;top:-70px;width:190px;height:190px;border-radius:50%;background:rgba(255,255,255,.07)}
+.latest-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.latest-head small{color:rgba(255,255,255,.68)}.latest-status{padding:8px 11px;border-radius:999px;background:rgba(255,255,255,.12);font-size:12px;font-weight:820}.latest-main{display:grid;grid-template-columns:1.2fr .8fr;gap:16px;align-items:end;margin-top:18px}.latest-ap{font-size:66px;font-weight:860;letter-spacing:-.07em;line-height:.95}.latest-ap-label{font-size:14px;color:rgba(255,255,255,.72);margin-top:8px}.latest-vitals{display:grid;grid-template-columns:1fr 1fr;gap:9px}.latest-vital{padding:14px;border-radius:18px;background:rgba(255,255,255,.10)}.latest-vital b{font-size:25px;display:block}.latest-vital small{color:rgba(255,255,255,.67)}
+.home-empty{padding:24px;border-radius:28px;background:linear-gradient(145deg,#edf8f4,#f8fbfa);border:1px solid #d8ebe5}.home-empty h3{margin:0 0 8px}.home-empty p{margin:0;color:var(--muted)}
+.new-measure-button{margin-top:0}.home-insight-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.home-insight{border:1px solid rgba(60,60,67,.08);border-radius:22px;background:#fff;padding:18px;text-align:left;box-shadow:0 10px 30px rgba(24,46,39,.05)}.home-insight .insight-icon{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:var(--soft);font-size:21px;margin-bottom:13px}.home-insight b{font-size:17px;display:block}.home-insight strong{font-size:22px;display:block;margin:6px 0 4px;letter-spacing:-.03em}.home-insight small{color:var(--muted);line-height:1.35;display:block}.home-insight.good strong{color:var(--accent2)}.home-insight.warn strong{color:#a06b00}.home-insight.alert strong{color:#ad343e}
+.home-tip{display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:start;padding:19px}.home-tip .tip-icon{width:48px;height:48px;border-radius:16px;background:#edf8f4;color:var(--accent);display:grid;place-items:center;font-size:25px}.home-tip p{margin:4px 0 0;color:var(--muted);font-size:15px}.home-disclaimer{margin:0}.home-shortcuts{margin-top:0}
+@media(max-width:560px){.home-welcome{grid-template-columns:1fr 76px;padding:24px}.home-orb{width:74px;height:74px;border-radius:24px}.home-orb span{font-size:34px}.home-welcome h1{font-size:38px}.latest-main{grid-template-columns:1fr}.latest-vitals{grid-template-columns:repeat(3,1fr)}.latest-vital{padding:11px}.latest-vital b{font-size:20px}.home-insight-grid{grid-template-columns:1fr 1fr}.home-insight{padding:15px}.home-insight strong{font-size:19px}}
+
+
+/* Единый стиль кнопок главного меню */
+.home-shortcuts .home-action,
+.home-shortcuts .history-main,
+.home-shortcuts .home-settings {
+  min-height:68px;
+  font-family:inherit;
+  font-size:18px;
+  font-weight:780;
+  line-height:1.2;
+  letter-spacing:0;
+}
+.home-shortcuts .home-action > span:nth-child(2) {
+  font:inherit;
+  color:inherit;
+}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
@@ -117,7 +144,38 @@ button,input,textarea{font:inherit}.topbar{position:sticky;top:0;z-index:40;heig
   <div class="top-actions"><button class="icon-btn" id="homeIcon" aria-label="Главная">⌂</button><button class="icon-btn" id="historyIcon" aria-label="История">⌁</button></div>
 </header>
 <main class="shell">
-  <section id="home" class="screen active"><div class="card hero"><span class="eyebrow">Оценка за несколько минут</span><h1 id="homeTitle">Поймите, как организм справляется с нагрузкой сегодня</h1><p id="homeGreeting">Три последовательных измерения давления и пульса помогут понятным языком оценить работу сердца и сосудов и следить за изменениями со временем.</p><div class="notice"><b>Полезная привычка:</b> измеряйте показатели утром и вечером примерно в одно и то же время. Так история будет точнее и полезнее для Вас и лечащего врача.</div><div class="notice"><b>Важно:</b> приложение не ставит диагноз и не заменяет врача.</div><button class="primary wide app-action primary-action" data-go="profile"><span class="button-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"/><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.9-8.6a5.5 5.5 0 0 0-.1-7.8Z"/></svg></span><span>Оценить состояние</span><span class="button-chevron" aria-hidden="true">›</span></button></div><div class="home-shortcuts"><button class="ghost history-main home-action app-action" data-go="history"><span class="button-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V9"/><path d="M10 19V5"/><path d="M16 19v-7"/><path d="M22 19V3"/><path d="m3 7 5-3 5 4 8-6"/></svg></span><span>История и динамика</span><span class="button-chevron" aria-hidden="true">›</span></button><button class="ghost home-settings home-action app-action" id="homeSettingsButton"><span class="button-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h10"/><path d="M18 7h2"/><circle cx="16" cy="7" r="2"/><path d="M4 17h2"/><path d="M10 17h10"/><circle cx="8" cy="17" r="2"/><path d="M4 12h5"/><path d="M13 12h7"/><circle cx="11" cy="12" r="2"/></svg></span><span>Настройки и профиль</span><span class="button-chevron" aria-hidden="true">›</span></button><button class="ghost home-action app-action" data-open="about"><span class="button-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7h.01"/></svg></span><span>О методе</span><span class="button-chevron" aria-hidden="true">›</span></button></div></section>
+  <section id="home" class="screen active">
+    <div class="home-dashboard" id="homeDashboard">
+      <div class="home-welcome card">
+        <div>
+          <span class="eyebrow" id="homeTimeLabel">Сегодня</span>
+          <h1 id="homeTitle">Поймите, как организм справляется с нагрузкой сегодня</h1>
+          <p id="homeGreeting">Три последовательных измерения давления и пульса помогут оценить состояние понятным языком.</p>
+        </div>
+        <div class="home-orb" aria-hidden="true"><span>♥</span></div>
+      </div>
+
+      <div id="homeLatest"></div>
+
+      <button class="primary wide app-action primary-action new-measure-button" data-go="profile">
+        <span class="button-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"/><path d="M12 3v18"/></svg></span>
+        <span id="homeMeasureLabel">Новое измерение</span><span class="button-chevron" aria-hidden="true">›</span>
+      </button>
+
+      <div class="home-insight-grid" id="homeInsightGrid"></div>
+
+      <div class="home-tip card">
+        <div class="tip-icon">◷</div><div><b>Полезная привычка</b><p>Измеряйте давление утром и вечером примерно в одно и то же время. Так динамика будет точнее и полезнее для лечащего врача.</p></div>
+      </div>
+
+      <div class="home-shortcuts">
+        <button class="ghost history-main home-action app-action" data-go="history"><span class="button-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V9"/><path d="M10 19V5"/><path d="M16 19v-7"/><path d="M22 19V3"/><path d="m3 7 5-3 5 4 8-6"/></svg></span><span>История и динамика</span><span class="button-chevron" aria-hidden="true">›</span></button>
+        <button class="ghost home-settings home-action app-action" id="homeSettingsButton"><span class="button-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h10"/><path d="M18 7h2"/><circle cx="16" cy="7" r="2"/><path d="M4 17h2"/><path d="M10 17h10"/><circle cx="8" cy="17" r="2"/><path d="M4 12h5"/><path d="M13 12h7"/><circle cx="11" cy="12" r="2"/></svg></span><span>Настройки и профиль</span><span class="button-chevron" aria-hidden="true">›</span></button>
+        <button class="ghost home-action app-action" data-open="about"><span class="button-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7h.01"/></svg></span><span>О методе</span><span class="button-chevron" aria-hidden="true">›</span></button>
+      </div>
+      <div class="notice home-disclaimer"><b>Важно:</b> приложение не ставит диагноз и не заменяет врача.</div>
+    </div>
+  </section>
 
   <section id="prepare" class="screen"></section>
   <section id="profile" class="screen"></section>
@@ -141,7 +199,7 @@ const PROFILE_KEY='cardiobalance_user_profile';
 let profile=loadProfile(),readings=[],timerId=null,contextTags=[],mood=null,resultAutoSaved=false,healthEvent=null;
 let historyRange='30',historyMetric='ap',customFrom='',customTo='';
 const screens=$$('.screen');
-function go(id){if(timerId){clearInterval(timerId);timerId=null}screens.forEach(x=>x.classList.toggle('active',x.id===id));window.scrollTo({top:0,behavior:'smooth'});if(id==='history')renderHistory();if(id==='profile'){profile=normalizeProfile(profile||loadProfile());renderProfileScreen()}}
+function go(id){if(timerId){clearInterval(timerId);timerId=null}screens.forEach(x=>x.classList.toggle('active',x.id===id));window.scrollTo({top:0,behavior:'smooth'});if(id==='home')renderHomeDashboard();if(id==='history')renderHistory();if(id==='profile'){profile=normalizeProfile(profile||loadProfile());renderProfileScreen()}}
 function progress(n,total=11){return `<div class="progress">${Array.from({length:total},(_,i)=>`<i class="${i<n?'on':''}"></i>`).join('')}</div>`}
 function fmt(v,d=1){return Number(v).toLocaleString('ru-RU',{minimumFractionDigits:d,maximumFractionDigits:d})}
 function avg(k){return readings.reduce((s,r)=>s+r[k],0)/readings.length}
@@ -155,7 +213,21 @@ function loadProfile(){try{return JSON.parse(localStorage.getItem(PROFILE_KEY)||
 function ageFromBirthdate(value){if(!value)return null;const d=new Date(value+'T12:00:00'),today=new Date();let age=today.getFullYear()-d.getFullYear();const m=today.getMonth()-d.getMonth();if(m<0||(m===0&&today.getDate()<d.getDate()))age--;return age}
 function normalizeProfile(p){if(!p)return null;const age=p.birthdate?ageFromBirthdate(p.birthdate):p.age;return {...p,age}}
 function saveProfile(p){profile=normalizeProfile(p);localStorage.setItem(PROFILE_KEY,JSON.stringify(profile));updatePersonalGreeting()}
-function updatePersonalGreeting(){const p=normalizeProfile(profile||loadProfile());const title=$('#homeTitle'),text=$('#homeGreeting');if(!title||!text)return;if(p?.name){title.textContent=`${p.name}, узнайте, как организм справляется с нагрузкой сегодня`;text.textContent='Ваш профиль уже сохранён. Проверьте данные, выполните три измерения — и приложение объяснит результат простыми словами.'}else{title.textContent='Поймите, как организм справляется с нагрузкой сегодня';text.textContent='Три последовательных измерения давления и пульса помогут понятным языком оценить работу сердца и сосудов и следить за изменениями со временем.'}}
+function updatePersonalGreeting(){renderHomeDashboard()}
+function homeTimeGreeting(){const h=new Date().getHours();return h<6?'Доброй ночи':h<12?'Доброе утро':h<18?'Добрый день':'Добрый вечер'}
+function relativeChange(current,previous,unit=''){if(previous==null||!Number.isFinite(previous))return 'Первое измерение';const d=current-previous;if(Math.abs(d)<.05)return 'Без заметных изменений';return `${d>0?'↑':'↓'} ${Math.abs(d).toLocaleString('ru-RU',{maximumFractionDigits:1})}${unit?` ${unit}`:''}`}
+function renderHomeDashboard(){
+ const p=normalizeProfile(profile||loadProfile()),h=getHistory?.()||[],latest=h[0],prev=h[1];
+ const title=$('#homeTitle'),text=$('#homeGreeting'),time=$('#homeTimeLabel'),latestBox=$('#homeLatest'),grid=$('#homeInsightGrid'),label=$('#homeMeasureLabel');if(!title||!latestBox||!grid)return;
+ time.textContent=homeTimeGreeting();
+ if(p?.name){title.textContent=`${p.name}, как организм справляется сегодня?`;text.textContent=latest?'Последний результат уже сохранён. Сравните показатели или проведите новое измерение.':'Профиль сохранён. Проведите первое измерение — приложение объяснит результат простыми словами.';label.textContent='Новое измерение'}else{title.textContent='Поймите, как организм справляется с нагрузкой сегодня';text.textContent='Три последовательных измерения давления и пульса помогут оценить состояние понятным языком.';label.textContent='Начать измерение'}
+ if(!latest){latestBox.innerHTML=`<div class="home-empty"><h3>Здесь появится Ваш первый результат</h3><p>После трёх последовательных измерений приложение сохранит индекс адаптации, давление, пульс и режим нервной регуляции.</p></div>`;grid.innerHTML=`<div class="home-insight"><div class="insight-icon">❤</div><b>Давление</b><strong>Нет данных</strong><small>Появится после измерения</small></div><div class="home-insight"><div class="insight-icon">◉</div><b>Пульс</b><strong>Нет данных</strong><small>Появится после измерения</small></div><div class="home-insight"><div class="insight-icon">⚡</div><b>Адаптация</b><strong>Нет данных</strong><small>Насколько легко организм справляется</small></div><div class="home-insight"><div class="insight-icon">↔</div><b>Регуляция</b><strong>Нет данных</strong><small>Баланс восстановления и мобилизации</small></div>`;return}
+ const az=apZone(+latest.ap),vz=vpkZone(+latest.vpk),bp=bloodPressureCategory?bloodPressureCategory(+latest.sbp,+latest.dbp):{short:'Результат',color:'#fff'};
+ latestBox.innerHTML=`<div class="home-latest"><div class="latest-head"><div><small>Последнее измерение</small><h3 style="margin:4px 0 0;color:#fff">${new Date(latest.date).toLocaleString('ru-RU',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})}</h3></div><span class="latest-status">${escapeHTML(az.short)}</span></div><div class="latest-main"><div><div class="latest-ap">${fmt(latest.ap,2)}</div><div class="latest-ap-label">Индекс адаптации</div></div><div class="latest-vitals"><div class="latest-vital"><b>${Math.round(latest.sbp)}/${Math.round(latest.dbp)}</b><small>давление</small></div><div class="latest-vital"><b>${Math.round(latest.pulse)}</b><small>пульс</small></div><div class="latest-vital"><b>${fmt(latest.vpk,2)}</b><small>регуляция</small></div></div></div></div>`;
+ const cls=az.key==='green'?'good':az.key==='yellow'?'warn':'alert';
+ grid.innerHTML=`<div class="home-insight ${bp.short?.includes('Оптим')||bp.short?.includes('Норм')?'good':'warn'}"><div class="insight-icon">❤</div><b>Артериальное давление</b><strong>${Math.round(latest.sbp)}/${Math.round(latest.dbp)}</strong><small>${escapeHTML(bp.short||'Оценка давления')} · ${relativeChange(+latest.sbp,prev?.sbp,'мм')}</small></div><div class="home-insight ${latest.pulse>=60&&latest.pulse<=100?'good':'warn'}"><div class="insight-icon">◉</div><b>Пульс в покое</b><strong>${Math.round(latest.pulse)} уд/мин</strong><small>${latest.pulse<60?'Ниже обычного ориентира':latest.pulse>100?'Выше обычного ориентира':'В обычном диапазоне'} · ${relativeChange(+latest.pulse,prev?.pulse,'уд/мин')}</small></div><div class="home-insight ${cls}"><div class="insight-icon">⚡</div><b>Индекс адаптации</b><strong>${escapeHTML(az.short)}</strong><small>${relativeChange(+latest.ap,prev?.ap)}</small></div><div class="home-insight ${vz.key==='green'||vz.key==='blue'?'good':vz.key==='yellow'?'warn':'alert'}"><div class="insight-icon">↔</div><b>Нервная регуляция</b><strong>${escapeHTML(vz.medical||vz.title)}</strong><small>${escapeHTML(vz.title)}</small></div>`;
+}
+
 
 function renderStaticScreens(){
 setHTML('prepare',`${progress(2)}<div class="card"><span class="eyebrow">Шаг 2 из 11</span><h2>Подготовьтесь к измерению</h2><ul class="checklist"><li>Посидите спокойно не менее 5 минут.</li><li>Спина должна иметь опору, стопы — стоять на полу.</li><li>Манжета находится на обнажённой руке на уровне сердца.</li><li>Не разговаривайте и не пользуйтесь телефоном во время измерения.</li><li>Не курите, не пейте кофе и не выполняйте нагрузку за 30 минут до измерения.</li></ul><div class="notice"><b>Для полезной динамики</b><br>Старайтесь проводить измерения два раза в день — утром и вечером — примерно в одно и то же время и в похожих условиях.</div><label class="consent"><input id="prepared" type="checkbox"><span><b>Я готов(а)</b><br><span class="muted small">Давление и пульс будут измерены в состоянии покоя.</span></span></label><div class="actions"><button class="secondary" data-go="profile">Назад</button><button id="prepareNext" class="primary" disabled>Продолжить</button></div></div>`);
@@ -197,7 +269,7 @@ $('#eventBack')?.addEventListener('click',()=>go('symptoms'));$('#eventNext')?.a
 $$('#tagGrid .tag').forEach(b=>b.addEventListener('click',()=>{const t=b.dataset.tag;if(t==='Всё как обычно'){contextTags=['Всё как обычно'];$$('#tagGrid .tag').forEach(x=>x.classList.toggle('selected',x===b))}else{contextTags=contextTags.filter(x=>x!=='Всё как обычно');$('[data-tag="Всё как обычно"]')?.classList.remove('selected');if(contextTags.includes(t)){contextTags=contextTags.filter(x=>x!==t);b.classList.remove('selected')}else{contextTags.push(t);b.classList.add('selected')}}}));
 $$('#moodRating .rate').forEach(b=>b.addEventListener('click',()=>{mood=+b.dataset.rate;$$('#moodRating .rate').forEach(x=>x.classList.toggle('selected',x===b))}));$('#contextBack')?.addEventListener('click',()=>go('event'));$('#analyzeBtn')?.addEventListener('click',()=>{go('analysis');setTimeout(renderResult,1100)});
 }
-renderStaticScreens();updatePersonalGreeting();
+renderStaticScreens();renderHomeDashboard();
 
 function renderMeasure(n){const id=`measure${n}`;setHTML(id,`${progress(n===1?3:n===2?5:7)}<form class="card"><div class="measurement-title"><div><span class="eyebrow">Измерение ${n} из 3</span><h2>${n===1?'Первое':n===2?'Второе':'Третье'} измерение</h2></div><span class="measurement-badge">сидя, в покое</span></div><p class="muted">Введите значения, которые показывает тонометр.</p><div class="measure-grid"><label class="field">Верхнее давление<input name="sbp" type="number" inputmode="numeric" min="70" max="250" placeholder="120" required><small>систолическое, мм рт. ст.</small></label><label class="field">Нижнее давление<input name="dbp" type="number" inputmode="numeric" min="40" max="160" placeholder="80" required><small>диастолическое, мм рт. ст.</small></label><label class="field pulse">Пульс в покое<input name="pulse" type="number" inputmode="numeric" min="30" max="200" placeholder="72" required><small>ударов в минуту</small></label></div><div class="error"></div><div class="actions"><button type="button" class="secondary back-btn">Назад</button><button class="primary">Подтвердить измерение</button></div></form>`);const form=$(`#${id} form`);form.addEventListener('submit',e=>submitReading(e,n));form.querySelector('.back-btn').addEventListener('click',()=>{if(n===1)go('prepare');else renderMeasure(n-1)});go(id)}
 function submitReading(e,n){e.preventDefault();const form=e.currentTarget;if(!form.checkValidity()){form.reportValidity();return}const f=new FormData(form),d={sbp:+f.get('sbp'),dbp:+f.get('dbp'),pulse:+f.get('pulse')};const err=form.querySelector('.error');if(d.sbp<=d.dbp){err.textContent='Верхнее давление должно быть выше нижнего.';return}if(d.sbp-d.dbp<10){err.textContent='Проверьте цифры: разница между верхним и нижним давлением выглядит необычно маленькой.';return}err.textContent='';readings[n-1]=d;readings=readings.slice(0,n);haptic();if(n<3)startTimer(n);else go('symptoms')}
