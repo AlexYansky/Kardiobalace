@@ -1,683 +1,127 @@
-<!doctype html>
-<html lang="ru">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#f5f7f6">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="КардиоБаланс">
-<title>КардиоБаланс</title>
-<meta name="cardiobalance-build" content="2.9.2">
-<style>
-:root{
-  --bg:#f5f7f6;--card:#fff;--ink:#191b1a;--muted:#6c716f;--line:#e3e7e5;
-  --accent:#168a75;--accent2:#0f6f60;--soft:#eaf6f2;--green:#279c68;
-  --yellow:#d79a18;--orange:#dc6a2c;--red:#d34b55;--blue:#3b82f6;
-  --shadow:0 18px 48px rgba(24,46,39,.08);--radius:28px
-}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:linear-gradient(180deg,#f8fbfa 0,#f5f7f6 34%,#f3f5f4);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased}
-button,input,textarea{font:inherit}.topbar{position:sticky;top:0;z-index:40;height:74px;padding:12px max(17px,calc((100vw - 760px)/2));display:flex;align-items:center;justify-content:space-between;background:rgba(248,250,249,.86);border-bottom:1px solid rgba(60,60,67,.1);backdrop-filter:saturate(180%) blur(22px);-webkit-backdrop-filter:saturate(180%) blur(22px)}
-.brand{display:flex;align-items:center;gap:12px}.mark{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(145deg,#30b49a,#147966);box-shadow:0 9px 26px rgba(22,138,117,.24)}.mark svg{width:25px;height:25px}.brand b{font-size:21px;letter-spacing:-.035em}.top-actions{display:flex;gap:8px}.icon-btn{width:43px;height:43px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.8);display:grid;place-items:center;color:var(--ink);font-size:19px;cursor:pointer}.shell{width:min(730px,calc(100% - 24px));margin:18px auto 56px}.screen{display:none}.screen.active{display:block;animation:enter .28s ease}@keyframes enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.card{background:rgba(255,255,255,.97);border:1px solid rgba(60,60,67,.09);border-radius:var(--radius);padding:29px;box-shadow:var(--shadow)}.hero{padding:42px 34px}.eyebrow{display:block;color:var(--accent);font-size:13px;font-weight:850;letter-spacing:.11em;text-transform:uppercase;margin-bottom:16px}h1{font-size:clamp(40px,7vw,59px);line-height:1.01;letter-spacing:-.058em;margin:0 0 19px}h2{font-size:clamp(31px,6vw,44px);line-height:1.05;letter-spacing:-.048em;margin:0 0 16px}h3{font-size:22px;letter-spacing:-.035em;margin:26px 0 13px}h4{font-size:17px;margin:0 0 8px}p{font-size:17px;line-height:1.5;margin:10px 0}.muted{color:var(--muted)}.small{font-size:14px}.notice{padding:17px 18px;border-radius:19px;background:#eef8f5;border:1px solid #d1ebe4;margin:19px 0;line-height:1.48}.notice.warn{background:#fff7e8;border-color:#f1d9a8}.notice.danger{background:#fff0f1;border-color:#f0c9cd;color:#982d36}
-.progress{display:flex;gap:7px;margin:0 2px 18px}.progress i{height:5px;flex:1;border-radius:999px;background:#dde2df}.progress i.on{background:var(--accent)}
-.primary,.secondary,.ghost,.danger-btn{appearance:none;border:0;border-radius:18px;min-height:56px;padding:14px 21px;font-weight:780;font-size:17px;cursor:pointer;transition:transform .18s cubic-bezier(.2,.8,.2,1),opacity .18s ease,box-shadow .18s ease,background .18s ease,filter .18s ease;-webkit-tap-highlight-color:transparent;transform:translateZ(0)}.primary{background:linear-gradient(145deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 10px 24px rgba(22,138,117,.18)}.secondary{background:#f0f2f1;color:var(--ink)}.ghost{background:#fff;color:var(--accent);border:1px solid var(--line)}.danger-btn{background:#fff0f1;color:#aa3039;border:1px solid #f0c8cc}.primary:active,.secondary:active,.ghost:active,.danger-btn:active{transform:scale(.972);filter:brightness(.98)}.primary:disabled{opacity:.36;cursor:not-allowed}.wide{width:100%;margin-top:18px}.actions{display:flex;gap:12px;margin-top:25px}.actions>*{flex:1}
-.checklist{list-style:none;padding:0;margin:16px 0}.checklist li{position:relative;padding:15px 0 15px 48px;border-bottom:1px solid #edf0ee;font-size:17px;line-height:1.4}.checklist li:before{content:"✓";position:absolute;left:2px;top:13px;width:31px;height:31px;border-radius:50%;display:grid;place-items:center;background:var(--soft);color:var(--accent);font-weight:900}.consent{display:flex;gap:13px;align-items:flex-start;padding:17px;border:1px solid var(--line);border-radius:19px;background:#fbfcfb;margin-top:20px}.consent input,.choice input{width:23px;height:23px;accent-color:var(--accent);flex:none}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.field{display:block;font-size:15px;font-weight:760}.field small{display:block;color:var(--muted);font-size:12px;font-weight:480;margin:5px 2px 0}.field input,.field textarea{width:100%;margin-top:8px;padding:17px 16px;border:1px solid #dce1df;border-radius:17px;background:#f9faf9;color:var(--ink);font-size:22px;font-weight:660;outline:none}.field textarea{font-size:16px;min-height:92px;resize:vertical}.field input:focus,.field textarea:focus{background:#fff;border-color:var(--accent);box-shadow:0 0 0 4px rgba(22,138,117,.12)}
-.measurement-title{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:20px}.measurement-badge{white-space:nowrap;color:var(--accent);background:var(--soft);border-radius:999px;padding:8px 12px;font-size:13px;font-weight:800}.measure-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.measure-grid .pulse{grid-column:1/-1}.error{min-height:22px;color:var(--red);font-weight:680;margin-top:12px}
-.timer-wrap{text-align:center;padding:8px 0 10px}.timer-ring{width:176px;height:176px;margin:18px auto 16px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--accent) var(--angle,0deg),#e7ebe9 0);position:relative}.timer-ring:before{content:"";position:absolute;inset:9px;background:#fff;border-radius:50%}.timer-number{position:relative;font-size:58px;font-weight:820;letter-spacing:-.065em}.timer-label{position:relative;color:var(--muted);font-size:13px;margin-top:-6px}.timer-tip{max-width:460px;margin:0 auto;color:var(--muted)}
-.timer-learning{margin:18px 0 4px;text-align:left}.timer-lesson{min-height:260px;border:1px solid rgba(60,60,67,.09);border-radius:25px;padding:22px;background:linear-gradient(145deg,#f7fbf9,#eef7f4);box-shadow:0 12px 34px rgba(24,46,39,.07);display:grid;grid-template-columns:58px 1fr;gap:15px;align-content:start;transition:opacity .28s ease,transform .28s ease}.timer-lesson.changing{opacity:0;transform:translateY(7px)}.timer-lesson-icon{width:58px;height:58px;border-radius:18px;background:#fff;display:grid;place-items:center;font-size:29px;box-shadow:0 8px 22px rgba(24,46,39,.08)}.timer-lesson-content h3{margin:0 0 7px;font-size:22px;line-height:1.15}.timer-lesson-content p{margin:0;color:var(--muted);font-size:15px;line-height:1.43}.timer-impact{grid-column:1/-1;margin-top:15px;padding:14px 16px;border-radius:17px;background:#fff;border:1px solid #dfeae6}.timer-impact small{display:block;color:var(--muted);font-size:12px;font-weight:750;text-transform:uppercase;letter-spacing:.06em}.timer-impact b{display:block;color:var(--accent2);font-size:22px;margin-top:4px;letter-spacing:-.02em}.timer-dots{display:flex;justify-content:center;gap:7px;margin:15px 0 6px}.timer-dots i{width:8px;height:8px;border-radius:50%;background:#d7dfdc;transition:.25s ease}.timer-dots i.on{width:24px;border-radius:999px;background:var(--accent)}.timer-card-progress{height:5px;border-radius:999px;background:#dce6e2;overflow:hidden;margin-top:13px}.timer-card-progress i{display:block;height:100%;width:var(--card-progress,0%);background:linear-gradient(90deg,#32b49b,#168a75);border-radius:999px;transition:width 1s linear}.timer-footnote{font-size:12px;color:var(--muted);line-height:1.4;margin:12px 0 0}@media(max-width:560px){.timer-ring{width:148px;height:148px}.timer-number{font-size:49px}.timer-lesson{min-height:285px;padding:18px;grid-template-columns:50px 1fr}.timer-lesson-icon{width:50px;height:50px;font-size:25px}.timer-lesson-content h3{font-size:20px}}
-.choices{display:grid;gap:10px;margin-top:18px}.choice{display:flex;gap:13px;align-items:flex-start;padding:16px;border:1px solid var(--line);border-radius:18px;background:#fbfcfb;font-size:16px;line-height:1.4;cursor:pointer}.choice.selected{border-color:var(--accent);background:var(--soft)}.choice.none{margin-top:8px;padding:21px;border:2px solid #bfe4da;background:#f7fcfa}.choice.none strong{display:block;font-size:20px;letter-spacing:-.02em}.tag-grid{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}.tag{border:1px solid transparent;background:#f2f5f3;border-radius:999px;padding:11px 15px;font-size:15px;cursor:pointer;color:#404642;transition:.18s ease;box-shadow:none}.tag:hover{background:#edf2ef}.tag.selected{background:#e7f6f1;border-color:#8fd2c0;color:var(--accent2);font-weight:760;box-shadow:0 7px 18px rgba(22,138,117,.10)}.tag.selected:before{content:'✓';margin-right:6px}.usual-tag{width:100%;text-align:left;font-weight:820;font-size:16px;background:#edf7f3;border-color:transparent;padding:14px 17px}.usual-tag:not(.selected){box-shadow:none}.usual-tag.selected{background:linear-gradient(145deg,#dff3ed,#eef9f6);border-color:#79c8b4}.rating{display:flex;gap:11px;justify-content:space-between;margin:16px 0}.rate{width:54px;height:54px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:25px;cursor:pointer}.rate.selected{border-color:var(--accent);background:var(--soft);transform:scale(1.05)}
-.analysis-wrap{text-align:center}.pulse-loader{width:120px;height:120px;margin:30px auto;border-radius:38px;display:grid;place-items:center;background:linear-gradient(145deg,#31b89d,#137965);box-shadow:0 20px 48px rgba(22,138,117,.25);animation:breathe 1.2s ease-in-out infinite}.pulse-loader svg{width:61px;height:61px}@keyframes breathe{50%{transform:scale(1.07);box-shadow:0 25px 58px rgba(22,138,117,.34)}}
-.result-hero{border-radius:30px;padding:30px;color:#fff;background:linear-gradient(145deg,#168a75,#0f6f60);box-shadow:var(--shadow);position:relative;overflow:hidden;isolation:isolate}.result-hero:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;right:-55px;top:-75px;background:rgba(255,255,255,.1)}.zone-green{background:linear-gradient(145deg,#35a971,#23895d)}.zone-yellow{background:linear-gradient(145deg,#dda51e,#bd7f09)}.zone-orange{background:linear-gradient(145deg,#e57a38,#bf4e1b)}.zone-red{background:linear-gradient(145deg,#db5961,#a52f39)}.result-grid{display:grid;grid-template-columns:1fr 160px;gap:18px;align-items:center}.result-score{font-size:67px;font-weight:860;letter-spacing:-.07em}.result-name{font-size:28px;font-weight:820;letter-spacing:-.04em;margin:4px 0 9px}.result-hero p{color:#fff}.result-hero .eyebrow,.result-hero .result-score,.result-hero .result-name{color:#fff!important;text-shadow:0 1px 2px rgba(0,0,0,.10)}
-.mascot{width:148px;height:148px;position:relative;z-index:2}.dashboard{margin-top:14px}.section-title{display:flex;align-items:end;justify-content:space-between;gap:10px}.section-title a{color:var(--accent);font-weight:700;font-size:14px}.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin:16px 0}.metric{appearance:none;border:0;text-align:left;background:#f5f7f6;border-radius:20px;padding:18px;color:var(--ink);cursor:pointer;position:relative}.metric:after{content:"›";position:absolute;right:14px;top:12px;color:#a0a5a2;font-size:24px}.metric .value{font-size:26px;font-weight:820;letter-spacing:-.04em;padding-right:18px}.metric .label{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.32}.metric:hover{background:#eef4f2}.system-cards{display:grid;gap:11px}.system-card{border-radius:21px;padding:18px;background:#f5f7f6;display:grid;grid-template-columns:44px 1fr auto;gap:13px;align-items:center}.system-icon{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:#fff;font-size:22px}.system-card b{display:block;font-size:17px}.system-card small{color:var(--muted);line-height:1.35}.status-pill{border-radius:999px;padding:7px 10px;font-size:12px;font-weight:800;background:#eaf6f2;color:var(--accent2)}.status-pill.yellow{background:#fff2cf;color:#976600}.status-pill.orange{background:#ffeadf;color:#a1461b}.status-pill.red{background:#ffe4e7;color:#a52f39}
-.reading-list{display:grid;gap:9px;margin-top:12px}.reading{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:14px 15px;border-radius:17px;background:#f7f8f7}.reading .num{width:31px;height:31px;border-radius:50%;display:grid;place-items:center;background:var(--soft);color:var(--accent);font-weight:820}.reading b{font-size:18px}.reading small{color:var(--muted);display:block}.quality-card{padding:18px;border-radius:20px;background:#eef8f5;border:1px solid #d2eae4}.quality-card.warn{background:#fff7e8;border-color:#f2dba9}.quality-top{display:flex;justify-content:space-between;align-items:center}.quality-score{font-size:32px;font-weight:850;color:var(--accent)}.quality-card.warn .quality-score{color:#b87908}.bar{height:8px;background:#dfe6e3;border-radius:999px;overflow:hidden;margin:12px 0}.bar i{display:block;height:100%;background:var(--accent);border-radius:999px}.quality-card.warn .bar i{background:var(--yellow)}.do-dont{display:grid;grid-template-columns:1fr 1fr;gap:12px}.advice-box{padding:18px;border-radius:20px;background:#f5f7f6}.advice-box.good{background:#edf8f4}.advice-box.care{background:#fff7ea}.advice-box ul{margin:10px 0 0;padding-left:19px}.advice-box li{margin:8px 0;line-height:1.4}.recommendations{padding-left:21px}.recommendations li{margin:10px 0;line-height:1.44}
-.history-controls{display:flex;background:#eaeeec;border-radius:14px;padding:4px;margin:16px 0}.history-controls button{flex:1;border:0;background:transparent;padding:10px 5px;border-radius:11px;font-weight:720;color:var(--muted);cursor:pointer}.history-controls button.active{background:#fff;color:var(--ink);box-shadow:0 3px 12px rgba(0,0,0,.06)}.chart-wrap{position:relative;height:270px;margin:12px -4px 4px}.chart-wrap canvas{width:100%;height:100%}.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.stat{padding:16px;border-radius:18px;background:#f5f7f6}.stat b{font-size:24px;display:block}.stat small{color:var(--muted)}.trend-card{padding:18px;border-radius:20px;background:#eef8f5;margin:14px 0}.history-list{display:grid;gap:10px}.history-item{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:16px;border:1px solid var(--line);border-radius:19px;background:#fff}.history-item b{display:block}.history-item small{display:block;color:var(--muted);margin-top:5px}.pill{padding:8px 11px;border-radius:999px;color:#fff;font-weight:820;font-size:14px}.empty{text-align:center;color:var(--muted);padding:45px 10px}
-.modal{position:fixed;inset:0;z-index:100;display:none;align-items:flex-end;justify-content:center;background:rgba(14,20,18,.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}.modal.open{display:flex}.sheet{width:min(730px,100%);max-height:91vh;overflow:auto;background:var(--card);border-radius:30px 30px 0 0;padding:19px 23px calc(30px + env(safe-area-inset-bottom));box-shadow:0 -20px 55px rgba(0,0,0,.16);animation:sheet .24s ease}@keyframes sheet{from{transform:translateY(25%);opacity:.5}to{transform:none;opacity:1}}.grabber{width:48px;height:5px;border-radius:999px;background:#d7dbd9;margin:0 auto 18px}.sheet-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.close{width:38px;height:38px;border-radius:50%;border:0;background:#eff1f0;font-size:22px;cursor:pointer}.formula{padding:16px;border-radius:18px;background:#f5f7f6;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:15px;line-height:1.5;overflow:auto}.mini-infographic{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;align-items:center;margin:16px 0}.mini-infographic div{padding:13px 8px;border-radius:16px;background:#f5f7f6;text-align:center;font-weight:760}.mini-infographic .arrow{background:transparent;font-size:23px;color:var(--accent)}.hidden{display:none!important}
-.settings-card{padding:18px;border-radius:22px;background:#f6f8f7;border:1px solid var(--line);margin:14px 0}.settings-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:15px 0;border-bottom:1px solid #e8ecea}.settings-row:last-child{border-bottom:0}.settings-row b{display:block;font-size:17px}.settings-row small{display:block;color:var(--muted);margin-top:4px;line-height:1.35}.settings-action{white-space:nowrap;min-height:44px;padding:10px 14px;border-radius:14px}.reset-choice{width:100%;text-align:left;padding:17px 18px;border:1px solid var(--line);background:#fff;border-radius:18px;margin:8px 0;cursor:pointer}.reset-choice b{display:block;font-size:17px}.reset-choice small{display:block;color:var(--muted);margin-top:5px;line-height:1.35}.reset-choice.danger{border-color:#f0c7cb;background:#fff7f8}.reset-choice.danger b{color:#a8323b}.confirm-list{margin:14px 0 18px;padding:15px 18px 15px 38px;border-radius:18px;background:#fff5f6;color:#7d2c33}.confirm-list li{margin:7px 0}.countdown-note{font-size:13px;color:var(--muted);text-align:center;margin-top:8px}.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));z-index:200;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#18201d;color:#fff;padding:13px 18px;border-radius:999px;font-weight:760;box-shadow:0 14px 35px rgba(0,0,0,.24);transition:.22s ease;max-width:calc(100% - 32px);text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}
+from pathlib import Path
 
+src = Path("/mnt/data/КардиоБаланс_2_9_7_события_сводка_графики.html")
+out = Path("/mnt/data/КардиоБаланс_2_9_8_выбор_событий_и_абзацы.html")
 
-.profile-summary{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:20px 0}.profile-summary .full{grid-column:1/-1}.profile-edit-hint{padding:13px 15px;border-radius:16px;background:#eef8f5;color:var(--accent2);font-weight:720;margin:14px 0}.sex-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}.sex-option{display:flex;align-items:center;justify-content:center;gap:9px;padding:16px;border:1px solid #dce1df;border-radius:17px;background:#f9faf9;cursor:pointer;font-weight:700}.sex-option:has(input:checked){border-color:var(--accent);background:var(--soft);color:var(--accent2)}.sex-option input{width:20px;height:20px;accent-color:var(--accent)}.profile-summary>div{padding:17px;border-radius:18px;background:#f5f7f6}.profile-summary small{display:block;color:var(--muted);margin-bottom:5px}.profile-summary b{font-size:20px}.system-button{width:100%;border:0;text-align:left;color:inherit;cursor:pointer}.system-button:hover{background:#eef4f2}.mini-infographic{display:grid;grid-template-columns:58px 1fr;gap:14px;align-items:center;padding:16px;border-radius:20px;background:#eef8f5;margin:8px 0 20px}.mini-infographic>span{width:58px;height:58px;border-radius:18px;background:#fff;display:grid;place-items:center;font-size:30px}.mini-infographic p{margin:3px 0;font-size:15px;color:var(--muted)}.scale-inf{display:grid;grid-template-columns:repeat(4,1fr);border-radius:16px;overflow:hidden;margin:18px 0}.scale-inf span{padding:15px 8px;text-align:center;font-size:11px;font-weight:800}.s-green{background:#dff3e9}.s-yellow{background:#fff0c9}.s-orange{background:#ffe2d3}.s-red{background:#ffdadd}.balance-inf{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;margin:20px 0;font-size:13px}.balance-inf i{height:12px;border-radius:999px;background:linear-gradient(90deg,#72a9ff,#5fc596,#f1b544,#df5961);position:relative}.balance-inf i:after{content:"";position:absolute;top:50%;left:var(--pos);width:20px;height:20px;border:4px solid #fff;border-radius:50%;background:#202423;box-shadow:0 2px 8px rgba(0,0,0,.2);transform:translate(-50%,-50%)}.pipe-inf{display:grid;grid-template-columns:1fr 80px 1fr;align-items:center;text-align:center;padding:18px;border-radius:20px;background:#f5f7f6;margin:16px 0;position:relative}.pipe-inf i{height:18px;background:linear-gradient(90deg,#d34b55,#3b82f6);border-radius:999px}.pipe-inf strong{grid-column:1/-1;margin-top:12px}.date-filter{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;margin:14px 0}.date-filter label{font-size:12px;color:var(--muted);font-weight:700}.date-filter input{display:block;width:100%;margin-top:6px;border:1px solid var(--line);border-radius:13px;padding:11px;background:#fff}.metric-tabs{display:flex;gap:8px;overflow:auto;padding:3px 0 10px;scrollbar-width:none}.metric-tabs button{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 13px;color:var(--muted);font-weight:700}.metric-tabs button.active{background:var(--accent);color:#fff;border-color:var(--accent)}.chart-card{border-radius:22px;background:#f7f9f8;padding:16px;margin:12px 0}.chart-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.chart-head h3{margin:0}.chart-label{font-size:13px;font-weight:800;color:var(--muted);margin:12px 0 -4px}.history-dashboard .chart-wrap{height:245px}.history-item{break-inside:avoid}details{margin:15px 0}summary{cursor:pointer;font-weight:800;color:var(--accent2)}
+text = src.read_text(encoding="utf-8")
 
-.history-export-actions{display:grid;grid-template-columns:1fr;gap:14px;margin:18px 0 8px}.history-export-actions button{display:flex;align-items:center;justify-content:center;gap:10px}.history-export-actions span{font-size:25px;line-height:1}.history-auto-note{margin-top:26px}.history-auto-note b{color:var(--accent)}.app-footer{text-align:center;color:var(--muted);font-size:13px;padding:10px 16px calc(22px + env(safe-area-inset-bottom));letter-spacing:.01em}.median-panel{margin:18px 0;padding:20px;border-radius:22px;background:linear-gradient(145deg,#eef8f5,#f8fbfa);border:1px solid #d6ebe5}.median-panel h3{margin:0 0 6px}.median-panel .median-caption{color:var(--muted);font-size:14px;margin:0 0 14px}.median-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.median-item{padding:14px;border-radius:17px;background:#fff;border:1px solid rgba(60,60,67,.08)}.median-item b{display:block;font-size:21px;letter-spacing:-.03em}.median-item small{display:block;color:var(--muted);margin-top:4px;line-height:1.3}.report-summary{background:#eef8f5;border:1px solid #d4ebe5;border-radius:18px;padding:18px;margin:22px 0}.report-summary table{margin-top:12px;background:#fff}@media(max-width:560px){.median-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:640px){.history-export-actions{grid-template-columns:1fr}.history-export-actions button{min-height:58px}}
-@media print{.print-history #result{display:none!important}.print-history #history{display:block!important}#history.screen.active{display:block!important}.history-dashboard .metric-tabs,.history-dashboard .history-controls,.history-dashboard .date-filter,.history-dashboard .ghost,.history-dashboard .history-list{display:none!important}.history-dashboard{box-shadow:none}.chart-card{break-inside:avoid}}
-@media(max-width:560px){.shell{width:calc(100% - 20px);margin-top:12px}.card{padding:24px}.hero{padding:34px 25px}.form-grid,.measure-grid{grid-template-columns:1fr}.measure-grid .pulse{grid-column:auto}.actions{flex-direction:column-reverse}.result-grid{grid-template-columns:1fr 112px}.mascot{width:112px;height:112px}.metrics{grid-template-columns:1fr 1fr}.metric{padding:15px}.metric .value{font-size:22px}.do-dont{grid-template-columns:1fr}.top-actions{display:none}.system-card{grid-template-columns:42px 1fr}.status-pill{grid-column:2}.rating{gap:5px}.rate{width:48px;height:48px}.sheet{padding-left:18px;padding-right:18px}}
-@media print{.topbar,.result-controls,.history-controls{display:none!important}.shell{width:100%;margin:0}.card,.result-hero{box-shadow:none;break-inside:avoid}.screen{display:none!important}#result.screen{display:block!important}}
+# 1. Разбиваем перегруженное пояснение про манжету на два отдельных абзаца.
+text = text.replace(
+    "impact:'Может привести к повышению давления: маленькая манжета — на 2–10 мм рт. ст.; измерение через одежду — на 5–50 мм рт. ст.'",
+    "impact:'Маленькая манжета может привести к повышению давления на 2–10 мм рт. ст.\\n\\nИзмерение через одежду может привести к повышению давления на 5–50 мм рт. ст.'"
+)
 
-.event-card{width:100%;min-height:116px;border:1px solid rgba(60,60,67,.10);border-radius:22px;padding:16px 18px;background:#f7f9f8;margin-top:12px;cursor:pointer;display:grid;grid-template-columns:58px minmax(0,1fr) 58px;align-items:center;gap:12px;transition:.18s ease;text-align:center}.event-card:hover{transform:translateY(-1px);background:#f1f6f4}.event-card.selected{border-color:#8fd2c0;background:#eaf7f3}.event-card .event-emoji{width:52px;height:52px;border-radius:16px;background:#fff;display:grid;place-items:center;font-size:23px;justify-self:start}.event-card>span:nth-child(2){grid-column:2;min-width:0}.event-card:after{content:'';grid-column:3}.event-card b{display:block;font-size:17px;line-height:1.25;color:#1688e8}.event-card small{display:block;color:var(--muted);margin-top:5px;line-height:1.35}.event-summary{margin-top:16px;padding:16px;border-radius:18px;background:#eef8f5;border:1px solid #d3ebe4}.home-shortcuts{display:grid;gap:11px;margin-top:14px}.home-shortcuts .history-main{min-height:64px;font-size:18px}.app-action{position:relative;display:grid;grid-template-columns:42px 1fr 22px;align-items:center;gap:13px;text-align:left;overflow:hidden;isolation:isolate}.app-action:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at var(--press-x,50%) var(--press-y,50%),rgba(22,138,117,.13),transparent 44%);opacity:0;transform:scale(.72);transition:opacity .28s ease,transform .36s ease;z-index:-1}.app-action:active:before,.app-action.pressed:before{opacity:1;transform:scale(1.18)}.app-action:active{transform:scale(.975) translateY(1px)}.button-icon{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:var(--soft);color:var(--accent);transition:transform .22s cubic-bezier(.2,.8,.2,1),background .2s ease,color .2s ease}.button-icon svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.button-chevron{justify-self:end;color:#a8aeab;font-size:29px;line-height:1;transition:transform .22s cubic-bezier(.2,.8,.2,1),color .2s ease}.home-action{min-height:68px;padding:12px 16px;color:var(--accent2);font-size:18px;border-color:rgba(60,60,67,.12);box-shadow:0 7px 20px rgba(24,46,39,.035)}.home-action:hover{background:#fbfdfc;box-shadow:0 11px 26px rgba(24,46,39,.07);transform:translateY(-1px)}.home-action:active .button-icon,.home-action.pressed .button-icon{transform:scale(.9) rotate(-3deg);background:#dcf1eb}.home-action:active .button-chevron,.home-action.pressed .button-chevron{transform:translateX(3px);color:var(--accent)}.primary-action{grid-template-columns:42px 1fr 22px;text-align:left;min-height:68px;padding:12px 16px}.primary-action .button-icon{background:rgba(255,255,255,.16);color:#fff}.primary-action .button-chevron{color:rgba(255,255,255,.72)}.primary-action:active .button-icon,.primary-action.pressed .button-icon{transform:scale(.9);background:rgba(255,255,255,.24)}.primary-action:active .button-chevron,.primary-action.pressed .button-chevron{transform:translateX(3px);color:#fff}@media (prefers-reduced-motion:reduce){.app-action,.app-action:before,.button-icon,.button-chevron{transition:none!important}}.soft-divider{height:1px;background:var(--line);margin:22px 0}.balance-scale{margin:18px 0}.balance-labels{display:grid;grid-template-columns:1fr 1fr;gap:14px}.balance-labels div:last-child{text-align:right}.balance-labels b{display:block;font-size:16px}.balance-labels small{display:block;color:var(--muted);line-height:1.3}.balance-line{height:12px;border-radius:999px;background:linear-gradient(90deg,#61a5fa 0%,#d9eee6 45%,#d9eee6 55%,#f59e0b 100%);position:relative;margin:12px 0}.balance-line i{position:absolute;top:50%;left:var(--pos);width:22px;height:22px;border-radius:50%;background:#fff;border:5px solid var(--accent);box-shadow:0 5px 16px rgba(0,0,0,.16);transform:translate(-50%,-50%)}
+# 2. Выводим каждый смысловой блок пояснения отдельным абзацем.
+old_render = "$(`#timerLessonImpact${afterReading}`).textContent=item.impact;"
+new_render = """$(`#timerLessonImpact${afterReading}`).innerHTML=item.impact
+       .split(/\\n\\s*\\n/)
+       .map(part=>`<span class="impact-paragraph">${escapeHTML(part)}</span>`)
+       .join('');"""
+if old_render not in text:
+    raise RuntimeError("Не найден вывод пояснения карточки таймера")
+text = text.replace(old_render, new_render)
 
-/* ===== КардиоБаланс 2026: modern history & report ===== */
-.history-dashboard{padding:0;background:transparent;border:0;box-shadow:none}
-.history-hero{padding:26px 22px 20px;border-radius:30px;background:linear-gradient(145deg,#0f806d,#20a58a);color:#fff;box-shadow:0 22px 58px rgba(15,128,109,.22);margin-bottom:14px;position:relative;overflow:hidden}
-.history-hero:after{content:"";position:absolute;width:170px;height:170px;border-radius:50%;right:-55px;top:-70px;background:rgba(255,255,255,.10)}
-.history-hero .eyebrow,.history-hero .muted{color:rgba(255,255,255,.78)}
-.history-hero h2{margin-bottom:8px}.history-hero .ghost{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.28);color:#fff;position:relative;z-index:2}
-.history-surface{background:#fff;border:1px solid rgba(60,60,67,.08);border-radius:28px;padding:20px;box-shadow:0 18px 50px rgba(24,46,39,.07);margin-top:14px}
-.history-controls{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:5px;border-radius:18px;background:#eef1ef;margin:0 0 14px}
-.history-controls button{min-width:0;padding:12px 4px;border-radius:14px;font-size:14px}
-.date-filter{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0}
-.date-filter label{min-width:0;background:#f6f8f7;border-radius:16px;padding:10px 12px;color:#747a77}
-.date-filter input{border:0;background:transparent;padding:5px 0 0;font-size:15px;min-width:0}
-.date-filter .apply-dates{grid-column:1/-1;width:100%;min-height:52px;border-radius:16px;margin-top:2px}
-.period-caption{font-size:13px;color:var(--muted);margin:10px 2px 0}
-.median-panel{margin:14px 0 0;border:0;background:linear-gradient(145deg,#ecf8f4,#f8fbfa);padding:20px;border-radius:25px}
-.median-panel h3{font-size:25px;line-height:1.08}
-.median-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-.median-item{padding:16px;border-radius:20px;box-shadow:0 7px 20px rgba(22,55,46,.04)}
-.median-item b{font-size:25px}
-.bp-status{display:inline-flex;align-items:center;gap:7px;padding:8px 11px;border-radius:999px;font-size:13px;font-weight:800;margin-top:10px;background:#fff}
-.metric-tabs{gap:9px;padding:2px 0 12px}.metric-tabs button{border:0;background:#f1f4f2;padding:11px 15px}.metric-tabs button.active{box-shadow:0 8px 20px rgba(22,138,117,.18)}
-.chart-card{background:#fff;border:1px solid rgba(60,60,67,.08);border-radius:26px;padding:18px;box-shadow:0 12px 34px rgba(24,46,39,.06)}
-.chart-wrap{height:290px;margin:10px -4px 0}.history-dashboard .chart-wrap{height:290px}
-.trend-card{background:#f3f8f6;border-radius:20px;padding:17px;margin-top:16px}.trend-card p{font-size:15px}
-.history-export-actions{position:sticky;bottom:calc(8px + env(safe-area-inset-bottom));z-index:15;background:rgba(255,255,255,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);padding:8px;border-radius:22px;box-shadow:0 16px 38px rgba(18,42,35,.16)}
-.history-export-actions button{border-radius:17px}
-.pressure-map-card{background:#0b1721;border-radius:26px;padding:18px;color:#fff;overflow:hidden;box-shadow:0 18px 42px rgba(9,27,39,.18)}
-.pressure-map-card h3{margin:0 0 4px}.pressure-map-card p{margin:0 0 14px;color:rgba(255,255,255,.68);font-size:14px}
-.pressure-map{display:block;width:100%;height:auto;border-radius:20px;background:#101f2a}
-.pressure-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.pressure-legend span{font-size:11px;padding:6px 9px;border-radius:999px;background:rgba(255,255,255,.09)}
-.history-list{gap:9px}.history-item{border:0;background:#f6f8f7;border-radius:20px;padding:15px}
-.stats-grid{grid-template-columns:repeat(3,1fr)}.stat{border-radius:20px;background:#f6f8f7}.stat b{font-size:21px}
-@media(max-width:520px){
- .shell{width:min(100% - 16px,730px);margin-top:10px}.history-surface{padding:14px;border-radius:24px}.history-hero{padding:22px 18px}.history-hero h2{font-size:36px}.date-filter{grid-template-columns:1fr 1fr}.date-filter label{padding:9px 10px}.date-filter input{font-size:13px}.history-controls button{font-size:13px}.stats-grid{grid-template-columns:1fr 1fr}.history-export-actions{grid-template-columns:1fr;gap:8px}.history-export-actions button{font-size:14px;padding:10px 8px}.median-item b{font-size:22px}
-}
-
-
-/* ===== Report refinement 2026.2 ===== */
-.pressure-map-card{background:linear-gradient(160deg,#ffffff,#f4f8f7);color:var(--ink);border:1px solid rgba(60,60,67,.08)}
-.pressure-map-card p{color:var(--muted)}
-.pressure-map{background:#f7faf9;border:1px solid #e2e9e6}
-.pressure-legend span{background:#f0f4f2;color:#5f6864}
-.reference-note{margin-top:12px;padding:12px 14px;border-radius:16px;background:#f4f7f6;color:#66706c;font-size:12px;line-height:1.45}
-.reference-note a{color:#137d6c;font-weight:750;text-decoration:none}
-.report-value-row{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;margin-top:16px;padding:16px 18px;border-radius:20px;background:#eef8f5}
-.report-value-row .big-value{font-size:31px;font-weight:800;letter-spacing:-.015em;color:#137d6c;white-space:nowrap}
-.report-value-row b{display:block;margin-bottom:4px}.report-value-row p{margin:0;color:#58625e;font-size:13px;line-height:1.42}
-
-
-/* ===== Visible navigation & refined pressure map ===== */
-@media(max-width:560px){
-  .topbar{padding-left:14px;padding-right:14px}
-  .brand b{font-size:18px}
-  .top-actions{display:flex!important;gap:6px}
-  .icon-btn{width:38px;height:38px;font-size:17px}
-  #homeIcon,#historyIcon{display:none}
-}
-.home-settings{min-height:58px;font-size:16px}
-.ap-range-guide{margin-top:14px;display:grid;gap:8px}
-.ap-range-row{display:grid;grid-template-columns:92px 1fr;gap:12px;align-items:start;padding:11px 13px;border-radius:15px;background:#f6f8f7}
-.ap-range-row b{font-size:13px;color:#137d6c}.ap-range-row span{font-size:12px;line-height:1.38;color:#56605c}
-
-/* ===== Home dashboard 2.0 ===== */
-.home-dashboard{display:grid;gap:14px}.home-welcome{display:grid;grid-template-columns:1fr 112px;gap:18px;align-items:center;padding:30px;overflow:hidden;position:relative;background:linear-gradient(145deg,#ffffff,#f5faf8)}
-.home-welcome:after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;right:-95px;top:-110px;background:radial-gradient(circle,rgba(37,171,142,.16),transparent 70%)}
-.home-welcome h1{font-size:clamp(34px,6vw,52px);margin-bottom:14px}.home-orb{width:108px;height:108px;border-radius:34px;display:grid;place-items:center;background:linear-gradient(145deg,#32b89e,#117663);box-shadow:0 22px 44px rgba(22,138,117,.24);position:relative;z-index:2}.home-orb span{font-size:51px;color:#fff;filter:drop-shadow(0 6px 10px rgba(0,0,0,.12))}
-.home-latest{border-radius:30px;padding:24px;background:linear-gradient(145deg,#132c29,#1c6155);color:#fff;box-shadow:0 20px 48px rgba(18,62,54,.2);overflow:hidden;position:relative}.home-latest:after{content:"";position:absolute;right:-55px;top:-70px;width:190px;height:190px;border-radius:50%;background:rgba(255,255,255,.07)}
-.latest-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.latest-head small{color:rgba(255,255,255,.68)}.latest-status{padding:8px 11px;border-radius:999px;background:rgba(255,255,255,.12);font-size:12px;font-weight:820}.latest-main{display:grid;grid-template-columns:1.2fr .8fr;gap:16px;align-items:end;margin-top:18px}.latest-ap{font-size:66px;font-weight:860;letter-spacing:-.07em;line-height:.95}.latest-ap-label{font-size:14px;color:rgba(255,255,255,.72);margin-top:8px}.latest-vitals{display:grid;grid-template-columns:1fr 1fr;gap:9px}.latest-vital{padding:14px;border-radius:18px;background:rgba(255,255,255,.10)}.latest-vital b{font-size:25px;display:block}.latest-vital small{color:rgba(255,255,255,.67)}
-.home-empty{padding:24px;border-radius:28px;background:linear-gradient(145deg,#edf8f4,#f8fbfa);border:1px solid #d8ebe5}.home-empty h3{margin:0 0 8px}.home-empty p{margin:0;color:var(--muted)}
-.new-measure-button{margin-top:0}.home-insight-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.home-insight{border:1px solid rgba(60,60,67,.08);border-radius:22px;background:#fff;padding:18px;text-align:left;box-shadow:0 10px 30px rgba(24,46,39,.05);cursor:pointer;position:relative;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}.home-insight:after{content:'›';position:absolute;right:14px;top:14px;color:#a6afab;font-size:24px;font-weight:500}.home-insight:active{transform:scale(.985)}.home-insight:hover{border-color:rgba(22,138,117,.22);box-shadow:0 14px 34px rgba(24,46,39,.09)}.home-insight .insight-icon{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:var(--soft);font-size:21px;margin-bottom:13px}.home-insight b{font-size:17px;display:block}.home-insight strong{font-size:22px;display:block;margin:6px 0 4px;letter-spacing:-.03em}.home-insight small{color:var(--muted);line-height:1.35;display:block}.home-insight.good strong{color:var(--accent2)}.home-insight.warn strong{color:#a06b00}.home-insight.alert strong{color:#ad343e}
-.home-tip{display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:start;padding:19px}.home-tip .tip-icon{width:48px;height:48px;border-radius:16px;background:#edf8f4;color:var(--accent);display:grid;place-items:center;font-size:25px}.home-tip p{margin:4px 0 0;color:var(--muted);font-size:15px}.home-disclaimer{margin:0}.home-shortcuts{margin-top:0}
-@media(max-width:560px){.home-welcome{grid-template-columns:1fr 76px;padding:24px}.home-orb{width:74px;height:74px;border-radius:24px}.home-orb span{font-size:34px}.home-welcome h1{font-size:38px}.latest-main{grid-template-columns:1fr}.latest-vitals{grid-template-columns:repeat(3,1fr)}.latest-vital{padding:11px}.latest-vital b{font-size:20px}.home-insight-grid{grid-template-columns:1fr 1fr}.home-insight{padding:15px}.home-insight strong{font-size:19px}}
-
-
-/* Единый стиль кнопок главного меню */
-.home-shortcuts .home-action,
-.home-shortcuts .history-main,
-.home-shortcuts .home-settings {
-  min-height:68px;
-  font-family:inherit;
-  font-size:18px;
-  font-weight:780;
-  line-height:1.2;
-  letter-spacing:0;
-}
-.home-shortcuts .home-action > span:nth-child(2) {
+# 3. Усиливаем визуальное состояние выбранных событий.
+extra_css = r"""
+.timer-impact b .impact-paragraph{
+  display:block;
   font:inherit;
   color:inherit;
+  line-height:1.28;
+}
+.timer-impact b .impact-paragraph + .impact-paragraph{
+  margin-top:12px;
+  padding-top:12px;
+  border-top:1px solid #dce9e4;
 }
 
-.pressure-map-inline{max-width:760px;margin:18px auto 8px}.pressure-map-inline svg{display:block;width:100%;height:auto}.unified-zone-chart{border:1px solid #dfe8e4;border-radius:28px;padding:14px;background:#f8fbfa;overflow:hidden}.home-insight strong{display:block}.home-insight[data-metric-info="vpk"] small{font-weight:650;color:#6f7773}
-.metric-zone-inline{max-width:760px;margin:18px auto 8px;border:1px solid #dfe8e4;border-radius:28px;padding:12px;background:#f8fbfa;overflow:hidden}.metric-zone-inline svg{display:block;width:100%;height:auto}.report-chart svg{display:block;width:100%;height:auto}.metric-zone-inline text,.report-chart text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
-</style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
-</head>
-<body>
-<header class="topbar">
-  <div class="brand"><div class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7.2-4.4-9.4-9.1C.6 7.5 3.4 4 7.2 4c2.1 0 3.7 1.2 4.8 2.7C13.1 5.2 14.7 4 16.8 4c3.8 0 6.6 3.5 4.6 7.9C19.2 16.6 12 21 12 21Z" fill="white"/></svg></div><b>КардиоБаланс</b></div>
-  <div class="top-actions"><button class="icon-btn" id="homeIcon" aria-label="Главная">⌂</button><button class="icon-btn" id="historyIcon" aria-label="История">⌁</button></div>
-</header>
-<main class="shell">
-  <section id="home" class="screen active">
-    <div class="home-dashboard" id="homeDashboard">
-      <div class="home-welcome card">
-        <div>
-          <span class="eyebrow" id="homeTimeLabel">Сегодня</span>
-          <h1 id="homeTitle">Поймите, как организм справляется с нагрузкой сегодня</h1>
-          <p id="homeGreeting">Три последовательных измерения давления и пульса помогут оценить состояние понятным языком.</p>
-        </div>
-        <div class="home-orb" aria-hidden="true"><span>♥</span></div>
-      </div>
-
-      <div id="homeLatest"></div>
-
-      <button class="primary wide app-action primary-action new-measure-button" data-go="profile">
-        <span class="button-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"/><path d="M12 3v18"/></svg></span>
-        <span id="homeMeasureLabel">Новое измерение</span><span class="button-chevron" aria-hidden="true">›</span>
-      </button>
-
-      <div class="home-insight-grid" id="homeInsightGrid"></div>
-
-      <div class="home-tip card">
-        <div class="tip-icon">◷</div><div><b>Полезная привычка</b><p>Измеряйте давление утром и вечером примерно в одно и то же время. Так динамика будет точнее и полезнее для лечащего врача.</p></div>
-      </div>
-
-      <div class="home-shortcuts">
-        <button class="ghost history-main home-action app-action" data-go="history"><span class="button-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V9"/><path d="M10 19V5"/><path d="M16 19v-7"/><path d="M22 19V3"/><path d="m3 7 5-3 5 4 8-6"/></svg></span><span>История и динамика</span><span class="button-chevron" aria-hidden="true">›</span></button>
-        <button class="ghost home-settings home-action app-action" id="homeSettingsButton"><span class="button-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h10"/><path d="M18 7h2"/><circle cx="16" cy="7" r="2"/><path d="M4 17h2"/><path d="M10 17h10"/><circle cx="8" cy="17" r="2"/><path d="M4 12h5"/><path d="M13 12h7"/><circle cx="11" cy="12" r="2"/></svg></span><span>Настройки и профиль</span><span class="button-chevron" aria-hidden="true">›</span></button>
-        <button class="ghost home-action app-action" data-open="about"><span class="button-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7h.01"/></svg></span><span>О методе</span><span class="button-chevron" aria-hidden="true">›</span></button>
-      </div>
-      <div class="notice home-disclaimer"><b>Важно:</b> приложение не ставит диагноз и не заменяет врача.</div>
-    </div>
-  </section>
-
-  <section id="prepare" class="screen"></section>
-  <section id="profile" class="screen"></section>
-  <section id="measure1" class="screen"></section><section id="timer1" class="screen"></section>
-  <section id="measure2" class="screen"></section><section id="timer2" class="screen"></section>
-  <section id="measure3" class="screen"></section>
-  <section id="symptoms" class="screen"></section>
-  <section id="event" class="screen"></section>
-  <section id="context" class="screen"></section>
-  <section id="analysis" class="screen"></section>
-  <section id="result" class="screen"><div id="resultContent"></div></section>
-  <section id="history" class="screen"><div id="historyContent"></div></section>
-</main>
-<footer class="app-footer">Разработка: Александр Янпольский</footer>
-<div class="modal" id="modal"><div class="sheet"><div class="grabber"></div><div class="sheet-head"><h2 id="modalTitle"></h2><button class="close" id="modalClose">×</button></div><div id="modalBody"></div></div></div><div class="toast" id="toast"></div>
-<script>
-'use strict';
-const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
-const HISTORY_KEY='cardiobalance_v4_history';
-const PROFILE_KEY='cardiobalance_user_profile';
-let profile=loadProfile(),readings=[],timerId=null,contextTags=[],mood=null,resultAutoSaved=false,healthEvent=null;
-let historyRange='30',historyMetric='ap',customFrom='',customTo='';
-const screens=$$('.screen');
-function go(id){if(timerId){clearInterval(timerId);timerId=null}screens.forEach(x=>x.classList.toggle('active',x.id===id));window.scrollTo({top:0,behavior:'smooth'});if(id==='home')renderHomeDashboard();if(id==='history')renderHistory();if(id==='profile'){profile=normalizeProfile(profile||loadProfile());renderProfileScreen()}}
-function progress(n,total=11){return `<div class="progress">${Array.from({length:total},(_,i)=>`<i class="${i<n?'on':''}"></i>`).join('')}</div>`}
-function fmt(v,d=1){return Number(v).toLocaleString('ru-RU',{minimumFractionDigits:d,maximumFractionDigits:d})}
-function avg(k){return readings.reduce((s,r)=>s+r[k],0)/readings.length}
-function clamp(x,a,b){return Math.max(a,Math.min(b,x))}
-function range(arr){return Math.max(...arr)-Math.min(...arr)}
-function setHTML(id,html){$('#'+id).innerHTML=html}
-function haptic(){try{navigator.vibrate?.(20)}catch{}}
-document.addEventListener('pointerdown',e=>{const b=e.target.closest?.('.app-action');if(!b)return;const r=b.getBoundingClientRect();b.style.setProperty('--press-x',`${e.clientX-r.left}px`);b.style.setProperty('--press-y',`${e.clientY-r.top}px`);b.classList.add('pressed');window.setTimeout(()=>b.classList.remove('pressed'),260)},{passive:true});
-function escapeHTML(s=''){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-function loadProfile(){try{return JSON.parse(localStorage.getItem(PROFILE_KEY)||'null')}catch{return null}}
-function ageFromBirthdate(value){if(!value)return null;const d=new Date(value+'T12:00:00'),today=new Date();let age=today.getFullYear()-d.getFullYear();const m=today.getMonth()-d.getMonth();if(m<0||(m===0&&today.getDate()<d.getDate()))age--;return age}
-function normalizeProfile(p){if(!p)return null;const age=p.birthdate?ageFromBirthdate(p.birthdate):p.age;return {...p,age}}
-function saveProfile(p){profile=normalizeProfile(p);localStorage.setItem(PROFILE_KEY,JSON.stringify(profile));updatePersonalGreeting()}
-function updatePersonalGreeting(){renderHomeDashboard()}
-function homeTimeGreeting(){const h=new Date().getHours();return h<6?'Доброй ночи':h<12?'Доброе утро':h<18?'Добрый день':'Добрый вечер'}
-function relativeChange(current,previous,unit=''){if(previous==null||!Number.isFinite(previous))return 'Первое измерение';const d=current-previous;if(Math.abs(d)<.05)return 'Без заметных изменений';return `${d>0?'↑':'↓'} ${Math.abs(d).toLocaleString('ru-RU',{maximumFractionDigits:1})}${unit?` ${unit}`:''}`}
-function renderHomeDashboard(){
- const p=normalizeProfile(profile||loadProfile()),h=getHistory?.()||[],latest=h[0],prev=h[1];
- const title=$('#homeTitle'),text=$('#homeGreeting'),time=$('#homeTimeLabel'),latestBox=$('#homeLatest'),grid=$('#homeInsightGrid'),label=$('#homeMeasureLabel');if(!title||!latestBox||!grid)return;
- time.textContent=homeTimeGreeting();
- if(p?.name){title.textContent=`${p.name}, как организм справляется сегодня?`;text.textContent=latest?'Последний результат уже сохранён. Сравните показатели или проведите новое измерение.':'Профиль сохранён. Проведите первое измерение — приложение объяснит результат простыми словами.';label.textContent='Новое измерение'}else{title.textContent='Поймите, как организм справляется с нагрузкой сегодня';text.textContent='Три последовательных измерения давления и пульса помогут оценить состояние понятным языком.';label.textContent='Начать измерение'}
- if(!latest){latestBox.innerHTML=`<div class="home-empty"><h3>Здесь появится Ваш первый результат</h3><p>После трёх последовательных измерений приложение сохранит индекс адаптации, давление, пульс и режим нервной регуляции.</p></div>`;grid.innerHTML=`<div class="home-insight" data-metric-info="pressure"><div class="insight-icon">❤</div><b>Давление</b><strong>Нет данных</strong><small>Нажмите, чтобы узнать, что показывает этот параметр</small></div><div class="home-insight" data-metric-info="pulse"><div class="insight-icon">◉</div><b>Пульс</b><strong>Нет данных</strong><small>Нажмите, чтобы узнать, что показывает этот параметр</small></div><div class="home-insight" data-metric-info="ap"><div class="insight-icon">⚡</div><b>Адаптация</b><strong>Нет данных</strong><small>Насколько хорошо организм справляется с нагрузкой</small></div><div class="home-insight" data-metric-info="vpk"><div class="insight-icon">↔</div><b>Регуляция</b><strong>Нет данных</strong><small>Баланс восстановления и активности</small></div>`;return}
- const az=apZone(+latest.ap),vz=vpkZone(+latest.vpk),bp=bloodPressureCategory?bloodPressureCategory(+latest.sbp,+latest.dbp):{short:'Результат',color:'#fff'};
- latestBox.innerHTML=`<div class="home-latest"><div class="latest-head"><div><small>Последнее измерение</small><h3 style="margin:4px 0 0;color:#fff">${new Date(latest.date).toLocaleString('ru-RU',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})}</h3></div><span class="latest-status">${escapeHTML(az.short)}</span></div><div class="latest-main"><div><div class="latest-ap">${fmt(latest.ap,2)}</div><div class="latest-ap-label">Индекс адаптации</div></div><div class="latest-vitals"><div class="latest-vital"><b>${Math.round(latest.sbp)}/${Math.round(latest.dbp)}</b><small>давление</small></div><div class="latest-vital"><b>${Math.round(latest.pulse)}</b><small>пульс</small></div><div class="latest-vital"><b>${fmt(latest.vpk,2)}</b><small>регуляция</small></div></div></div></div>`;
- const cls=az.key==='green'?'good':az.key==='yellow'?'warn':'alert';
- grid.innerHTML=`<div class="home-insight ${bp.short?.includes('Оптим')||bp.short?.includes('Норм')?'good':'warn'}" data-metric-info="pressure"><div class="insight-icon">❤</div><b>Артериальное давление</b><strong>${Math.round(latest.sbp)}/${Math.round(latest.dbp)}</strong><small>${escapeHTML(bp.short||'Оценка давления')} · ${relativeChange(+latest.sbp,prev?.sbp,'мм')}</small></div><div class="home-insight ${latest.pulse>=60&&latest.pulse<=100?'good':'warn'}" data-metric-info="pulse"><div class="insight-icon">◉</div><b>Пульс в покое</b><strong>${Math.round(latest.pulse)} уд/мин</strong><small>${latest.pulse<60?'Ниже обычного ориентира':latest.pulse>100?'Выше обычного ориентира':'В обычном диапазоне'} · ${relativeChange(+latest.pulse,prev?.pulse,'уд/мин')}</small></div><div class="home-insight ${cls}" data-metric-info="ap"><div class="insight-icon">⚡</div><b>Индекс адаптации</b><strong>${fmt(+latest.ap,2)}</strong><small>${escapeHTML(az.short)} · ${relativeChange(+latest.ap,prev?.ap)}</small></div><div class="home-insight ${vz.key==='green'||vz.key==='blue'?'good':vz.key==='yellow'?'warn':'alert'}" data-metric-info="vpk"><div class="insight-icon">↔</div><b>Баланс нервной регуляции</b><strong>${fmt(+latest.vpk,2)}</strong><small>${escapeHTML(vpkClinical(+latest.vpk).title)}</small></div>`
+#eventList .event-card{
+  position:relative;
+  transition:
+    transform .18s ease,
+    background-color .18s ease,
+    border-color .18s ease,
+    box-shadow .18s ease;
 }
 
-
-function renderStaticScreens(){
-setHTML('prepare',`${progress(2)}<div class="card"><span class="eyebrow">Шаг 2 из 11</span><h2>Подготовьтесь к измерению</h2><ul class="checklist"><li>Посидите спокойно не менее 5 минут.</li><li>Спина должна иметь опору, стопы — стоять на полу.</li><li>Манжета надета на обнажённую руку и находится на уровне сердца.</li><li>Не разговаривайте и не пользуйтесь телефоном во время измерения.</li><li>Не курите, не пейте кофе и не выполняйте нагрузку за 30 минут до измерения.</li></ul><div class="notice"><b>Для полезной динамики</b><br>Старайтесь проводить измерения два раза в день — утром и вечером — примерно в одно и то же время и в похожих условиях.</div><label class="consent"><input id="prepared" type="checkbox"><span><b>Я готов(а)</b><br><span class="muted small">Давление и пульс будут измерены в состоянии покоя.</span></span></label><div class="actions"><button class="secondary" data-go="profile">Назад</button><button id="prepareNext" class="primary" disabled>Продолжить</button></div></div>`);
-renderProfileScreen();
-setHTML('symptoms',`${progress(8)}<div class="card"><span class="eyebrow">Перед анализом</span><h2>Как Вы чувствуете себя сейчас?</h2><p>Выберите подходящий вариант. Если есть хотя бы один тревожный симптом, приложение покажет рекомендацию обратиться за срочной помощью.</p><div class="choices" id="symptomList">
-<label class="choice"><input type="checkbox" value="боль или давление в груди"><span>Боль или давление в груди</span></label>
-<label class="choice"><input type="checkbox" value="выраженная одышка"><span>Выраженная одышка</span></label>
-<label class="choice"><input type="checkbox" value="обморок или предобморочное состояние"><span>Обморок или предобморочное состояние</span></label>
-<label class="choice"><input type="checkbox" value="внезапная слабость, нарушение речи или асимметрия лица"><span>Внезапная слабость руки или ноги, нарушение речи или асимметрия лица</span></label>
-<label class="choice none"><input id="noneSymptoms" type="checkbox" value="none"><span><strong>Ничего из перечисленного</strong><span class="muted">У меня нет указанных состояний</span></span></label>
-</div><div id="urgentPrompt"></div><div class="actions"><button type="button" class="secondary" id="symptomsBack">Назад</button><button type="button" class="primary" id="symptomsNext" disabled>Продолжить</button></div></div>`);
-const tags=['Всё как обычно','Плохо спал(а)','Готовлюсь ко сну','Только проснулся(ась)','Отдыхаю','Лежу','Нервничал(а)','Был конфликт','Много работал(а)','Недавно ел(а)','Голоден(на)','Пил(а) кофе','Пил(а) алкоголь','Курил(а)','Была тренировка','Была прогулка','После бани или сауны','Жаркая погода','Холодная погода','Заболеваю','Есть боль','Головная боль','Менструация','Долгая поездка','Принимаю лекарства от давления','Принимаю препараты, снижающие пульс','Принял(а) обезболивающее','Другое'];
-const eventOptions=[['💊','Изменилась схема лечения','Нажмите, если врач добавил, отменил или заменил препарат, изменил дозировку либо время приёма.'],['👨‍⚕️','Был визит к врачу','Консультация, после которой могли измениться рекомендации.'],['🏥','Госпитализация','Плановое или экстренное лечение в стационаре.'],['🩺','Операция','Операция или медицинское вмешательство.'],['🩹','Травма','Травма, которая могла повлиять на активность или самочувствие.'],['😷','Болезнь или восстановление','Начало болезни или период восстановления.'],['😟','Сильный стресс','Длительное или значимое эмоциональное напряжение.'],['🏃','Изменил(а) физическую активность','Начал(а) тренироваться, больше ходить или, наоборот, снизил(а) нагрузку.'],['🥗','Изменил(а) питание','Новый режим питания, диета или выраженное изменение рациона.'],['⚖️','Начал(а) менять вес','Начало снижения или набора массы тела.'],['🚭','Отказался(ась) от курения','Важное изменение образа жизни.'],['🍷','Отказался(ась) от алкоголя','Важное изменение образа жизни.'],['🏖','Отпуск или поездка','Смена режима дня, климата или часового пояса.'],['📌','Другое','Другое важное событие, которое стоит отметить в дневнике.']];
-setHTML('event',`${progress(9)}<div class="card"><span class="eyebrow">Необязательный шаг</span><h2>Изменилось ли что-то важное?</h2><p class="muted">Добавьте событие, если недавно произошло изменение, которое может отражаться на давлении, пульсе или самочувствии. Если ничего важного не произошло — просто продолжайте.</p><button type="button" class="primary wide" id="openEventList">＋ Добавить событие</button><div id="eventList" style="display:none;margin-top:16px">${eventOptions.map((e,i)=>`<button type="button" class="event-card" data-event="${i}"><span class="event-emoji">${e[0]}</span><span><b>${e[1]}</b><small>${e[2]}</small></span></button>`).join('')}<label class="field" id="eventNoteWrap" style="display:none;margin-top:16px">Короткая заметка<textarea id="eventNote" placeholder="Необязательно. Например: изменение после визита к кардиологу"></textarea></label></div><div id="eventSummary"></div><div class="actions"><button class="secondary" id="eventBack">Назад</button><button class="primary" id="eventNext">Продолжить</button></div></div>`);
-setHTML('context',`${progress(10)}<div class="card"><span class="eyebrow">Последний вопрос</span><h2>Что могло повлиять на результат измерения?</h2><p class="muted"><b>Выберите один или несколько вариантов.</b> Эти отметки помогут увидеть личные закономерности в истории.</p><div class="tag-grid" id="tagGrid">${tags.map((t,i)=>`<button type="button" class="tag ${i===0?'usual-tag':''}" data-tag="${t}">${t}</button>`).join('')}</div><h3>Как Вы себя чувствуете?</h3><p class="muted">Нажмите на смайлик, который ближе всего к Вашему самочувствию сейчас.</p><div class="rating" id="moodRating">${['😞','😕','😐','🙂','😊'].map((x,i)=>`<button type="button" class="rate" data-rate="${i+1}" aria-label="${i+1} из 5">${x}</button>`).join('')}</div><label class="field">Комментарий<textarea id="contextComment" placeholder="Например: почти не спал, был тяжёлый рабочий день…"></textarea><small>необязательно</small></label><div class="actions"><button class="secondary" id="contextBack">Назад</button><button class="primary" id="analyzeBtn">Получить результат</button></div></div>`);
-setHTML('analysis',`${progress(11)}<div class="card analysis-wrap"><span class="eyebrow">Анализ данных</span><h2>Формируем понятный результат</h2><div class="pulse-loader"><svg viewBox="0 0 24 24"><path d="M12 21s-7.2-4.4-9.4-9.1C.6 7.5 3.4 4 7.2 4c2.1 0 3.7 1.2 4.8 2.7C13.1 5.2 14.7 4 16.8 4c3.8 0 6.6 3.5 4.6 7.9C19.2 16.6 12 21 12 21Z" fill="white"/></svg></div><p class="muted">Сравниваем три измерения и переводим расчёты на понятный язык.</p></div>`);
-wireStaticScreens();
-}
-function renderProfileScreen(editing=false){
-const p=normalizeProfile(profile||loadProfile());profile=p;
-if(p?.name&&p?.sex&&!editing){
- const sexLabel=p.sex==='female'?'Женский':p.sex==='male'?'Мужской':'Не указан';
- setHTML('profile',`${progress(1)}<div class="card"><span class="eyebrow">Шаг 1 из 11</span><h2>${escapeHTML(p.name||'Ваш профиль')}, проверьте данные</h2><p class="muted">Эти данные нужны для расчёта. Они хранятся только в браузере этого устройства.</p><div class="profile-summary"><div class="full"><small>Имя</small><b>${escapeHTML(p.name||'—')}</b></div><div><small>Пол</small><b>${sexLabel}</b></div><div><small>Возраст</small><b>${p.age} лет</b></div><div><small>Рост</small><b>${p.height} см</b></div><div><small>Вес</small><b>${fmt(p.weight)} кг</b></div></div><div class="profile-edit-hint">Данные изменились? Нажмите «Внести изменения» и обновите нужное поле.</div><button id="editProfile" class="ghost wide">Внести изменения</button><div class="actions"><button class="secondary" data-go="home">Назад</button><button id="useProfile" class="primary">Подтвердить и продолжить</button></div></div>`);
- $('#editProfile')?.addEventListener('click',()=>renderProfileScreen(true));
- $('#useProfile')?.addEventListener('click',()=>go('prepare'));
- return;
-}
-const isEdit=!!p;
-setHTML('profile',`${progress(1)}<form class="card" id="profileForm"><span class="eyebrow">Шаг 1 из 11</span><h2>Расскажите немного о себе</h2><p class="muted">Имя нужно для личного обращения. Дата рождения, рост и вес используются только в расчётах и сохраняются на этом устройстве.</p>${isEdit?'<div class="profile-edit-hint">Нажмите на поле, которое хотите изменить. Остальные данные можно оставить без изменений.</div>':''}<div class="form-grid"><label class="field" style="grid-column:1/-1">Имя<input name="name" type="text" autocomplete="given-name" maxlength="40" value="${escapeHTML(p?.name||'')}" placeholder="Например, Александр" required><small>как к Вам обращаться</small></label><div class="field" style="grid-column:1/-1">Пол<div class="sex-options"><label class="sex-option"><input name="sex" type="radio" value="male" ${p?.sex==='male'?'checked':''} required>Мужской</label><label class="sex-option"><input name="sex" type="radio" value="female" ${p?.sex==='female'?'checked':''} required>Женский</label></div><small>учитывается в персональном профиле и будущем анализе динамики</small></div><label class="field">Дата рождения<input name="birthdate" type="date" max="${new Date().toISOString().slice(0,10)}" value="${p?.birthdate||''}" ${(p?.birthdate||p?.age)?'':'required'}><small>${p?.birthdate?'возраст пересчитается автоматически':p?.age?`если не укажете, останется сохранённый возраст ${p.age} лет`:'возраст рассчитывается автоматически'}</small></label><label class="field">Рост<input name="height" type="number" inputmode="numeric" min="120" max="230" value="${p?.height||''}" placeholder="175" required><small>сантиметров</small></label><label class="field">Вес<input name="weight" type="number" inputmode="decimal" min="35" max="250" step="0.1" value="${p?.weight||''}" placeholder="75" required><small>килограммов</small></label></div><div class="actions"><button type="button" class="secondary" data-go="home">Назад</button><button class="primary">${isEdit?'Сохранить изменения':'Сохранить и продолжить'}</button></div></form>`);
-$('#profileForm')?.addEventListener('submit',e=>{e.preventDefault();if(!e.currentTarget.checkValidity()){e.currentTarget.reportValidity();return}const f=new FormData(e.currentTarget),birthdate=String(f.get('birthdate')||'');const age=birthdate?ageFromBirthdate(birthdate):(p?.age||null);if(age===null||age<18||age>100){alert('Укажите корректную дату рождения. Приложение рассчитано на взрослых пользователей.');return}saveProfile({name:String(f.get('name')).trim(),sex:String(f.get('sex')),birthdate:birthdate||p?.birthdate||'',age,height:+f.get('height'),weight:+f.get('weight'),updatedAt:new Date().toISOString()});go('prepare')})
-}
-function wireStaticScreens(){
-$('#prepared')?.addEventListener('change',e=>$('#prepareNext').disabled=!e.target.checked);$('#prepareNext')?.addEventListener('click',()=>renderMeasure(1));
-const boxes=$$('#symptomList input'),none=$('#noneSymptoms'),btn=$('#symptomsNext');boxes.forEach(box=>box.addEventListener('change',()=>{if(box===none&&none.checked){boxes.forEach(x=>{if(x!==none)x.checked=false})}else if(box!==none&&box.checked){none.checked=false}boxes.forEach(x=>x.closest('.choice').classList.toggle('selected',x.checked));const urgent=boxes.some(x=>x!==none&&x.checked);$('#urgentPrompt').innerHTML=urgent?`<div class="notice danger"><b>Не откладывайте обращение за помощью.</b><br>Позвоните 112 или 103. Не продолжайте обычную оценку состояния и не пытайтесь добраться до медицинской организации самостоятельно, если самочувствие резко ухудшается.</div>`:'';btn.disabled=!boxes.some(x=>x.checked);btn.textContent=urgent?'Показать итог':'Продолжить'}));
-$('#symptomsBack')?.addEventListener('click',(e)=>{e.preventDefault();renderMeasure(3)});
-const symptomsNext=$('#symptomsNext');
-if(symptomsNext){
-  const continueSymptoms=(e)=>{
-    e?.preventDefault();
-    const selected=$$('#symptomList input:checked');
-    if(!selected.length)return;
-    const urgent=selected.some(input=>input.id!=='noneSymptoms' && input.value!=='none');
-    if(urgent){
-      go('analysis');
-      window.setTimeout(()=>{try{renderResult()}catch(err){console.error('renderResult',err);go('result')}},500);
-    }else{
-      go('event');
-      window.scrollTo(0,0);
-    }
-  };
-  symptomsNext.addEventListener('click',continueSymptoms,{passive:false});
-}
-$('#openEventList')?.addEventListener('click',()=>{const list=$('#eventList');list.style.display=list.style.display==='none'?'block':'none';haptic()});
-$$('#eventList .event-card').forEach(b=>b.addEventListener('click',()=>{const i=+b.dataset.event;healthEvent={type:eventOptions[i][1],emoji:eventOptions[i][0],note:''};$$('#eventList .event-card').forEach(x=>x.classList.toggle('selected',x===b));$('#eventNoteWrap').style.display='block';$('#eventSummary').innerHTML=`<div class="event-summary"><b>${healthEvent.emoji} ${escapeHTML(healthEvent.type)}</b><br><span class="muted small">Дата и время будут сохранены автоматически.</span></div>`;haptic()}));
-$('#eventBack')?.addEventListener('click',()=>go('symptoms'));$('#eventNext')?.addEventListener('click',()=>{if(healthEvent)healthEvent.note=$('#eventNote')?.value.trim()||'';go('context')});
-$$('#tagGrid .tag').forEach(b=>b.addEventListener('click',()=>{const t=b.dataset.tag;if(t==='Всё как обычно'){contextTags=['Всё как обычно'];$$('#tagGrid .tag').forEach(x=>x.classList.toggle('selected',x===b))}else{contextTags=contextTags.filter(x=>x!=='Всё как обычно');$('[data-tag="Всё как обычно"]')?.classList.remove('selected');if(contextTags.includes(t)){contextTags=contextTags.filter(x=>x!==t);b.classList.remove('selected')}else{contextTags.push(t);b.classList.add('selected')}}}));
-$$('#moodRating .rate').forEach(b=>b.addEventListener('click',()=>{mood=+b.dataset.rate;$$('#moodRating .rate').forEach(x=>x.classList.toggle('selected',x===b))}));$('#contextBack')?.addEventListener('click',()=>go('event'));$('#analyzeBtn')?.addEventListener('click',()=>{go('analysis');setTimeout(renderResult,1100)});
-}
-renderStaticScreens();renderHomeDashboard();
-
-function renderMeasure(n){const id=`measure${n}`;setHTML(id,`${progress(n===1?3:n===2?5:7)}<form class="card"><div class="measurement-title"><div><span class="eyebrow">Измерение ${n} из 3</span><h2>${n===1?'Первое':n===2?'Второе':'Третье'} измерение</h2></div><span class="measurement-badge">сидя, в покое</span></div><p class="muted">Введите значения, которые показывает тонометр.</p><div class="measure-grid"><label class="field">Верхнее давление<input name="sbp" type="number" inputmode="numeric" min="70" max="250" placeholder="120" required><small>систолическое, мм рт. ст.</small></label><label class="field">Нижнее давление<input name="dbp" type="number" inputmode="numeric" min="40" max="160" placeholder="80" required><small>диастолическое, мм рт. ст.</small></label><label class="field pulse">Пульс в покое<input name="pulse" type="number" inputmode="numeric" min="30" max="200" placeholder="72" required><small>ударов в минуту</small></label></div><div class="error"></div><div class="actions"><button type="button" class="secondary back-btn">Назад</button><button class="primary">Подтвердить измерение</button></div></form>`);const form=$(`#${id} form`);form.addEventListener('submit',e=>submitReading(e,n));form.querySelector('.back-btn').addEventListener('click',()=>{if(n===1)go('prepare');else renderMeasure(n-1)});go(id)}
-function submitReading(e,n){e.preventDefault();const form=e.currentTarget;if(!form.checkValidity()){form.reportValidity();return}const f=new FormData(form),d={sbp:+f.get('sbp'),dbp:+f.get('dbp'),pulse:+f.get('pulse')};const err=form.querySelector('.error');if(d.sbp<=d.dbp){err.textContent='Верхнее давление должно быть выше нижнего.';return}if(d.sbp-d.dbp<10){err.textContent='Проверьте цифры: разница между верхним и нижним давлением выглядит необычно маленькой.';return}err.textContent='';readings[n-1]=d;readings=readings.slice(0,n);haptic();if(n<3)startTimer(n);else go('symptoms')}
-const pressureLessons=[
- {icon:'🤫',title:'Не разговаривайте',text:'Разговор и активное слушание вызывают кратковременную активацию нервной системы и напряжение мышц.',impact:'Может привести к повышению давления примерно на 10 мм рт. ст.'},
- {icon:'🎯',title:'Манжета правильного размера — на голую руку',text:'Слишком маленькая манжета сильнее сдавливает руку, а одежда под манжетой мешает точному измерению.',impact:'Может привести к повышению давления: маленькая манжета — на 2–10 мм рт. ст.; измерение через одежду — на 5–50 мм рт. ст.'},
- {icon:'❤️',title:'Манжета — на уровне сердца',text:'Если манжета находится ниже или выше уровня сердца, гидростатическое давление изменяет результат. Положите предплечье на опору.',impact:'Может привести к изменению результата примерно на 7–10 мм рт. ст.'},
- {icon:'🪑',title:'Обопритесь на спинку стула',text:'Без опоры мышцы спины и плеч остаются напряжёнными, и организм воспринимает это как небольшую нагрузку.',impact:'Может привести к повышению давления примерно на 6 мм рт. ст.'},
- {icon:'🚻',title:'Посетите туалет заранее',text:'Полный мочевой пузырь вызывает дискомфорт и рефлекторную активацию симпатической нервной системы.',impact:'Может привести к повышению давления примерно на 10 мм рт. ст.'},
- {icon:'🦵',title:'Не скрещивайте ноги',text:'Скрещивание ног изменяет венозный возврат и временно влияет на кровообращение.',impact:'Может привести к повышению давления примерно на 2–8 мм рт. ст.'},
- {icon:'👣',title:'Поставьте стопы полностью на пол',text:'Когда ноги свисают без опоры, мышцы продолжают работать и человеку сложнее полностью расслабиться.',impact:'Может привести к повышению давления примерно на 6 мм рт. ст.'}
-];
-function startTimer(afterReading){
- const id=`timer${afterReading}`;
- const lessonIndexes=afterReading===1?[0,1,2,3]:[3,4,5,6];
- const lessonDuration=15;
- setHTML(id,`${progress(afterReading===1?4:6)}<div class="card timer-wrap"><span class="eyebrow">Интервал между измерениями</span><h2>Отдохните одну минуту</h2><div class="timer-ring" id="timerRing${afterReading}"><div><div class="timer-number" id="timerNumber${afterReading}">60</div><div class="timer-label">секунд</div></div></div><div class="timer-learning"><div class="timer-lesson" id="timerLesson${afterReading}"><div class="timer-lesson-icon" id="timerLessonIcon${afterReading}"></div><div class="timer-lesson-content"><h3 id="timerLessonTitle${afterReading}"></h3><p id="timerLessonText${afterReading}"></p></div><div class="timer-impact"><small>Почему это важно</small><b id="timerLessonImpact${afterReading}"></b><div class="timer-card-progress"><i id="timerCardProgress${afterReading}"></i></div></div></div><div class="timer-dots" id="timerDots${afterReading}">${lessonIndexes.map((_,i)=>`<i class="${i===0?'on':''}"></i>`).join('')}</div><p class="timer-footnote">Правильная техника измерения помогает получить более точный результат.</p></div><button id="timerNext${afterReading}" class="primary wide" disabled>Следующее измерение</button></div>`);
- go(id);
- let left=60,currentCard=-1;
- const ring=$(`#timerRing${afterReading}`),num=$(`#timerNumber${afterReading}`),btn=$(`#timerNext${afterReading}`),lesson=$(`#timerLesson${afterReading}`);
- const showLesson=(position,animate=true)=>{
-   const item=pressureLessons[lessonIndexes[position]];
-   const apply=()=>{
-     $(`#timerLessonIcon${afterReading}`).textContent=item.icon;
-     $(`#timerLessonTitle${afterReading}`).textContent=item.title;
-     $(`#timerLessonText${afterReading}`).textContent=item.text;
-     $(`#timerLessonImpact${afterReading}`).textContent=item.impact;
-     $$(`#timerDots${afterReading} i`).forEach((dot,i)=>dot.classList.toggle('on',i===position));
-     lesson.classList.remove('changing');
-   };
-   if(animate&&currentCard>=0){lesson.classList.add('changing');setTimeout(apply,240)}else apply();
-   currentCard=position;
- };
- showLesson(0,false);
- timerId=setInterval(()=>{
-   left--;
-   num.textContent=left;
-   ring.style.setProperty('--angle',`${(60-left)*6}deg`);
-   const elapsed=60-left;
-   const position=Math.min(3,Math.floor(elapsed/lessonDuration));
-   if(position!==currentCard)showLesson(position,true);
-   const within=elapsed-position*lessonDuration;
-   const cardProgress=Math.min(100,(within/lessonDuration)*100);
-   $(`#timerCardProgress${afterReading}`)?.style.setProperty('--card-progress',`${cardProgress}%`);
-   if(left<=0){
-     clearInterval(timerId);timerId=null;
-     num.textContent='✓';$('.timer-label',ring).textContent='можно продолжать';
-     $(`#timerCardProgress${afterReading}`)?.style.setProperty('--card-progress','100%');
-     btn.disabled=false;haptic();
-   }
- },1000);
- btn.addEventListener('click',()=>renderMeasure(afterReading+1));
+#eventList .event-card.selected{
+  border:2px solid #168a75 !important;
+  background:linear-gradient(145deg,#d8f2e9 0%,#eefaf6 100%) !important;
+  box-shadow:
+    0 0 0 4px rgba(22,138,117,.10),
+    0 12px 28px rgba(22,138,117,.16) !important;
+  transform:translateY(-2px);
 }
 
-function calc(){const sbp=avg('sbp'),dbp=avg('dbp'),pulse=avg('pulse'),pp=sbp-dbp,map=dbp+pp/3,bmi=profile.weight/((profile.height/100)**2),ap=.011*pulse+.014*sbp+.008*dbp+.014*profile.age+.009*profile.weight-.009*profile.height-.27,vpk=2*((pulse/60)**2)*pp/sbp;const spread=range(readings.map(x=>x.sbp))*1.4+range(readings.map(x=>x.dbp))*1.1+range(readings.map(x=>x.pulse))*.8,quality=Math.round(clamp(100-spread,45,99));return{sbp,dbp,pulse,pp,map,bmi,ap,vpk,quality}}
-function apZone(v){if(v<=2.59)return{key:'green',title:'Организм справляется с обычным днём без заметного перенапряжения',short:'Хорошая адаптация',text:'По введённым данным сердце и сосуды сейчас справляются с повседневной работой без выраженного дополнительного напряжения.'};if(v<=3.09)return{key:'yellow',title:'Организм справляется, но расходует больше сил, чем обычно',short:'Нужен умеренный режим',text:'Повседневные дела допустимы, но непривычную тяжёлую нагрузку лучше временно не добавлять.'};if(v<=3.49)return{key:'orange',title:'Организму сейчас заметно труднее справляться с нагрузкой',short:'Снизьте нагрузку',text:'Выберите спокойный режим, отдохните и повторите измерение в похожих условиях. Если результат повторяется, обсудите его с врачом.'};return{key:'red',title:'Организм работает с очень высоким напряжением',short:'Нужна оценка врача',text:'Не планируйте интенсивные нагрузки. Повторяющийся результат или плохое самочувствие требуют медицинской оценки.'}}
-function vpkZone(v){if(v>2)return{key:'red',title:'Очень выраженная мобилизация',medical:'резко выраженная симпатикотония',text:'Организм находится в режиме сильной мобилизации.'};if(v>=1.56)return{key:'orange',title:'Выраженная мобилизация',medical:'выраженная симпатикотония',text:'Система мобилизации заметно преобладает над восстановлением.'};if(v>=1.30)return{key:'yellow',title:'Умеренная мобилизация',medical:'умеренная симпатикотония',text:'Организм больше настроен на действие, чем на восстановление.'};if(v>=1.06)return{key:'yellow',title:'Небольшое смещение к мобилизации',medical:'лёгкая симпатикотония',text:'Есть небольшое преобладание режима готовности к нагрузке.'};if(v>=.95)return{key:'green',title:'Баланс восстановления и мобилизации',medical:'эйтония',text:'Выраженного преобладания одного из режимов не видно.'};if(v>=.80)return{key:'blue',title:'Небольшое смещение к восстановлению',medical:'лёгкая ваготония',text:'Организм немного больше настроен на отдых и восстановление.'};if(v>=.65)return{key:'blue',title:'Умеренное восстановление',medical:'умеренная ваготония',text:'Восстановительный режим заметно преобладает.'};if(v>=.50)return{key:'orange',title:'Выраженное восстановление',medical:'выраженная ваготония',text:'Организм находится в выраженном восстановительном режиме.'};return{key:'red',title:'Очень выраженное восстановление',medical:'резко выраженная ваготония',text:'При слабости, головокружении, обмороках или редком пульсе нужна оценка врача.'}}
-function urgentState(){const symptoms=$$('#symptomList input:checked').filter(x=>x.value!=='none').map(x=>x.value);const extreme=readings.some(x=>x.sbp>=180||x.dbp>=120||x.pulse<40||x.pulse>140);return{urgent:symptoms.length>0||extreme,symptoms,extreme}}
-function mascotSVG(key){const face=key==='green'?'<path d="M54 58q16 17 32 0"/>':key==='yellow'?'<path d="M56 65q14 8 28 0"/>':key==='orange'?'<path d="M57 70q13-8 26 0"/>':'<path d="M56 72q14-12 28 0"/>';return `<svg class="mascot" viewBox="0 0 140 140" aria-hidden="true"><path d="M70 126S20 96 20 53c0-24 29-36 50-11 21-25 50-13 50 11 0 43-50 73-50 73Z" fill="rgba(255,255,255,.9)"/><g fill="none" stroke="rgba(24,105,80,.85)" stroke-width="6" stroke-linecap="round"><path d="M52 51q5-5 10 0M78 51q5-5 10 0"/>${face}<path d="M23 76q-13 5-12 18M117 76q13 5 12 18M48 113q-5 14-15 18M92 113q5 14 15 18"/></g></svg>`}
-function dayAdvice(a,v,urgent){if(urgent)return{title:'Срочно обратитесь за медицинской помощью',text:'Не используйте результат приложения для принятия решения о нагрузках.',do:['Остановитесь и отдохните','Позвоните 112 или 103','Сообщите близкому человеку о самочувствии'],dont:['Не садитесь за руль','Не продолжайте тренировку','Не ждите, что тревожные симптомы пройдут сами']};if(a.key==='green')return{title:'Подходит привычный режим',text:'Можно продолжать обычные дела и знакомую физическую активность без резкого увеличения нагрузки.',do:['обычная работа и бытовая активность','прогулка, плавание или привычная тренировка','обычный сбалансированный рацион'],dont:['резко увеличивать тренировочный объём','начинать экстремальную диету или голодание','игнорировать плохое самочувствие даже при хорошем числе']};if(a.key==='yellow')return{title:'Выберите умеренный темп',text:'Организм справляется, но сейчас лучше не устраивать ему резкую проверку на прочность.',do:['спокойная прогулка','лёгкая или привычная тренировка','полноценный сон и обычное питание'],dont:['марафон, соревнование или тренировка до отказа','жёсткая диета, голодание или резкое похудение','бессонная ночь и избыток стимуляторов']};return{title:'Сегодня нужен бережный режим',text:'Снизьте необязательную нагрузку и дайте организму восстановиться.',do:['спокойный день и отдых','короткая прогулка при хорошем самочувствии','повторное измерение позже или на следующее утро'],dont:['интенсивный спорт и соревнования','сауна, экстремальная жара и алкоголь','самостоятельно менять лекарства']}}
-function recommendations(a,v,r,u){const list=[];if(u.urgent)return['Позвоните 112 или 103.','Не оставайтесь в одиночестве при ухудшении самочувствия.'];list.push('Повторяйте серию утром и вечером примерно в одно и то же время.');if(r.quality<75)list.push('Три измерения заметно различались — повторите серию в спокойных условиях.');if(v.key==='yellow'||v.key==='orange'||v.key==='red')list.push('Сделайте паузу, спокойно подышите и избегайте дополнительного стресса.');if(v.key==='blue')list.push('Если есть слабость, головокружение или необычно редкий пульс, обсудите это с врачом.');list.push('Не отменяйте и не меняйте лекарства самостоятельно.');return list}
-function resultMetric(id,value,label){return `<button class="metric" data-metric="${id}"><div class="value">${value}</div><div class="label">${label}</div></button>`}
-function statusClass(k){return k==='yellow'?'yellow':k==='orange'?'orange':k==='red'?'red':''}
-function systemCard(id,icon,title,text,pill,cls=''){return `<button class="system-card system-button" data-system="${id}"><span class="system-icon">${icon}</span><span><b>${title}</b><small>${text}</small></span><span class="status-pill ${cls}">${pill}</span></button>`}
-function renderResult(){if(readings.length!==3||!profile)return;const r=calc(),apz=apZone(r.ap),vz=vpkZone(r.vpk),u=urgentState(),display=u.urgent?{key:'red',title:'Сейчас важнее не расчёт, а медицинская помощь',short:'Тревожные признаки',text:'Вы отметили состояние, при котором нельзя ограничиваться рекомендациями приложения.'}:apz,advice=dayAdvice(apz,vz,u.urgent),comment=$('#contextComment')?.value.trim()||'';
-const html=`<div class="result-hero zone-${display.key}"><div class="result-grid"><div><span class="eyebrow" style="color:rgba(255,255,255,.85)">Сегодняшний результат</span><div class="result-score">${fmt(r.ap,2)}</div><div class="result-name">${profile?.name?escapeHTML(profile.name)+', ':''}${display.title.charAt(0).toLowerCase()+display.title.slice(1)}</div><p>${display.text}</p><p class="small"><b>Индекс адаптации сердца и сосудов к нагрузкам</b></p></div>${mascotSVG(display.key)}</div></div>
-<div class="card dashboard ${u.urgent?'urgent':''}">${u.urgent?`<div class="notice danger"><b>Позвоните 112 или 103.</b><br>${u.symptoms.length?'Вы отметили: '+u.symptoms.join(', ')+'. ':''}${u.extreme?'В серии есть крайне высокое давление или выраженное отклонение пульса.':''}</div>`:''}
-<div class="section-title"><h3>Главное о состоянии</h3><span class="muted small">нажмите на карточку</span></div><div class="system-cards">${systemCard('adaptation','🫀','Как организм справляется с нагрузкой',apz.text,apz.short,statusClass(apz.key))}${systemCard('vegetative','🧠','Режим нервной регуляции',vz.text,vz.title,statusClass(vz.key))}${systemCard('day','🚶','Что подходит сегодня',advice.text,advice.title,statusClass(apz.key))}</div>
-<h3>Средние показатели трёх измерений</h3><div class="metrics">${resultMetric('pressure',`${Math.round(r.sbp)}/${Math.round(r.dbp)}`,'среднее верхнее и нижнее давление, мм рт. ст.')}${resultMetric('pulse',Math.round(r.pulse),'средний пульс в покое, уд/мин')}${resultMetric('ap',fmt(r.ap,2),'индекс адаптации сердца и сосудов')}${resultMetric('vpk',fmt(r.vpk,2),'режим активности или восстановления')}${resultMetric('pp',fmt(r.pp),'разница между верхним и нижним давлением')}${resultMetric('map',fmt(r.map),'среднее давление за сердечный цикл')}${resultMetric('bmi',fmt(r.bmi),'соотношение веса и роста')}${resultMetric('quality',`${r.quality}%`,'насколько похожи три измерения')}</div>
-<div class="quality-card ${r.quality<75?'warn':''}"><div class="quality-top"><div><b>${r.quality>=85?'Измерения стабильные':r.quality>=70?'Измерения приемлемые':'Измерения отличаются'}</b><p class="muted small">${r.quality>=85?'Три результата близки друг к другу.':r.quality>=70?'Есть небольшие различия, но серия пригодна для наблюдения.':'Повторите серию в спокойных условиях.'}</p></div><span class="quality-score">${r.quality}%</span></div><div class="bar"><i style="width:${r.quality}%"></i></div></div>
-<h3>Что делать сегодня</h3><div class="do-dont"><div class="advice-box good"><h4>Можно</h4><ul>${advice.do.map(x=>`<li>${x}</li>`).join('')}</ul></div><div class="advice-box care"><h4>Лучше отложить</h4><ul>${advice.dont.map(x=>`<li>${x}</li>`).join('')}</ul></div></div><h3>Полезные шаги</h3><ul class="recommendations">${recommendations(apz,vz,r,u).map(x=>`<li>${x}</li>`).join('')}</ul>
-<h3>Три измерения</h3><div class="reading-list">${readings.map((x,i)=>`<div class="reading"><span class="num">${i+1}</span><div><b>${x.sbp}/${x.dbp}</b><small>верхнее / нижнее давление</small></div><div><b>${x.pulse}</b><small>пульс</small></div></div>`).join('')}</div>${healthEvent?`<h3>Важное событие</h3><div class="notice"><b>${healthEvent.emoji} ${escapeHTML(healthEvent.type)}</b>${healthEvent.note?`<br><span class="muted small">${escapeHTML(healthEvent.note)}</span>`:''}</div>`:''}${contextTags.length||mood||comment?`<h3>Условия измерения</h3><div class="notice"><p>${contextTags.length?`<b>Перед измерением:</b> ${contextTags.map(escapeHTML).join(', ')}.<br>`:''}${mood?`<b>Самочувствие:</b> ${['','очень плохое','ниже обычного','обычное','хорошее','отличное'][mood]}.<br>`:''}${comment?`<b>Комментарий:</b> ${escapeHTML(comment)}`:''}</p></div>`:''}
-<div class="notice history-auto-note"><b>Результат сохранён автоматически</b><br><span class="muted small">Он уже добавлен в историю и будет учтён в графиках динамики.</span></div><button id="returnHome" class="primary wide result-controls">Вернуться на главный экран</button></div>`;
-$('#resultContent').innerHTML=html;
-if(!resultAutoSaved){saveHistory({...profile,...r,readings:readings.map(x=>({...x})),zone:apz.key,title:apz.title,vpkTitle:vz.title,vpkMedical:vz.medical,tags:[...contextTags],mood,comment,event:healthEvent?{...healthEvent}:null,date:new Date().toISOString()});resultAutoSaved=true;haptic()}
-go('result');$$('[data-metric]').forEach(b=>b.addEventListener('click',()=>openMetric(b.dataset.metric,r,apz,vz)));$$('[data-system]').forEach(b=>b.addEventListener('click',()=>openSystem(b.dataset.system,r,apz,vz,advice)));$('#returnHome').addEventListener('click',()=>resetSession())}
-
-const inf=(emoji,title,text)=>`<div class="mini-infographic"><span>${emoji}</span><div><b>${title}</b><p>${text}</p></div></div>`;
-const metricInfo={
-pressure:{title:'Среднее артериальное давление',body:r=>`${inf('🩺','Три измерения вместо одного','Давление может немного меняться каждую минуту. Среднее значение уменьшает влияние случайного скачка.')}<p><b>${Math.round(r.sbp)}/${Math.round(r.dbp)} мм рт. ст.</b> — среднее трёх введённых измерений.</p><div class="formula">(${readings.map(x=>x.sbp).join(' + ')}) / 3 = ${Math.round(r.sbp)}<br>(${readings.map(x=>x.dbp).join(' + ')}) / 3 = ${Math.round(r.dbp)}</div><p><b>Верхнее давление</b> показывает давление в момент сокращения сердца. <b>Нижнее</b> — когда сердце расслабляется между ударами.</p>`},
-pulse:{title:'Средний пульс в покое',body:r=>`${inf('❤️','Сколько раз сердце сокращается за минуту','Пульс меняется из-за движения, волнения, температуры, кофе, курения, болезни и лекарств.')}<p><b>${Math.round(r.pulse)} уд/мин</b> — среднее трёх измерений.</p><div class="formula">(${readings.map(x=>x.pulse).join(' + ')}) / 3 = ${Math.round(r.pulse)} уд/мин</div><p>Для большинства взрослых спокойный пульс часто находится в диапазоне 60–100 уд/мин, но у тренированных людей он может быть ниже.</p>`},
-ap:{title:'Индекс адаптации сердца и сосудов к нагрузкам',body:(r,a)=>`${inf('🚀','Показатель из школы космической медицины','Подход Р. М. Баевского создавался, чтобы замечать, когда организм ещё справляется, но уже тратит на это больше резервов.')}<p><b>${fmt(r.ap,2)}</b> — Ваш текущий индекс.</p><p>Он объединяет возраст, рост, вес, пульс и давление в одно число. <b>Чем ниже число, тем легче организму поддерживать обычную работу. Чем выше — тем больше усилий ему требуется.</b></p><div class="scale-inf"><span class="s-green">спокойно</span><span class="s-yellow">больше усилий</span><span class="s-orange">трудно</span><span class="s-red">очень трудно</span></div><p><b>Ваш результат:</b> ${a.title}.</p>`},
-vpk:{title:'Баланс нервной регуляции',body:(r,a,v)=>`${inf('🧠','Как нервная система управляет кровообращением','Расчёт показывает, в какую сторону сейчас смещён режим организма: к мобилизации или восстановлению.')}<p><b>${fmt(r.vpk,2)}</b> — расчёт по среднему пульсу и давлению.</p><div class="balance-scale"><div class="balance-labels"><div><b>🌿 Восстановление</b><small>тонус парасимпатической системы</small></div><div><b>⚡ Мобилизация</b><small>тонус симпатической системы</small></div></div><div class="balance-line"><i style="--pos:${clamp((r.vpk-.5)/1.5*100,0,100)}%"></i></div></div><p><b>Ваш результат:</b> ${v.title}. ${v.text}</p><details><summary>Медицинская справка</summary><p>Медицинское название диапазона: ${v.medical}. Этот расчёт не заменяет исследование вариабельности сердечного ритма и не показывает точный процент активности отделов нервной системы.</p></details>`},
-pp:{title:'Пульсовое давление',body:r=>`${inf('↔️','Разница между верхним и нижним давлением','Представьте работу насоса: верхнее число — толчок, нижнее — пауза. Разница между ними и есть пульсовое давление.')}<p><b>${fmt(r.pp)} мм рт. ст.</b></p><div class="formula">${Math.round(r.sbp)} − ${Math.round(r.dbp)} = ${fmt(r.pp)} мм рт. ст.</div><div class="pipe-inf"><span>верхнее<br><b>${Math.round(r.sbp)}</b></span><i></i><span>нижнее<br><b>${Math.round(r.dbp)}</b></span><strong>разница ${fmt(r.pp)}</strong></div><p>Этот показатель помогает врачу дополнить общую картину работы сердца и сосудов, но отдельно не устанавливает диагноз.</p>`},
-map:{title:'Среднее давление за сердечный цикл',body:r=>`${inf('🩸','Среднее давление потока крови','Сердце часть времени сокращается, а часть — отдыхает. Поэтому это не простое среднее двух чисел.')}<p><b>${fmt(r.map)} мм рт. ст.</b></p><div class="formula">${Math.round(r.dbp)} + (${Math.round(r.sbp)} − ${Math.round(r.dbp)}) / 3 = ${fmt(r.map)}</div><p>Показатель ориентировочно описывает среднее давление, под которым кровь движется по сосудам в течение одного сердечного цикла.</p>`},
-bmi:{title:'Соотношение веса и роста',body:r=>`${inf('⚖️','Общий ориентир массы тела','Показатель помогает понять, соответствует ли масса тела росту, но не различает мышцы и жировую ткань.')}<p><b>${fmt(r.bmi)} кг/м²</b></p><div class="formula">вес / рост² = ${fmt(r.bmi)}</div><p>Оценивайте его только вместе с телосложением, окружностью талии, физической формой и мнением врача.</p>`},
-quality:{title:'Насколько надёжна серия',body:r=>`${inf('✅','Сравниваем три измерения','Чем ближе три результата друг к другу, тем меньше вероятность, что итог зависит от случайного скачка.')}<p><b>${r.quality}%</b> — внутренняя оценка согласованности серии.</p><p>${r.quality>=85?'Три результата близки друг к другу.':r.quality>=70?'Есть умеренные различия, но результат можно использовать для наблюдения.':'Значения заметно расходятся — лучше повторить серию.'}</p>`}
-};
-function openMetric(id,r,a,v){const info=metricInfo[id];if(info)openModal(info.title,info.body(r,a,v))}
-function openSystem(id,r,a,v,advice){if(id==='adaptation')openMetric('ap',r,a,v);if(id==='vegetative')openMetric('vpk',r,a,v);if(id==='day')openModal('Режим на сегодня',`${inf('🚶',advice.title,advice.text)}<h3>Можно</h3><ul>${advice.do.map(x=>`<li>${x}</li>`).join('')}</ul><h3>Лучше отложить</h3><ul>${advice.dont.map(x=>`<li>${x}</li>`).join('')}</ul>`)}
-function openMetricInfo(metric){
- const h=getHistory?.()||[],r=h[0];
- const items={
-  pressure:{title:'Артериальное давление',body:`${inf('❤','Что показывает','С какой силой кровь давит на стенки сосудов во время сокращения и расслабления сердца.')}<p><b>Верхнее давление</b> показывает давление в момент сокращения сердца, <b>нижнее</b> — в момент его расслабления.</p>${r?`<p><b>Ваш последний результат:</b> ${Math.round(r.sbp)}/${Math.round(r.dbp)} мм рт. ст.</p>`:''}<p>Один результат не ставит диагноз. Полезнее оценивать повторные измерения в одинаковых условиях.</p>`},
-  pulse:{title:'Пульс в покое',body:`${inf('◉','Что показывает','Сколько раз сердце сокращается за одну минуту, когда Вы спокойно сидите.')}<p>Пульс меняется из-за сна, стресса, кофе, температуры, нагрузки и лекарств. Поэтому важен не только отдельный результат, но и его привычный диапазон.</p>${r?`<p><b>Ваш последний результат:</b> ${Math.round(r.pulse)} уд/мин.</p>`:''}`},
-  ap:{title:'Индекс адаптации',body:`${inf('⚡','Простыми словами','Показывает, насколько легко организму поддерживать обычную работу сердца и сосудов.')}<p>Расчёт объединяет возраст, рост, вес, давление и пульс. <b>Чем ниже значение, тем меньше дополнительных усилий требуется организму.</b></p>${r?`<p><b>Ваш последний результат:</b> ${fmt(r.ap,2)} — ${escapeHTML(apZone(+r.ap).short)}.</p>`:''}<div class="scale-inf"><span class="s-green">справляется спокойно</span><span class="s-yellow">нужно больше сил</span><span class="s-orange">адаптация снижена</span><span class="s-red">выраженное напряжение</span></div>`},
-  vpk:{title:'Баланс нервной регуляции',body:`${inf('↔','Простыми словами','Показывает, в какую сторону сейчас смещена регуляция кровообращения: к восстановлению, балансу или мобилизации.')}<p><b>Баланс</b> означает, что по расчётному показателю активность и восстановление уравновешены. В медицинской литературе это состояние также называют <b>эйтонией</b>, но на главном экране мы используем понятное слово «Баланс».</p><p><b>Восстановление</b> — больше признаков режима отдыха. <b>Мобилизация</b> — больше признаков режима готовности к нагрузке.</p>${r?`<p><b>Ваш последний результат:</b> ${fmt(r.vpk,2)} — ${escapeHTML(vpkZone(+r.vpk).title)}.</p>`:''}<p class="muted small">Это расчёт по давлению и пульсу, а не полноценное исследование вариабельности сердечного ритма.</p>`}
- };
- const x=items[metric];if(x)openModal(x.title,x.body)
+#eventList .event-card.selected .event-emoji{
+  background:#168a75;
+  color:#fff;
+  box-shadow:0 7px 18px rgba(22,138,117,.22);
 }
-function openModal(title,body){$('#modalTitle').textContent=title;$('#modalBody').innerHTML=body;$('#modal').classList.add('open');document.body.style.overflow='hidden'}
-function closeModal(){$('#modal').classList.remove('open');document.body.style.overflow=''}
-$('#modalClose').addEventListener('click',closeModal);$('#modal').addEventListener('click',e=>{if(e.target===$('#modal'))closeModal()});
 
-
-function showToast(message){const t=$('#toast');if(!t)return;t.textContent=message;t.classList.add('show');clearTimeout(showToast._id);showToast._id=setTimeout(()=>t.classList.remove('show'),2600)}
-function profileSummaryText(){const p=loadProfile();if(!p)return 'Профиль пока не заполнен';const sex=p.sex==='male'?'мужчина':p.sex==='female'?'женщина':'пол не указан';return `${escapeHTML(p.name||'Пользователь')} · ${sex} · ${p.age||'—'} лет`}
-function openSettings(){openModal('Настройки',`<p class="muted">Управляйте профилем и данными, сохранёнными только на этом устройстве.</p><div class="settings-card"><div class="settings-row"><div><b>Мой профиль</b><small>${profileSummaryText()}</small></div><button class="ghost settings-action" id="settingsEditProfile">Изменить</button></div><div class="settings-row"><div><b>Хранение данных</b><small>Измерения, события и профиль хранятся в браузере этого устройства.</small></div></div></div><button class="danger-btn wide" id="openResetMenu">Сбросить данные</button><p class="muted small" style="text-align:center">Перед удалением приложение обязательно попросит подтверждение.</p>`);$('#settingsEditProfile')?.addEventListener('click',()=>{closeModal();profile=normalizeProfile(loadProfile());renderProfileScreen(true);go('profile')});$('#openResetMenu')?.addEventListener('click',openResetMenu)}
-function openResetMenu(){openModal('Какие данные удалить?',`<p class="muted">Выберите только то, что действительно хотите очистить.</p><button class="reset-choice" id="resetProfileOnly"><b>Только профиль</b><small>Удалятся имя, пол, дата рождения, рост и вес. История измерений сохранится.</small></button><button class="reset-choice" id="resetHistoryOnly"><b>Только историю измерений</b><small>Удалятся результаты, графики, теги и важные события. Профиль сохранится.</small></button><button class="reset-choice danger" id="resetEverything"><b>Полностью начать заново</b><small>Удалятся профиль, история и все сохранённые данные приложения.</small></button><button class="secondary wide" id="cancelReset">Отмена</button>`);$('#resetProfileOnly').addEventListener('click',()=>confirmReset('profile'));$('#resetHistoryOnly').addEventListener('click',()=>confirmReset('history'));$('#resetEverything').addEventListener('click',()=>confirmReset('all'));$('#cancelReset').addEventListener('click',openSettings)}
-function confirmReset(type){const cfg={profile:{title:'Удалить профиль?',items:['имя и пол','дата рождения и возраст','рост и вес'],button:'Удалить профиль'},history:{title:'Удалить всю историю?',items:['все измерения','графики и медианные значения','теги и важные события'],button:'Удалить историю'},all:{title:'Полностью начать заново?',items:['данные профиля','все измерения и графики','теги, события и результаты опросов'],button:'Удалить все данные'}}[type];openModal(cfg.title,`<p>Это действие нельзя отменить.</p><ul class="confirm-list">${cfg.items.map(x=>`<li>${x}</li>`).join('')}</ul><div class="actions"><button class="secondary" id="backToReset">Назад</button><button class="danger-btn" id="confirmResetButton" disabled>${cfg.button}</button></div><div class="countdown-note" id="resetCountdown">Кнопка станет активной через 3 секунды</div>`);$('#backToReset').addEventListener('click',openResetMenu);const btn=$('#confirmResetButton'),note=$('#resetCountdown');let sec=3;const id=setInterval(()=>{sec--;if(sec<=0){clearInterval(id);btn.disabled=false;note.textContent='Проверьте выбор и подтвердите удаление'}else note.textContent=`Кнопка станет активной через ${sec} секунды`},1000);btn.addEventListener('click',()=>performReset(type))}
-function performReset(type){if(type==='profile'||type==='all')localStorage.removeItem(PROFILE_KEY);if(type==='history'||type==='all')localStorage.removeItem(HISTORY_KEY);profile=type==='history'?loadProfile():null;closeModal();if(type==='profile'){showToast('Профиль удалён. Заполните данные заново.');setTimeout(()=>{renderProfileScreen(false);go('profile')},250);return}if(type==='history'){showToast('История измерений удалена');if($('#history').classList.contains('active'))renderHistory();else go('home');return}showToast('Все данные удалены. Приложение готово к новому заполнению.');setTimeout(()=>location.reload(),700)}
-
-function getHistory(){try{return JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]')}catch{return[]}}
-function saveHistory(x){const h=getHistory();h.unshift(x);localStorage.setItem(HISTORY_KEY,JSON.stringify(h.slice(0,1000)))}
-function filterHistory(h){return h.filter(x=>{const t=new Date(x.date).getTime();if(customFrom&&t<new Date(customFrom+'T00:00:00').getTime())return false;if(customTo&&t>new Date(customTo+'T23:59:59').getTime())return false;if(!customFrom&&!customTo&&historyRange!=='all'){return t>=Date.now()-(+historyRange)*864e5}return true})}
-function median(values){const a=values.map(Number).filter(Number.isFinite).sort((x,y)=>x-y);if(!a.length)return null;const m=Math.floor(a.length/2);return a.length%2?a[m]:(a[m-1]+a[m])/2}
-function currentCalendarMonthHistory(h){const now=new Date(),y=now.getFullYear(),m=now.getMonth();return h.filter(x=>{const d=new Date(x.date);return d.getFullYear()===y&&d.getMonth()===m})}
-function monthTitle(){return new Intl.DateTimeFormat('ru-RU',{month:'long',year:'numeric'}).format(new Date()).replace(/^./,c=>c.toUpperCase())}
-function selectedPeriodTitle(h){if(customFrom||customTo){const a=customFrom?new Date(customFrom+'T00:00:00').toLocaleDateString('ru-RU'):'начала наблюдений',b=customTo?new Date(customTo+'T00:00:00').toLocaleDateString('ru-RU'):'сегодня';return `${a} — ${b}`}if(historyRange==='all')return 'за всё время';return `за последние ${historyRange} дней`}
-function medianStats(h){if(!h.length)return null;const med=k=>median(h.map(x=>x[k]));return{sbp:med('sbp'),dbp:med('dbp'),pulse:med('pulse'),ap:med('ap'),vpk:med('vpk'),pp:med('pp'),map:med('map'),bmi:med('bmi')}}
-function medianCards(h){const m=medianStats(h);if(!m)return '<p class="muted">В этом календарном месяце пока нет сохранённых измерений.</p>';const v=vpkZone(m.vpk);return `<div class="median-grid"><div class="median-item"><b>${fmt(m.sbp,0)}/${fmt(m.dbp,0)}</b><small>медианное давление, мм рт. ст.</small></div><div class="median-item"><b>${fmt(m.pulse,0)}</b><small>медианный пульс, уд/мин</small></div><div class="median-item"><b>${fmt(m.ap,2)}</b><small>медианный индекс адаптации</small></div><div class="median-item"><b>${fmt(m.vpk,2)}</b><small>${v.title}</small></div><div class="median-item"><b>${fmt(m.pp,1)}</b><small>медианное пульсовое давление</small></div><div class="median-item"><b>${fmt(m.map,1)}</b><small>медианное расчётное давление</small></div><div class="median-item"><b>${fmt(m.bmi,1)}</b><small>медианный индекс массы тела</small></div></div>`}
-const histMetrics={
-ap:{title:'Индекс адаптации',unit:'',keys:['ap'],colors:['#168a75'],min:1.8,max:4.2,bands:[[1.8,2.59,'rgba(39,156,104,.13)','спокойная адаптация'],[2.59,3.09,'rgba(215,154,24,.14)','нужно больше сил'],[3.09,3.49,'rgba(220,106,44,.13)','сниженная адаптация'],[3.49,4.2,'rgba(211,75,85,.13)','высокое напряжение']]},
-pressure:{title:'Артериальное давление',unit:'мм рт. ст.',keys:['sbp','dbp'],labels:['верхнее','нижнее'],colors:['#d34b55','#3b82f6'],min:45,max:190,bands:[[60,119,'rgba(39,156,104,.10)','ориентир спокойного диапазона'],[120,134,'rgba(215,154,24,.12)','повышенное'],[135,190,'rgba(211,75,85,.10)','выше порога для домашнего контроля']]},
-pulse:{title:'Пульс в покое',unit:'уд/мин',keys:['pulse'],colors:['#d34b55'],min:35,max:130,bands:[[60,100,'rgba(39,156,104,.13)','частый ориентир для взрослых'],[35,60,'rgba(59,130,246,.09)','ниже 60'],[100,130,'rgba(211,75,85,.11)','выше 100']]},
-vpk:{title:'Баланс нервной регуляции',unit:'',keys:['vpk'],colors:['#7c5ce7'],min:.35,max:2.2,bands:[[.35,.5,'rgba(59,130,246,.14)','резкое восстановление'],[.5,.95,'rgba(59,130,246,.09)','преобладает восстановление'],[.95,1.05,'rgba(39,156,104,.16)','баланс'],[1.05,1.55,'rgba(215,154,24,.12)','преобладает мобилизация'],[1.55,2.2,'rgba(211,75,85,.12)','выраженная мобилизация']]},
-pp:{title:'Пульсовое давление',unit:'мм рт. ст.',keys:['pp'],colors:['#e58a24'],min:10,max:100,bands:[[30,60,'rgba(39,156,104,.13)','ориентировочный диапазон'],[10,30,'rgba(59,130,246,.09)','ниже ориентира'],[60,100,'rgba(211,75,85,.10)','выше ориентира']]},
-map:{title:'Среднее расчётное давление',unit:'мм рт. ст.',keys:['map'],colors:['#1b9aaa'],min:50,max:130,bands:[[70,100,'rgba(39,156,104,.13)','ориентировочный диапазон'],[50,70,'rgba(59,130,246,.09)','ниже ориентира'],[100,130,'rgba(211,75,85,.10)','выше ориентира']]},
-bmi:{title:'Соотношение веса и роста',unit:'кг/м²',keys:['bmi'],colors:['#7c5ce7'],min:14,max:42,bands:[[18.5,24.9,'rgba(39,156,104,.13)','общий ориентир'],[14,18.5,'rgba(59,130,246,.09)','ниже ориентира'],[24.9,42,'rgba(215,154,24,.10)','выше ориентира']]},
-quality:{title:'Качество серии',unit:'%',keys:['quality'],colors:['#168a75'],min:40,max:100,bands:[[85,100,'rgba(39,156,104,.13)','стабильная серия'],[70,85,'rgba(215,154,24,.12)','приемлемая'],[40,70,'rgba(211,75,85,.10)','лучше повторить']]}
-};
-function trendText(h,key){if(h.length<4)return 'Пока данных мало. Для оценки тенденции сохраните ещё несколько измерений в похожих условиях.';const o=[...h].sort((a,b)=>new Date(a.date)-new Date(b.date)),n=Math.max(2,Math.floor(o.length/2)),first=o.slice(0,n).reduce((s,x)=>s+(+x[key]||0),0)/n,last=o.slice(-n).reduce((s,x)=>s+(+x[key]||0),0)/n,d=last-first;if(Math.abs(d)<Math.max(.05,Math.abs(first)*.03))return 'Показатель остаётся примерно на одном уровне.';return d>0?`В последних измерениях показатель в среднем выше примерно на ${fmt(Math.abs(d),key==='ap'||key==='vpk'?2:1)}.`:`В последних измерениях показатель в среднем ниже примерно на ${fmt(Math.abs(d),key==='ap'||key==='vpk'?2:1)}.`}
-
-
-function bloodPressureCategory(sbp,dbp){
-  sbp=+sbp;dbp=+dbp;
-  if(sbp<90||dbp<60)return{title:'Пониженное давление',color:'#4e9bd8',short:'Гипотония'};
-  if(sbp>=180||dbp>=110)return{title:'Выраженное повышение',color:'#d94a5a',short:'Гипертония 3 степени'};
-  if(sbp>=160||dbp>=100)return{title:'Значительное повышение',color:'#ef6c37',short:'Гипертония 2 степени'};
-  if(sbp>=140||dbp>=90)return{title:'Повышенное давление',color:'#f59e0b',short:'Гипертония 1 степени'};
-  if(sbp>=130||dbp>=85)return{title:'Высокое нормальное',color:'#d8b326',short:'Высокое нормальное'};
-  if(sbp>=120||dbp>=80)return{title:'Нормальное давление',color:'#68b86b',short:'Нормальное'};
-  return{title:'Оптимальное давление',color:'#2b9d72',short:'Оптимальное'};
+#eventList .event-card.selected b{
+  color:#0d6f5f;
 }
-function pressureMapSVG(sbp,dbp,w=620,h=620){
-  sbp=Math.max(80,Math.min(200,+sbp||120));
-  dbp=Math.max(50,Math.min(120,+dbp||80));
 
-  const pad={l:78,r:28,t:32,b:68};
-  const xMin=50,xMax=120,yMin=80,yMax=200;
-  const X=v=>pad.l+(v-xMin)/(xMax-xMin)*(w-pad.l-pad.r);
-  const Y=v=>pad.t+(yMax-v)/(yMax-yMin)*(h-pad.t-pad.b);
+#eventList .event-card.selected:after{
+  content:"✓";
+  display:grid;
+  place-items:center;
+  width:38px;
+  height:38px;
+  grid-column:3;
+  justify-self:end;
+  border-radius:50%;
+  background:#168a75;
+  color:#fff;
+  font-size:22px;
+  font-weight:900;
+  box-shadow:0 7px 18px rgba(22,138,117,.24);
+}
 
-  // Ровные вложенные прямоугольники: каждый следующий диапазон
-  // полностью очерчивает предыдущий, как на референсном изображении.
-  const zones=[
-    {d:120,s:200,c:'#d94f61',label:'Гипертония 3 степени'},
-    {d:110,s:180,c:'#ed7438',label:'Гипертония 2 степени'},
-    {d:100,s:160,c:'#f1aa24',label:'Гипертония 1 степени'},
-    {d:90,s:140,c:'#d7c331',label:'Высокое нормальное'},
-    {d:85,s:130,c:'#75b96c',label:'Нормальное'},
-    {d:80,s:120,c:'#2f9b75',label:'Оптимальное'}
-  ];
+#eventList .event-card.selected:before{
+  content:"Выбрано";
+  position:absolute;
+  right:15px;
+  bottom:9px;
+  color:#168a75;
+  font-size:11px;
+  font-weight:850;
+  letter-spacing:.02em;
+}
 
-  let out=`<svg class="pressure-map" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Карта артериального давления">`;
-  out+=`<defs><filter id="dotGlow"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
-  out+=`<rect width="${w}" height="${h}" rx="28" fill="#f7faf9"/>`;
+@media (max-width:560px){
+  .timer-impact b{
+    font-size:19px;
+  }
+  #eventList .event-card.selected:before{
+    bottom:7px;
+  }
+}
+"""
+text = text.replace("</style>", extra_css + "\n</style>", 1)
 
-  // Сначала самый большой прямоугольник, затем меньшие поверх него.
-  zones.forEach((z,i)=>{
-    const x=X(xMin), y=Y(z.s), ww=X(z.d)-x, hh=Y(yMin)-y;
-    const radius=i===0?10:8;
-    out+=`<rect x="${x}" y="${y}" width="${ww}" height="${hh}" rx="${radius}" fill="${z.c}"/>`;
-    out+=`<text x="${x+12}" y="${y+21}" fill="white" font-size="${i<3?12:11.5}" font-weight="800">${z.label}</text>`;
+# 4. Сохраняем явное выделение после повторного открытия списка событий.
+old_open = "$('#openEventList')?.addEventListener('click',()=>{$('#eventList').style.display='block';$('#openEventList').style.display='none';haptic()});"
+new_open = """$('#openEventList')?.addEventListener('click',()=>{
+  $('#eventList').style.display='block';
+  $('#openEventList').style.display='none';
+  $$('#eventList .event-card').forEach(card=>{
+    const option=eventOptions[+card.dataset.event];
+    card.classList.toggle('selected',healthEvents.some(x=>x.type===option[1]));
   });
+  haptic()
+});"""
+if old_open not in text:
+    raise RuntimeError("Не найден обработчик открытия списка событий")
+text = text.replace(old_open, new_open)
 
-  [60,80,85,90,100,110].forEach(v=>{
-    out+=`<line x1="${X(v)}" y1="${pad.t}" x2="${X(v)}" y2="${h-pad.b}" stroke="rgba(27,47,40,.11)" stroke-width="1"/>`;
-    out+=`<text x="${X(v)}" y="${h-34}" text-anchor="middle" fill="#6f7975" font-size="11">${v}</text>`;
-  });
-  [90,120,130,140,160,180].forEach(v=>{
-    out+=`<line x1="${pad.l}" y1="${Y(v)}" x2="${w-pad.r}" y2="${Y(v)}" stroke="rgba(27,47,40,.11)" stroke-width="1"/>`;
-    out+=`<text x="${pad.l-18}" y="${Y(v)+4}" text-anchor="end" fill="#6f7975" font-size="11">${v}</text>`;
-  });
+out.write_text(text, encoding="utf-8")
 
-  const px=X(dbp),py=Y(sbp),cat=bloodPressureCategory(sbp,dbp);
-  out+=`<circle cx="${px}" cy="${py}" r="20" fill="${cat.color}" opacity=".24" filter="url(#dotGlow)"/>`;
-  out+=`<circle cx="${px}" cy="${py}" r="9" fill="#fff" stroke="${cat.color}" stroke-width="5"/>`;
-
-  const boxW=132,boxH=52;
-  const bx=Math.max(pad.l+6,Math.min(w-pad.r-boxW,px-66));
-  const by=Math.max(pad.t+6,py-72);
-  out+=`<rect x="${bx}" y="${by}" width="${boxW}" height="${boxH}" rx="15" fill="#14231e"/>`;
-  out+=`<text x="${bx+boxW/2}" y="${by+19}" text-anchor="middle" fill="rgba(255,255,255,.62)" font-size="10">Медиана</text>`;
-  out+=`<text x="${bx+boxW/2}" y="${by+42}" text-anchor="middle" fill="white" font-size="21" font-weight="850">${Math.round(sbp)}/${Math.round(dbp)}</text>`;
-
-  out+=`<text x="${w/2}" y="${h-10}" text-anchor="middle" fill="#66716d" font-size="12">Нижнее давление, мм рт. ст.</text>`;
-  out+=`<text x="18" y="${h/2}" transform="rotate(-90 18 ${h/2})" text-anchor="middle" fill="#66716d" font-size="12">Верхнее давление, мм рт. ст.</text>`;
-  out+=`</svg>`;
-  return out;
-}
-function reportApZone(v){v=+v;return v<2.60?{title:'Удовлетворительная адаптация',text:'Организм справляется с повседневной нагрузкой без выраженного напряжения.'}:v<3.10?{title:'Напряжение механизмов адаптации',text:'Для поддержания обычной работы организму требуется больше регуляторных усилий.'}:v<3.50?{title:'Неудовлетворительная адаптация',text:'Адаптационные возможности снижены; результат важно оценивать в динамике и обсуждать с врачом.'}:{title:'Срыв адаптации',text:'Расчёт указывает на выраженное неблагополучие адаптационных механизмов и требует медицинской оценки.'}}
-function pulseZone(v){v=+v;return v<60?{title:'Пульс ниже общего ориентира',text:'У тренированных людей это может быть вариантом нормы; важны самочувствие, лекарства и обычный уровень пульса.'}:v<=100?{title:'В пределах общего ориентира для взрослых',text:'Для большинства взрослых в спокойном состоянии ориентир составляет 60–100 уд/мин.'}:{title:'Пульс выше общего ориентира',text:'Повышение может быть связано с нагрузкой, тревогой, температурой, болезнью, кофеином или другими причинами.'}}
-function vpkClinical(v){v=+v;const z=vpkZone(v);let term='Эйтония';if(v<.95)term='Ваготония';else if(v>1.05)term='Симпатикотония';return{term,title:z.title,text:term==='Ваготония'?'Преобладает восстановительный парасимпатический тонус.':term==='Симпатикотония'?'Преобладает мобилизующий симпатический тонус.':'Выраженного преобладания симпатического или парасимпатического тонуса не выявлено.'}}
-function referenceBlock(kind){
- const refs={
-  pressure:`Ориентиры для артериального давления: ESC, рекомендации 2024. <a href="https://www.escardio.org/guidelines/clinical-practice-guidelines/all-esc-practice-guidelines/elevated-blood-pressure-and-hypertension/">Открыть источник</a>. Категории на карте используются как наглядный ориентир и не заменяют диагноз врача.`,
-  pulse:`Для большинства взрослых общий ориентир пульса в покое — 60–100 уд/мин. Источник: American Heart Association. <a href="https://www.heart.org/en/health-topics/high-blood-pressure/the-facts-about-high-blood-pressure/all-about-heart-rate-pulse">Открыть источник</a>. Универсальных границ, одновременно зависящих от пола и возраста, для бытовой оценки нет.`,
-  ap:`Границы индекса функциональных изменений: до 2,59; 2,60–3,09; 3,10–3,49; от 3,50. Методика Р. М. Баевского и А. П. Берсеневой. Показатель не измеряет напрямую соотношение симпатического и парасимпатического тонуса.`,
-  vpk:`Категория сформирована по расчётному вегетативному показателю кровообращения из патентной методики. Это ориентировочная оценка по пульсу и давлению, а не полноценный анализ вариабельности сердечного ритма.`
- };return `<div class="reference-note">${refs[kind]||''}</div>`
-}
-function metricDescription(key){const map={ap:'Показывает, насколько легко сердце и сосуды справляются с повседневной нагрузкой. Чем выше значение, тем больше ресурсов организм тратит на поддержание обычной работы.',pressure:'Показывает динамику среднего верхнего и нижнего артериального давления по сериям из трёх измерений.',pulse:'Показывает, как менялся средний пульс в покое.',vpk:'Расчёт по пульсу и давлению показывает, в какую сторону смещена регуляция кровообращения: к мобилизации, равновесию или восстановлению.',pp:'Разница между верхним и нижним давлением. Показатель помогает описать работу сердца и сосудов в динамике.',map:'Расчётное среднее давление, под которым кровь движется по сосудам в течение сердечного цикла.',bmi:'Соотношение веса и роста. Изменяется медленнее других показателей и служит общим ориентиром.'};return map[key]||''}
-function svgTrendChart(h,cfg,keyIndex=0,width=760,height=360){
- const key=cfg.keys[keyIndex],ordered=[...h].sort((a,b)=>new Date(a.date)-new Date(b.date));
- const p={l:72,r:26,t:28,b:58},min=cfg.min,max=cfg.max,plotW=width-p.l-p.r,plotH=height-p.t-p.b;
- const y=v=>p.t+(max-v)/(max-min)*plotH,x=i=>p.l+(ordered.length===1?.5:i/(ordered.length-1))*plotW;
- const palettes={
-  ap:['#2f9f78','#74bb6b','#dfc62b','#f3aa1b','#ef7134','#d94f61'],
-  pulse:['#579ed4','#2f9f78','#d94f61'],
-  vpk:['#579ed4','#76aee4','#2f9f78','#f0ad2c','#d94f61'],
-  pp:['#579ed4','#2f9f78','#d94f61'],map:['#579ed4','#2f9f78','#d94f61'],bmi:['#579ed4','#2f9f78','#f0ad2c'],quality:['#d94f61','#f0ad2c','#2f9f78']
- };
- const metricName=Object.keys(histMetrics).find(k=>histMetrics[k]===cfg)||'ap',palette=palettes[metricName]||palettes.ap;
- let out=`<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeHTML(cfg.title)}"><defs><filter id="metricGlow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
- const bands=[...cfg.bands].sort((a,b)=>a[0]-b[0]);
- bands.forEach(([a,b,_col,label],i)=>{const lo=Math.max(a,min),hi=Math.min(b,max);if(hi<=lo)return;const yy=y(hi),hh=y(lo)-yy;out+=`<rect x="${p.l}" y="${yy}" width="${plotW}" height="${hh}" rx="${Math.min(12,hh/3)}" fill="${palette[Math.min(i,palette.length-1)]}"/><text x="${p.l+14}" y="${yy+Math.min(22,hh*.55)}" font-size="13" font-weight="800" fill="white">${escapeHTML(label)}</text>`});
- const ticks=[min,...bands.flatMap(b=>[b[0],b[1]]),max].filter((v,i,a)=>v>=min&&v<=max&&a.indexOf(v)===i).sort((a,b)=>a-b);
- ticks.forEach(v=>{const py=y(v);out+=`<line x1="${p.l}" y1="${py}" x2="${width-p.r}" y2="${py}" stroke="rgba(27,47,40,.14)"/><text x="${p.l-16}" y="${py+4}" text-anchor="end" font-size="11" fill="#6f7975">${fmt(v,key==='vpk'||key==='ap'||key==='bmi'?1:0)}</text>`});
- if(ordered.length){
-  const color=cfg.colors[keyIndex]||'#14231e',pts=ordered.map((v,i)=>({x:x(i),y:y(Math.max(min,Math.min(max,+v[key]))),v:+v[key]}));
-  if(pts.length>1){out+=`<polyline points="${pts.map(q=>`${q.x},${q.y}`).join(' ')}" fill="none" stroke="#14231e" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" opacity=".92"/>`}
-  pts.forEach(q=>{out+=`<circle cx="${q.x}" cy="${q.y}" r="14" fill="${color}" opacity=".22" filter="url(#metricGlow)"/><circle cx="${q.x}" cy="${q.y}" r="7" fill="white" stroke="${color}" stroke-width="4"/>`});
-  const last=pts.at(-1),val=fmt(last.v,key==='ap'||key==='vpk'||key==='bmi'?2:0)+(cfg.unit?` ${cfg.unit}`:'');
-  const bw=Math.max(116,Math.min(190,70+val.length*7)),bh=54,bx=Math.max(p.l+4,Math.min(width-p.r-bw,last.x-bw/2)),by=Math.max(p.t+4,last.y-72);
-  out+=`<rect x="${bx}" y="${by}" width="${bw}" height="${bh}" rx="16" fill="#14231e"/><text x="${bx+bw/2}" y="${by+18}" text-anchor="middle" fill="rgba(255,255,255,.62)" font-size="10">Последнее значение</text><text x="${bx+bw/2}" y="${by+42}" text-anchor="middle" fill="white" font-size="20" font-weight="850">${escapeHTML(val)}</text>`;
-  const firstDate=new Date(ordered[0].date).toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit'}),lastDate=new Date(ordered.at(-1).date).toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit'});
-  out+=`<text x="${p.l}" y="${height-19}" font-size="11" fill="#6f7975">${firstDate}</text><text x="${width-p.r}" y="${height-19}" text-anchor="end" font-size="11" fill="#6f7975">${lastDate}</text>`;
- }
- out+=`<text x="18" y="${height/2}" transform="rotate(-90 18 ${height/2})" text-anchor="middle" fill="#66716d" font-size="12">${escapeHTML(cfg.title)}${cfg.unit?`, ${escapeHTML(cfg.unit)}`:''}</text></svg>`;
- return out;
-}
-
-function reportTrendSection(title,description,svg,value,characteristic,reference){const ranges=reference==='ap'?`<div class="ap-range-guide"><div class="ap-range-row"><b>До 2,59</b><span><strong>Удовлетворительная адаптация.</strong> Организм справляется с обычной нагрузкой без выраженного напряжения.</span></div><div class="ap-range-row"><b>2,60–3,09</b><span><strong>Напряжение механизмов адаптации.</strong> Для поддержания обычной работы требуется больше регуляторных усилий.</span></div><div class="ap-range-row"><b>3,10–3,49</b><span><strong>Неудовлетворительная адаптация.</strong> Адаптационные возможности снижены, результат важно оценивать в динамике.</span></div><div class="ap-range-row"><b>От 3,50</b><span><strong>Срыв адаптации.</strong> Расчёт указывает на выраженное перенапряжение адаптационных механизмов и требует медицинской оценки.</span></div></div>`:'';return `<section class="pdf-page report-page"><div class="report-kicker">Динамика показателя</div><h2>${title}</h2><p class="report-description">${description}</p><div class="report-chart">${svg}</div><div class="report-value-row"><div class="big-value">${value}</div><div><b>${characteristic.title}</b><p>${characteristic.text}</p></div></div>${ranges}${reference==='ap'?'':referenceBlock(reference)}<div class="report-conclusion"><b>Динамика за период</b><p>${characteristic.trend||''}</p></div></section>`}
-function buildHistoryReport(h){
-  const ordered=[...h].sort((a,b)=>new Date(a.date)-new Date(b.date)),from=ordered.length?new Date(ordered[0].date).toLocaleDateString('ru-RU'):'—',to=ordered.length?new Date(ordered.at(-1).date).toLocaleDateString('ru-RU'):'—',med=medianStats(h),bp=med?bloodPressureCategory(med.sbp,med.dbp):null;
-  const eventHtml=ordered.filter(x=>x.event).map(x=>`<div class="report-event"><span>${escapeHTML(x.event.emoji||'📌')}</span><div><b>${escapeHTML(x.event.type)}</b><small>${new Date(x.date).toLocaleDateString('ru-RU')}${x.event.note?` · ${escapeHTML(x.event.note)}`:''}</small></div></div>`).join('');
-  const vc=vpkClinical(med?.vpk||1),az=reportApZone(med?.ap||0),pz=pulseZone(med?.pulse||0);
-  const cover=`<section class="pdf-page cover-page"><div class="cover-brand"><span>♥</span> КардиоБаланс</div><div class="cover-title">Отчёт о динамике состояния</div><div class="cover-meta"><div><small>Пользователь</small><b>${escapeHTML(profile?.name||'—')}</b></div><div><small>Период</small><b>${from} — ${to}</b></div><div><small>Серий измерений</small><b>${h.length}</b></div></div>${med?`<div class="cover-summary"><div class="summary-main"><small>Медианное давление</small><b>${fmt(med.sbp,0)}/${fmt(med.dbp,0)}</b><span>${bp.title}</span></div><div class="summary-grid"><div><small>Пульс</small><b>${fmt(med.pulse,0)} уд/мин</b></div><div><small>Индекс адаптации</small><b>${fmt(med.ap,2)}</b></div><div><small>Вегетативный тонус</small><b>${escapeHTML(vc.term)}</b></div><div><small>Пиковое давление</small><b>${Math.round(Math.max(...h.map(x=>+x.sbp||0)))}/${Math.round(Math.max(...h.map(x=>+x.dbp||0)))}</b></div></div></div>`:''}<p class="report-note">Отчёт предназначен для наблюдения в динамике и обсуждения с лечащим врачом. Он не является диагнозом.</p></section>`;
-  const pressure=`<section class="pdf-page report-page"><div class="report-kicker">Артериальное давление</div><h2>${bp?bp.title:'Динамика давления'}</h2><p class="report-description">Медианное верхнее и нижнее давление отмечено точкой на квадратной карте клинических диапазонов.</p><div class="report-pressure">${pressureMapSVG(med?.sbp||120,med?.dbp||80,620,620)}</div><div class="report-value-row"><div class="big-value">${fmt(med?.sbp||0,0)}/${fmt(med?.dbp||0,0)}</div><div><b>${bp?.title||'—'}</b><p>Медианное артериальное давление за выбранный период, мм рт. ст.</p></div></div>${referenceBlock('pressure')}<div class="report-conclusion"><b>Динамика за период</b><p>${trendText(h,'sbp')}</p></div></section>`;
-  const ap=reportTrendSection('Индекс адаптации','Отражает напряжение механизмов, с помощью которых организм поддерживает работу сердца и сосудов при повседневной нагрузке.',svgTrendChart(h,histMetrics.ap,0,720,360),fmt(med?.ap||0,2),{...az,trend:trendText(h,'ap')},'ap');
-  const pulse=reportTrendSection('Пульс в покое','Показывает частоту сердечных сокращений в спокойном состоянии и её изменение во времени.',svgTrendChart(h,histMetrics.pulse,0,720,360),`${fmt(med?.pulse||0,0)} уд/мин`,{...pz,trend:trendText(h,'pulse')},'pulse');
-  const vpk=reportTrendSection('Вегетативная регуляция','Расчёт по пульсу и артериальному давлению ориентировочно показывает преобладание восстановительного или мобилизующего тонуса.',svgTrendChart(h,histMetrics.vpk,0,720,360),fmt(med?.vpk||0,2),{title:`${vc.term} · ${vc.title}`,text:vc.text,trend:trendText(h,'vpk')},'vpk');
-  const events=eventHtml?`<section class="pdf-page report-page"><div class="report-kicker">Важные события</div><h2>События за выбранный период</h2><p class="report-description">Отметки помогают сопоставить динамику показателей с изменением лечения, болезнью, операцией, травмой и другими событиями.</p><div class="report-events">${eventHtml}</div></section>`:'';
-  const chunks=[];for(let i=0;i<ordered.length;i+=18)chunks.push(ordered.slice(i,i+18));
-  const records=chunks.map((chunk,idx)=>{const rows=chunk.map(x=>`<tr><td>${new Date(x.date).toLocaleDateString('ru-RU')}</td><td>${Math.round(x.sbp)}/${Math.round(x.dbp)}</td><td>${Math.round(x.pulse)}</td><td>${fmt(x.ap,2)}</td><td>${escapeHTML(vpkClinical(x.vpk).term)}</td></tr>`).join('');return `<section class="pdf-page report-page records-page"><div class="report-kicker">Исходные данные</div><h2>Записи за период${chunks.length>1?` · ${idx+1}/${chunks.length}`:''}</h2><table><thead><tr><th>Дата</th><th>Давление</th><th>Пульс</th><th>Индекс</th><th>Вегетативный тонус</th></tr></thead><tbody>${rows}</tbody></table><div class="report-footer">Разработка: Александр Янпольский</div></section>`}).join('');
-  return `<div class="pdf-document">${cover}${pressure}${ap}${pulse}${vpk}${events}${records}</div>`;
-}
-function pdfFileName(){const date=new Date().toISOString().slice(0,10);return `КардиоБаланс-отчёт-${date}.pdf`}
-async function createHistoryPdfBlob(h){
-  if(!window.html2canvas||!window.jspdf?.jsPDF)throw new Error('PDF_LIBS_NOT_READY');
-  const wrap=document.createElement('div');wrap.setAttribute('aria-hidden','true');wrap.style.cssText='position:fixed;left:-100000px;top:0;width:794px;background:#e9eeec;z-index:-1';
-  wrap.innerHTML=`<style>
-  *{box-sizing:border-box}.pdf-document{font-family:Arial,Helvetica,sans-serif;color:#17201d;font-stretch:normal;letter-spacing:normal}.pdf-page{width:794px;min-height:1123px;background:#fff;padding:48px 54px;position:relative;overflow:hidden}.pdf-page+ .pdf-page{margin-top:24px}.cover-page{background:linear-gradient(160deg,#f8fbfa 0,#fff 55%,#e9f7f2 100%)}.cover-brand{font-size:22px;font-weight:800;color:#137d6c}.cover-brand span{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:13px;background:#168a75;color:#fff;margin-right:9px}.cover-title{font-size:42px;line-height:1.12;font-weight:800;letter-spacing:-.02em;margin:112px 0 38px;max-width:560px}.cover-meta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}.cover-meta div,.summary-grid div{padding:16px;border-radius:18px;background:rgba(255,255,255,.82);border:1px solid #dfe9e5}.cover-meta small,.summary-grid small,.summary-main small{display:block;color:#6e7773;font-size:12px;margin-bottom:5px}.cover-meta b{font-size:17px}.cover-summary{margin-top:24px;border-radius:28px;background:#0f806d;color:#fff;padding:24px}.summary-main b{font-size:48px;letter-spacing:-.02em;display:block}.summary-main span{display:inline-block;background:rgba(255,255,255,.14);padding:8px 11px;border-radius:999px;font-weight:750;margin:5px 0 18px}.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.summary-grid div{background:rgba(255,255,255,.11);border:0}.summary-grid small{color:rgba(255,255,255,.65)}.summary-grid b{font-size:20px}.report-note{position:absolute;left:58px;right:58px;bottom:54px;color:#68716d;font-size:13px}.report-kicker{font-size:12px;font-weight:850;color:#168a75;letter-spacing:.13em;text-transform:uppercase}.report-page h2{font-size:31px;line-height:1.18;letter-spacing:-.015em;margin:10px 0 12px}.report-description{max-width:620px;font-size:15px;color:#66706c;line-height:1.48;margin:0 0 20px}.report-chart,.report-pressure{border-radius:24px;overflow:hidden;background:#f7faf9;border:1px solid #dfe8e4;padding:12px}.report-pressure{max-width:570px;margin:0 auto}.report-chart svg,.report-pressure svg{display:block;width:100%;height:auto}.report-value-row{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;margin-top:16px;padding:16px 18px;border-radius:20px;background:#eef8f5}.big-value{font-size:31px;font-weight:800;letter-spacing:-.015em;color:#137d6c;white-space:nowrap}.report-value-row b{display:block;margin-bottom:4px}.report-value-row p{margin:0;color:#58625e;font-size:13px;line-height:1.42}.reference-note{margin-top:12px;padding:12px 14px;border-radius:16px;background:#f4f7f6;color:#66706c;font-size:12px;line-height:1.45}.reference-note a{color:#137d6c;font-weight:750;text-decoration:none}.report-conclusion{margin-top:20px;padding:18px 20px;border-radius:20px;background:#eef8f5}.report-conclusion b{color:#137d6c}.report-conclusion p{margin:7px 0 0;font-size:15px;line-height:1.5}.report-events{display:grid;gap:12px}.report-event{display:flex;gap:14px;align-items:center;padding:15px;border-radius:18px;background:#f5f8f7}.report-event>span{width:42px;height:42px;border-radius:14px;background:#fff;display:grid;place-items:center}.report-event small{display:block;color:#68716d;margin-top:3px}.records-page table{width:100%;border-collapse:separate;border-spacing:0 8px;font-size:13px}.records-page th{color:#6f7874;text-align:left;padding:8px}.records-page td{padding:12px 8px;background:#f5f8f7}.records-page td:first-child{border-radius:12px 0 0 12px}.records-page td:last-child{border-radius:0 12px 12px 0}.report-footer{position:absolute;bottom:30px;left:58px;right:58px;text-align:center;color:#7b837f;font-size:12px}
-  
-/* ===== Visible navigation & refined pressure map ===== */
-@media(max-width:560px){
-  .topbar{padding-left:14px;padding-right:14px}
-  .brand b{font-size:18px}
-  .top-actions{display:flex!important;gap:6px}
-  .icon-btn{width:38px;height:38px;font-size:17px}
-  #homeIcon,#historyIcon{display:none}
-}
-.home-settings{min-height:58px;font-size:16px}
-.ap-range-guide{margin-top:14px;display:grid;gap:8px}
-.ap-range-row{display:grid;grid-template-columns:92px 1fr;gap:12px;align-items:start;padding:11px 13px;border-radius:15px;background:#f6f8f7}
-.ap-range-row b{font-size:13px;color:#137d6c}.ap-range-row span{font-size:12px;line-height:1.38;color:#56605c}
-
-</style>${buildHistoryReport(h)}`;
-  document.body.appendChild(wrap);await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
-  const pages=[...wrap.querySelectorAll('.pdf-page')],{jsPDF}=window.jspdf,pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4',compress:true});
-  for(let i=0;i<pages.length;i++){
-    const canvas=await html2canvas(pages[i],{scale:1.7,backgroundColor:'#ffffff',useCORS:true,logging:false,windowWidth:794,scrollX:0,scrollY:0});
-    if(i>0)pdf.addPage();pdf.addImage(canvas.toDataURL('image/jpeg',.92),'JPEG',0,0,210,297,undefined,'FAST');
-  }
-  wrap.remove();return pdf.output('blob');
-}
-async function historyPdfFile(h){const blob=await createHistoryPdfBlob(h),name=pdfFileName();return{blob,file:new File([blob],name,{type:'application/pdf'}),name}}
-async function waitForPdfLibraries(timeout=8000){
-  const started=Date.now();
-  while(Date.now()-started<timeout){
-    if(window.html2canvas&&window.jspdf?.jsPDF)return true;
-    await new Promise(r=>setTimeout(r,120));
-  }
-  return false;
-}
-function isIOSLike(){return /iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)}
-async function downloadHistoryReport(h){
-  const btn=$('#downloadHistory');
-  const mobilePreview=isIOSLike();
-  let previewWindow=null;
-  if(mobilePreview){
-    previewWindow=window.open('about:blank','_blank');
-    if(previewWindow){
-      previewWindow.document.write('<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><title>Формирование PDF</title><style>body{font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;margin:0;display:grid;place-items:center;min-height:100vh;background:#f4f8f6;color:#17302a}.box{text-align:center;padding:28px}.spin{width:38px;height:38px;border:4px solid #d7ebe5;border-top-color:#168a75;border-radius:50%;margin:0 auto 18px;animation:r 1s linear infinite}@keyframes r{to{transform:rotate(360deg)}}</style><div class="box"><div class="spin"></div><b>Формируем PDF-отчёт…</b><p>Не закрывайте это окно.</p></div>');
-      previewWindow.document.close();
-    }
-  }
-  if(btn){btn.disabled=true;btn.innerHTML='<span aria-hidden="true">…</span> Формируем PDF'}
-  try{
-    if(!(await waitForPdfLibraries()))throw new Error('PDF_LIBS_NOT_READY');
-    const {blob,name}=await historyPdfFile(h),url=URL.createObjectURL(blob);
-    if(mobilePreview&&previewWindow){
-      previewWindow.location.replace(url);
-      setTimeout(()=>URL.revokeObjectURL(url),120000);
-    }else{
-      const a=document.createElement('a');
-      a.href=url;a.download=name;a.rel='noopener';a.style.display='none';
-      document.body.appendChild(a);a.click();a.remove();
-      setTimeout(()=>URL.revokeObjectURL(url),60000);
-    }
-  }catch(e){
-    if(previewWindow&&!previewWindow.closed)previewWindow.close();
-    console.error('PDF download error',e);
-    alert(e?.message==='PDF_LIBS_NOT_READY'?'Не удалось загрузить модуль создания PDF. Проверьте интернет-соединение и повторите попытку.':'Не удалось сформировать PDF. Откройте приложение в Safari или Chrome и повторите попытку.');
-  }finally{if(btn){btn.disabled=false;btn.innerHTML='<span aria-hidden="true">↓</span> Скачать PDF'}}
-}
-async function shareHistoryReport(h){
-  const btn=$('#shareHistory');
-  if(btn){btn.disabled=true;btn.innerHTML='<span aria-hidden="true">…</span> Формируем отчёт'}
-  try{
-    if(!(await waitForPdfLibraries()))throw new Error('PDF_LIBS_NOT_READY');
-    const {blob,file,name}=await historyPdfFile(h);
-    if(navigator.canShare?.({files:[file]})){
-      await navigator.share({
-        title:'КардиоБаланс — отчёт динамики',
-        text:'Отчёт с показателями и трендами за выбранный период.',
-        files:[file]
-      });
-    }else{
-      const url=URL.createObjectURL(blob);
-      const opened=window.open(url,'_blank');
-      setTimeout(()=>URL.revokeObjectURL(url),120000);
-      if(!opened)throw new Error('SHARE_NOT_SUPPORTED');
-      alert('Системное меню отправки недоступно. PDF открыт отдельно — его можно сохранить или отправить средствами браузера.');
-    }
-  }catch(e){
-    if(e?.name!=='AbortError'){
-      console.error('PDF share error',e);
-      alert(e?.message==='PDF_LIBS_NOT_READY'
-        ?'Не удалось загрузить модуль создания PDF. Проверьте интернет-соединение и повторите попытку.'
-        :'Не удалось открыть меню сохранения и отправки. Повторите попытку или откройте приложение во внешнем браузере.');
-    }
-  }finally{
-    if(btn){btn.disabled=false;btn.innerHTML='<span aria-hidden="true">↗</span> Сохранить / отправить отчёт'}
-  }
-}
-
-function metricTrendSummary(metric,med){if(!med)return'';if(metric==='ap'){const z=apZone(+med.ap);return `<div class="trend-card"><b>Медианное значение: ${fmt(med.ap,2)}</b><p>${escapeHTML(z.short)}. Чем выше индекс, тем больше усилий требуется организму для поддержания обычной работы.</p></div>`}if(metric==='pulse'){const v=Math.round(med.pulse),t=v<60?'Ниже частого ориентира для взрослых':v>100?'Выше частого ориентира для взрослых':'В обычном диапазоне';return `<div class="trend-card"><b>Медианный пульс: ${v} уд/мин</b><p>${t}. Оценивайте вместе с самочувствием и условиями измерения.</p></div>`}if(metric==='vpk'){const z=vpkZone(+med.vpk),name=z.medical==='Эйтония'?'Баланс':z.title;return `<div class="trend-card"><b>Медианное состояние: ${escapeHTML(name)} (${fmt(med.vpk,2)})</b><p>${z.medical==='Эйтония'?'Активность и восстановление уравновешены.':escapeHTML(z.title)}</p></div>`}return''}
-function renderHistory(){
- const all=getHistory(),h=filterHistory(all),cfg=histMetrics[historyMetric],med=medianStats(h),bp=med?bloodPressureCategory(med.sbp,med.dbp):null;
- const metricButtons=Object.entries(histMetrics).filter(([k])=>k!=='quality').map(([k,v])=>`<button data-hmetric="${k}" class="${historyMetric===k?'active':''}">${v.title}</button>`).join('');
- const selectedTitle=customFrom||customTo?`${customFrom?new Date(customFrom+'T00:00').toLocaleDateString('ru-RU'):'Начало'} — ${customTo?new Date(customTo+'T23:59').toLocaleDateString('ru-RU'):'Сегодня'}`:historyRange==='7'?'Последние 7 дней':historyRange==='30'?'Последние 30 дней':historyRange==='90'?'Последние 3 месяца':'Всё время';
- $('#historyContent').innerHTML=`<div class="history-dashboard">
- <div class="history-hero"><div class="section-title"><div><span class="eyebrow">Личная динамика</span><h2>История здоровья</h2></div><button class="ghost" data-go="home">Готово</button></div><p class="muted">Смотрите типичные значения, пики и изменения показателей. Отчёт можно отправить врачу.</p></div>
- <div class="history-surface"><div class="history-controls"><button data-range="7" class="${historyRange==='7'&&!customFrom?'active':''}">7 дней</button><button data-range="30" class="${historyRange==='30'&&!customFrom?'active':''}">30 дней</button><button data-range="90" class="${historyRange==='90'&&!customFrom?'active':''}">3 месяца</button><button data-range="all" class="${historyRange==='all'&&!customFrom?'active':''}">Всё</button></div>
- <div class="date-filter"><label>С даты<input id="dateFrom" type="date" value="${customFrom}"></label><label>По дату<input id="dateTo" type="date" value="${customTo}"></label><button id="applyDates" class="ghost apply-dates">Показать выбранный период</button></div><div class="period-caption">${selectedTitle}</div></div>
- ${h.length?`<div class="history-surface"><div class="section-title"><div><span class="eyebrow">Сводка периода</span><h3 style="margin:0">Медианные значения</h3></div>${bp?`<span class="bp-status" style="color:${bp.color}">● ${bp.short}</span>`:''}</div>${medianCards(h)}</div>
- <div class="history-surface pressure-map-card"><h3>Карта артериального давления</h3><p>Медианное значение за выбранный период показано точкой внутри цветных клинических диапазонов.</p>${pressureMapSVG(med.sbp,med.dbp)}<div class="pressure-legend"><span>Зелёный — оптимальное и нормальное</span><span>Жёлтый — высокое нормальное</span><span>Оранжевый/красный — гипертония</span></div></div>
- <div class="history-surface"><div class="history-export-actions"><button id="shareHistory" class="primary"><span aria-hidden="true">↗</span> Сохранить / отправить отчёт</button></div><p class="muted small" style="text-align:center">Откроется системное меню телефона: отчёт можно сохранить в файлы, отправить врачу, в мессенджер или по почте.</p></div>
- <div class="history-surface"><div class="metric-tabs">${metricButtons}</div><div class="chart-card"><div class="chart-head"><div><h3>${cfg.title}</h3><p class="muted small">Ровные цветные диапазоны показывают границы состояний, линия и точки — Ваши результаты во времени.</p></div></div>${historyMetric==='pressure'?`<div class="pressure-map-inline">${pressureMapSVG(med.sbp,med.dbp)}</div>`:`<div class="metric-zone-inline">${svgTrendChart(h,cfg,0,760,390)}</div>`}${metricTrendSummary(historyMetric,med)}<div class="trend-card"><b>Коротко о динамике</b><p>${trendText(h,cfg.keys[0])}</p></div></div></div>
- <div class="history-surface"><h3 style="margin-top:0">Последние записи</h3><div class="history-list">${h.slice().sort((a,b)=>new Date(b.date)-new Date(a.date)).map(x=>`<div class="history-item"><div><b>${new Date(x.date).toLocaleString('ru-RU',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}</b><small>${Math.round(x.sbp)}/${Math.round(x.dbp)} · пульс ${Math.round(x.pulse)} · индекс ${fmt(x.ap,2)}${x.event?`<br>${escapeHTML(x.event.emoji||'📌')} ${escapeHTML(x.event.type)}`:''}</small></div><span class="pill zone-${x.zone}">${fmt(x.ap,2)}</span></div>`).join('')}</div></div>`:`<div class="history-surface empty"><h3>В выбранном периоде нет данных</h3><p>Проведите измерение — результат автоматически появится здесь.</p></div>`}
- <p class="muted small" style="text-align:center;margin:22px 8px">История хранится в браузере этого устройства.</p></div>`;
- $$('[data-range]').forEach(b=>b.addEventListener('click',()=>{historyRange=b.dataset.range;customFrom='';customTo='';renderHistory()}));
- $$('[data-hmetric]').forEach(b=>b.addEventListener('click',()=>{historyMetric=b.dataset.hmetric;renderHistory()}));
- $('#applyDates')?.addEventListener('click',()=>{customFrom=$('#dateFrom').value;customTo=$('#dateTo').value;renderHistory()});
- $('#shareHistory')?.addEventListener('click',()=>shareHistoryReport(h));$$('[data-go]',$('#historyContent')).forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
-}
-
-function drawGenericChart(canvas,h,cfg,keyIndex=0){if(!canvas)return;const rect=canvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2);canvas.width=rect.width*dpr;canvas.height=rect.height*dpr;const ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);const W=rect.width,H=rect.height,p={l:44,r:16,t:20,b:38},min=cfg.min,max=cfg.max,key=cfg.keys[keyIndex],ordered=[...h].sort((a,b)=>new Date(a.date)-new Date(b.date));const y=v=>p.t+(max-v)/(max-min)*(H-p.t-p.b),x=i=>p.l+(ordered.length===1?.5:i/(ordered.length-1))*(W-p.l-p.r);ctx.clearRect(0,0,W,H);cfg.bands.forEach(([a,b,col,label])=>{const lo=Math.max(a,min),hi=Math.min(b,max);if(hi<=lo)return;ctx.fillStyle=col;ctx.fillRect(p.l,y(hi),W-p.l-p.r,y(lo)-y(hi));ctx.fillStyle='rgba(60,70,65,.55)';ctx.font='600 10px -apple-system';ctx.fillText(label,p.l+6,y(hi)+13)});ctx.strokeStyle='rgba(100,110,105,.10)';ctx.fillStyle='#7b817e';ctx.font='11px -apple-system';for(let i=0;i<=4;i++){const v=min+(max-min)*i/4,py=y(v);ctx.beginPath();ctx.moveTo(p.l,py);ctx.lineTo(W-p.r,py);ctx.stroke();ctx.fillText(fmt(v,key==='vpk'||key==='ap'?1:0),3,py+4)}if(ordered.length){const pts=ordered.map((v,i)=>({x:x(i),y:y(+v[key])}));const grad=ctx.createLinearGradient(0,p.t,0,H-p.b);grad.addColorStop(0,'rgba(22,138,117,.22)');grad.addColorStop(1,'rgba(22,138,117,0)');ctx.beginPath();ctx.moveTo(pts[0].x,H-p.b);pts.forEach((q,i)=>{if(i===0)ctx.lineTo(q.x,q.y);else{const prev=pts[i-1],cx=(prev.x+q.x)/2;ctx.bezierCurveTo(cx,prev.y,cx,q.y,q.x,q.y)}});ctx.lineTo(pts.at(-1).x,H-p.b);ctx.closePath();ctx.fillStyle=grad;ctx.fill();ctx.beginPath();ctx.lineWidth=4;ctx.strokeStyle=cfg.colors[keyIndex]||cfg.colors[0];ctx.lineCap='round';ctx.lineJoin='round';pts.forEach((q,i)=>{if(i===0)ctx.moveTo(q.x,q.y);else{const prev=pts[i-1],cx=(prev.x+q.x)/2;ctx.bezierCurveTo(cx,prev.y,cx,q.y,q.x,q.y)}});ctx.stroke();pts.forEach((q,i)=>{ctx.beginPath();ctx.fillStyle='#fff';ctx.strokeStyle=cfg.colors[keyIndex]||cfg.colors[0];ctx.lineWidth=3;ctx.arc(q.x,q.y,5,0,Math.PI*2);ctx.fill();ctx.stroke();if(i===0||i===pts.length-1){ctx.fillStyle='#707572';ctx.font='11px -apple-system';ctx.fillText(new Date(ordered[i].date).toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit'}),q.x-17,H-12)}})}}
-
-function resetSession(){readings=[];contextTags=[];mood=null;healthEvent=null;resultAutoSaved=false;$('#prepared').checked=false;$('#prepareNext').disabled=true;$$('#symptomList input').forEach(x=>{x.checked=false;x.closest('.choice').classList.remove('selected')});$('#urgentPrompt').innerHTML='';$('#symptomsNext').disabled=true;$$('#tagGrid .tag').forEach(x=>x.classList.remove('selected'));$$('#moodRating .rate').forEach(x=>x.classList.remove('selected'));$('#contextComment').value='';if($('#eventNote'))$('#eventNote').value='';if($('#eventList'))$('#eventList').style.display='none';if($('#eventSummary'))$('#eventSummary').innerHTML='';$$('#eventList .event-card').forEach(x=>x.classList.remove('selected'));go('home')}
-$('#homeSettingsButton')?.addEventListener('click',openSettings);
-document.addEventListener('click',e=>{const metric=e.target.closest('[data-metric-info]');if(metric){openMetricInfo(metric.dataset.metricInfo);return}const goBtn=e.target.closest('[data-go]');if(goBtn)go(goBtn.dataset.go);const open=e.target.closest('[data-open]');if(open?.dataset.open==='about')openModal('О методе',`<p><b>КардиоБаланс</b> переводит три последовательных измерения давления и пульса в понятные показатели для наблюдения в динамике.</p><h3>Индекс адаптации</h3><p>Показывает, насколько легко сердцу и сосудам справляться с повседневной нагрузкой. Подход связан с научной школой Р. М. Баевского и космической медициной.</p><h3>Восстановление и мобилизация</h3><p>Дополнительный расчёт по пульсу и давлению ориентировочно показывает, в какую сторону смещена регуляция кровообращения.</p><p>Приложение не ставит диагноз. Основная ценность — повторные измерения в одинаковых условиях и обсуждение динамики с врачом.</p>`) });
-$('#homeIcon').addEventListener('click',()=>go('home'));$('#historyIcon').addEventListener('click',()=>go('history'));window.addEventListener('resize',()=>{if($('#history').classList.contains('active')&&getHistory().length)renderHistory()});
-
-</script>
-</body>
-</html>
+print({
+    "file": out.name,
+    "size": out.stat().st_size,
+    "paragraphs_added": "impact-paragraph" in text,
+    "strong_selected_state": '#eventList .event-card.selected' in text,
+    "cuff_text_split": "Измерение через одежду может привести" in text,
+})
